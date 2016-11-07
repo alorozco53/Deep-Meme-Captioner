@@ -1,0 +1,7 @@
+\select@language {spanish}
+\contentsline {chapter}{\numberline {1}Introducci\IeC {\'o}n}{1}
+\contentsline {chapter}{\numberline {2}Trabajo Relacionado}{3}
+\contentsline {chapter}{\numberline {3}Aprendizaje Profundo}{5}
+\contentsline {chapter}{\numberline {4}Red neuronal para descripciones de memes}{7}
+\contentsline {chapter}{\numberline {5}Evaluaci\IeC {\'o}n del desempe\IeC {\~n}o de la red}{9}
+\contentsline {chapter}{\numberline {6}Conclusiones}{11}
