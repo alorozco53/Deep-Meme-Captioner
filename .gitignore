@@ -58,9 +58,10 @@ docs/_build/
 target/
 
 
-* Other
+# Other
 *~
-# *.png
-# *.jpg
-# *.jpeg
-# *.gif
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.DS_Store
