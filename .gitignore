@@ -58,9 +58,11 @@ docs/_build/
 target/
 
 
-* Other
+# Other
 *~
-# *.png
-# *.jpg
-# *.jpeg
-# *.gif
+*.png
+*.jpg
+*.jpeg
+*.gif
+# shitty OS X auto-generated file
+*.DS_Store
