@@ -10,6 +10,14 @@
 \usepackage[T1]{fontenc}
 \usepackage{graphicx}
 \usepackage[spanish]{babel}
+\usepackage[style=trad-abbrv]{biblatex}
+\usepackage{quotchap}
+
+\addbibresource{bibliography.bib}
+\setlength{\parindent}{4em}
+\setlength{\parskip}{1em}
+\newcommand{\twelveptsize}{%
+  \fontsize{12}{15}\selectfont}
 
 \graphicspath{{img/}} %% image directory
 
@@ -68,11 +76,17 @@
 
 \mainmatter
 
+\twelveptsize
+
 \input{chapters/introduccion.tex}
 \input{chapters/marco_teorico.tex}
 \input{chapters/red_neuronal_memes.tex}
 \input{chapters/evaluacion.tex}
 \input{chapters/conclusiones.tex}
+
+%% \bibliographystyle{acm}
+%% \bibliography{bibliography} 
+\printbibliography
 
 \appendix
 
