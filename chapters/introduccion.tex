@@ -90,6 +90,81 @@ una afirmación que sugiere la relevancia que el alcance de las redes sociales t
 actual, incluso mayor a la que otros medios de comunicación -- como la televisión o la radio -- alcanzaron\
 desde su concepción.
 
-\section{Un esbozo sobre las redes neuronales profundas}
+\section{Un esbozo sobre el aprendizaje profundo}
 
-\section{Objetivos de la tesis}
+\noindent
+El ser humano es difícil. Desde una perspectiva computacional, cualquier persona realiza tareas que constituyen\
+una inteligencia que hasta más de la mitad del siglo XX parecía inimitable. Por otro lado, si hay\
+una capacidad para la cual el cómputo actual ha superado a la inteligencia humana es la de procesar números;\
+la computadora es, abstractamente, una máquina que entiende muy bien cadenas de ceros y unos. La apuesta moderna\
+consiste, entonces, en transformar las habilidades humanas en problemas numéricos para los cuales la computadora\
+puede \emph{aproximar} una solución.\par
+Una de las primeras maneras de estudiar a la inteligencia humana, de manera computacional, pretende resaltar las\
+capacidades de buscar y encontrar caminos para resolver situaciones complicadas (en juegos, por ejemplo). Al\
+implementar algoritmos de búsqueda de soluciones, es inminente encontrarse de frente con casos en los que las\
+capacidades de una computadora, por más nueva y equipada que sea, no sea suficiente para lograr un desempeño\
+equiparable al del ser humano. En términos más formales, se dice que el tamaño del \emph{espacio de estados},\
+el cual define el conjunto de conocimiento que puede tener un \emph{agente racional} mientras llega a una meta,\
+se vuelve computacionalmente intratable. Las técnicas más innovadoras, en inteligencia artificial, para\
+tratar con problemas corresponden a la modelación del entorno de un agente de manera numérica y a la aproximación\
+de resultados por medio de algoritmos probabilísticamente efectivos \cite{russell2010}.\par
+Si a lo establecido en el último enunciado del párrafo anterior se le suma la tendencia a elaborar modelos\
+matemáticos que \emph{``aprenden''} mediante una gran cantidad de ejemplos, encontramos a lo que se conoce como\
+\emph{aprendizaje automático}. Estadísticamente hablando, aprender significa que estos modelos \emph{convergen} a\
+un estado deseado dependiendo de la tarea a realizar. Cuando la robustez del algoritmo (o \emph{heurística}) numérico\
+propuesto depende directamente de la existencia de un conjunto de datos de \emph{entrenamiento}, se habla de\
+un \textbf{aprendizaje supervisado}. En ausencia un conjuntos de datos, es posible realizar búsquedas\
+de patrones sobre datos desconocidos; a esto se le conoce como \textbf{aprendizaje no supervisado}.\par
+El cerebro humano no es solamente una máquina que pueda procesar información. En este sentido, la inteligencia\
+artificial se ha inspirado en la anatomía del sistema nervioso para perfeccionar al aprendizaje automático.\
+Con esto surgen los modelos conocidos como \textbf{redes neuronales}: arquitecturas de neuronas interconectadas\
+que, dado un conjunto de ejemplos, buscan fortalecer ciertas conexiones para construir un modelo abstracto sobre\
+la realidad observada por un agente (en el caso \emph{supervisado}). Los conceptos introducidos en estos dos últimos\
+párrafos serán profundizados en el siguiente capítulo.\par
+El modelo más simple de una red neuronal corresponde al del perceptrón, el cual puede ser visualizado como un conjunto\
+de neuronas que reciben la información (\emph{de entrada}) y que se combinan en una neurona \emph{de salida}.\
+Posteriormente, apilando varios perceptrones en \emph{capas}, se logran modelos más complejos. Dependiendo de la\
+conexidad de cada capa, de la dirección hacia donde fluye la información y de la existencia de ciclos en el modelo,\
+surge una especie de \emph{``zoológico de redes neuronales''} (término acuñado en \cite{website:theasimovinstitute}).\
+El éxito en la consecución de estos modelos consiste en el incremento en el número de capas de\
+neuronas. Cuando un modelo alcanza una cantidad cosiderable de las mismas, se le refiere como \emph{red neuronal}
+\emph{profunda}.\par
+De lo anterior, surge la subrama conocida como \textbf{aprendizaje profundo} y que es la que trae consigo mejoras\
+considerables en tareas computacionalmente intratables. Entre los ejemplos que justifican este \emph{boom} tecnológico,\
+está el procesamiento de señales de audio, el reconocimiento de rostros, el dominio del juego de mesa chino ``go'',\
+la traducción automática de un idioma a otro, la predicción del comportamiento de una bolsa de valores, el reconocimiento\
+de imágenes y la generación automática de descripciones de imágenes. Las dos tareas mencionadas al final son la\
+\emph{raison d'être} de esta tesis.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{nnzoo}
+  \caption{El zoológico de redes neuronales conocido hasta 2016.
+    Tomado del sitio web de \href{http://www.asimovinstitute.org}{The Asimov Institute}
+    \cite{website:theasimovinstitute}.
+  }
+\end{figure}
+
+\section{Objetivos y metas de la tesis}
+
+\noindent
+El presente trabajo busca explorar algunas de las técnicas más relevantes de la actualidad en inteligencia\
+artificial. Para ello, se diseñará e implementar un sistema computacional que sea capaz de extraer las características más importantes\
+que relacionan una imagen con su leyenda en un meme, utilizando herramientas de aprendizaje profundo. A partir\
+de lo anterior, dada una imagen desconocida por el sistema, producir la leyenda que más haga sentido para formar\
+un meme, con los conceptos (características) aprendidos en el primer paso.\par
+En la consecución de lo anterior, se habrá de lograr las siguientes metas:
+\begin{itemize}
+\item Recolectar una importante cantidad de memes de internet, clasificándolos por idioma.\
+  La mayor parte de dicho conjunto de datos será para entrenar a la red neuronal que se desarrollará,\
+  ¿mientras que la otra será para evaluar el desempeño de la misma?.
+\item Extraer la leyenda (texto) de cada imagen, de manera que ambas partes queden separadas\
+  pero sin perder su asociación.
+\item Diseñar e implementar la red neuronal profunda que extraerá las principales características de cada imagen\
+  y su leyenda asociada.
+\item Implementar un mecanismo para digitalizar las imágenes y que la red neuronal sea capaz de trabajar\
+  con éstas y sus leyendas asociadas.
+\item Entrenar la red neuronal con el conjunto de datos recolectado de Internet.
+\item Evaluar el desempeño de la salida de la red, asociando imagen con leyenda. Hacer cuantas iteraciones\
+  sean necesarias para mejorar la calidad de los memes producidos por la misma.
+\end{itemize}
