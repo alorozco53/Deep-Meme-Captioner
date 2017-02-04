@@ -11,7 +11,7 @@ class MemeCaptionSpider(Spider):
     name = 'memecaptionspider'
     allowed_domains = ['memegenerator.net']
     start_urls = ['https://memegenerator.net/memes/popular/alltime']
-    MAX_NUMBER_OF_MEMES = 1500
+    MAX_NUMBER_OF_MEMES = 2000
 
     def parse(self, response):
         # get current meme-list page number
@@ -35,12 +35,13 @@ class MemeCaptionSpider(Spider):
             meme_url = 'https://memegenerator.net/' + meme_name + '/images/popular/alltime/page/1'
 
             # save plain meme image
-            if not os.path.isfile('meme_characters/' + meme_name +'.jpg'):
+            meme_path = os.path.join('meme_characters', meme_name + '.jpg')
+            if not os.path.isfile(meme_path):
                 os.system('wget ' +\
                           '--accept .jpg,.jpeg ' +\
                           '--cookies=on ' +\
                           '-p \"' + url  + '\" ' +\
-                          '-O \"meme_characters/' + meme_name + '.jpg\"')
+                          '-O \"' + meme_path + '\"')
 
             # create and yield request to meme_url
             request = Request(meme_url, callback=self.parse_memes)

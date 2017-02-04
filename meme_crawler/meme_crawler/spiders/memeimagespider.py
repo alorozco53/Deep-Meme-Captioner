@@ -37,7 +37,7 @@ class MemeImageSpider(Spider):
 
             # create and yield request to meme_url
             request = Request(meme_url, callback=self.parse_meme_mainpage)
-            request.meta['meme_path'] = 'meme_images/' + meme_name + '/'
+            request.meta['meme_path'] = os.path.join('meme_images', meme_name)
             yield request
 
         # go to next page
@@ -85,12 +85,13 @@ class MemeImageSpider(Spider):
         # process each meme
         for img_url in meme_urls:
             # save image to local disk
-            if not os.path.isfile(meme_path + str(counter) + '.jpg'):
+            path_to_save = os.path.join(meme_path, str(counter) + '.jpg')
+            if not os.path.isfile(path_to_save):
                 os.system('wget ' +\
                           '--accept .jpg,.jpeg ' +\
                           '--cookies=on ' +\
                           '-p \"' + img_url  + '\" ' +\
-                          '-O \"' + meme_path + str(counter) + '.jpg\"')
+                          '-O \"' +  path_to_save + '\"')
                 counter += 1
 
         # go to next page
