@@ -1,0 +1,126 @@
+\section{Aproximando funciones con neuronas}
+
+\noindent
+El uso de la palabra \emph{``aprendizaje''} como sinónimo de ``minimización de\
+errores'' nos lleva a cuestionarnos la existencia de una conexión entre\
+este fenómeno estadístico con las maneras que, naturalmente, posee el cuerpo humano\
+para comprender su medio ambiente. Concretamente, la tarea que tiene el computólogo\
+ante sí consiste en transformar los problemas de aprendizaje automático en\
+equivalentes compatibles con el funcionamiento del sistema nervioso humano. Dadas,\
+las evidencias empíricas sobre el buen desempeño del cerebro humano en su cotidianidad,\
+nos inspiramos en el comportamiento biológico del mismo para construir arquitecturas\
+cuyo objetivo será el de aproximar funciones complejas, creando un novedoso paradigma de cómputo.\par
+Como evidencia del buen \emph{performance} del cerebro humano, consideremos a las\
+habilidades de reconocimiento perceptivo. Mientras una persona tarda de $100$ a $200$ $ms$\
+en detectar un rostro familiar, una computadora con suficiente poder dura mucho más.\cite{haykin2009}\
+En contraste, se sabe que individualmente, una neurona es mucho más lenta que una\
+compuerta lógica: mientras que ésta últimas tardan pocos nanosegundos en \emph{conmutar},\
+a la primera mencionada le puede tomar varios milisegundos en reaccionar a un estímulo.
+
+\subsection{Inspiración a partir de la biología}
+
+\noindent
+El sistema nervioso es una red \emph{paralela} y \emph{auto-organizada}. $86$ mil\
+millones de neuronas (aproximadamente) \cite{website:nature:scitable} conforman una arquitectura que\
+funciona a través de la emisión de pulsos eléctricos y la reacción ante ellos. Dos neuronas\
+están conectadas entre sí por medio de estructuras conocidas como \emph{sinapsis},\
+a través de las cuales se transmiten señales eléctricas y químicas.\par
+El cerebro es, además, un órgano que se adapta a las condiciones de su ambiente.\
+Evidencia de ello es la creación de conexiones sinápticas entre neuronas (previamente\
+desconectadas) y la modificación del mecanismo de las sinapsis existentes. Una vez que una\
+neurona haya emitido una señal eléctrica, las adyacentes reciben la \emph{``información''}\
+por medio de canales de transimisión llamados \emph{dendritas}. Estos impulsos son llevados\
+hasta el \emph{cuerpo} de la neurona para su procesamiento y, posteriormente, una reacción\
+es transmitida a través del \emph{axón} de la célula. Los organelos mencionados anteriormente\
+constituyen las principales partes de la neurona que habrán de servir como estructuras\
+fundamentales de las arquitecturas de aprendizaje a presentar en las siguientes secciones.\cite{rojas1996}
+
+TODO: ILUSTRACIÓN DE LA NEURONA HUMANA
+
+\subsection{El modelo de cómputo neuronal}
+
+Dadas varias entradas eléctricas, una neurona deberá de ajustar su reaccion de manera proporcional\
+a la intensidad de las dichas señales. Para formalizar el comportamiento de una neurona en términos\
+matemáticos (y computacionable), es imprescindible caracterizar las reglas que sigue una neurona\
+para componer sus señales de entrada y manejarlas ``como un todo'' mediante una función. Cabe destacar\
+que, por simplicidad y elegancia de los modelos a estudiar, resulta importante conocer la \emph{sincronía}\
+de la transmisión de información así como la presencia o ausencia de ciclos o bucles. Todo esto se puede\
+englobar en un conjunto de características topológicas y algorítmicas de la \emph{red neuronal artificial}\
+(ANN, por sus siglas en inglés; de ahora en adelante, abreviaremos ANN con NN).\par
+Con respecto a la representación interna del conocimiento de una NN, estamos ante un conjunto de modelos\
+que buscarán modelar la información de manera \emph{asociativa}; análogo al cerebro humano. Por ende,\
+se requieren modelos que mapeen clasificaciones de objetos similares con representaciones internas\
+similares. Y con el fin de asegurarnos de ello, presentaremos más adelante una completa sección\
+acerca de métodos de mediciones de similitud. Una consecuencia importante de esto es que,\
+de manera contraria, si se desea que dos objetos sean distintamente clasificados,\
+entonces se les deben de dar dos representaciones totalmente diferentes.\par
+Independientemente de la tarea que se desea aprender, siempre existirá alguna característica cuya importancia\
+define el veredicto de la NN. Una forma de respaldar este hecho consiste en dedicar un gran\
+número de neuronas a la identificación de dicha característica. Con ello, se aumenta la\
+precisión de la NN en su toma de decisiones, contrastando con la existencia de neuronas defectuosas.\par
+Finalmente, la existencia de un \emph{zoológico de redes neuronales} se justifica con la tendencia\
+que se sigue a diseñar modelos específicos para ciertas tareas. Si se sabe información \textit{a priori}\
+sobre los datos a procesar, es mejor integrarlas en el diselo de la arquitectura a dejar que ésta\
+los aprenda durante el entrenamiento. Después de todo, en el cuerpo humano existen una gran cantidad\
+de estructuras neuronales especializadas para funciones como visión y audición, muy distintas a otras\
+presentes en el cerebro.
+
+\subsection{El perceptrón de Rosenblatt}
+
+\noindent
+La idea de cómputo a través de redes neuronales fue tan trascendente desde su concepción, que, en 1943,\
+McCulloch y Pitts la incluyeron en el mismo artículo que introdujo a los sistemas de transición con un número\
+finito de estados \cite{mcculloch:pitts}. Sin embargo, fue Rosenblatt, en 1958, quien propuso el primer modelo de aprendizaje supervisado para una NN.\
+El perceptrón es la red neuronal más simple y, muchas veces, será uno de los bloques básicos de arquitecturas\
+más complejas. La intuición matemática detrás de su estructura consiste en \emph{separar linealmente} las entradas dadas en\
+dos clases, lo cual se logra mediante un aprendizaje que va ajustando pesos de acuerdo a las salidas esperadas.\par
+
+TODO: IMAGEN DE ARQUITECTURA DEL PERCEPTRÓN
+
+De acuerdo a la IMAGEN-REF, el perceptrón opera de la siguiente manera: dados los valores\
+de entrada $x_1, x_2,\ldots, x_m$ y los pesos $w_1, w_2,\ldots, w_m$,
+\begin{itemize}
+\item se calcula una suma ponderada con los $m$ pesos (\emph{sinápticos}) del modelo,
+\item a la suma anterior, se le añade un valor de \emph{``tendencia''} conocido como \emph{sesgo}\
+  (\emph{bias} en inglés); formalmente:
+  \begin{equation}
+    v = b + \sum_{i=1}^{m} w_ix_i
+  \end{equation}
+\item finalmente, la salida del perceptrón se calcula aplicando una función \emph{de activación} a $v$:
+    \begin{equation}
+      y = \Phi(v).
+    \end{equation}
+\end{itemize}
+
+La función de activación juega el papel directo de clasificador: su salida debe de decidir si la entrada\
+pertenece, o no, a cierta clase. De ahí que en la mayoría de los casos, se trata de una función cuya imagen\
+es $\{0,1\}$ o $\{-1,1\}$. Por otra parte, dado que estamos definiendo al perceptrón con operaciones\
+aritméticas commo sumas y productos, cabe recalcar que las entradas deben ser una \emph{abstracción numérica}\
+del elemento del entorno a clasificar; muchas veces ésta se compone de un vector de valores reales. Ello implica\
+la existencia de un \emph{umbral} $U$ (\emph{threshold} en inglés) que divida los posibles valores de $v$\
+en dos, permitiendo su clasificación binaria. A continuación, se define la \emph{función escalón}, valuada\
+en $\{-1,1\}$ (una posible función de activación):
+\begin{equation}
+  \Phi(v) =
+  \begin{cases}
+    1 & \text{si } v > U\\
+    -1 & \text{en otro caso}
+  \end{cases}
+\end{equation}
+Geométricamente, el perceptrón genera un \emph{hiperplano} que, con los pesos adecuados logrará dividir\
+las entradas de manera que cada entrada correspondiente a una cierta clase quede de un solo lado. El hecho\
+de que estamos usando funciones de activación valuadas de manera binaria nos invita a explorar el\
+cómputo \emph{neuronal} de las diversas funciones lógicas. Como ejemplo, está la clasificación de\
+la función $AND$ en la figura REF-IMAGEN. En este caso, se tienen entradas de dos dimensiones, por lo que es\
+posible visualizarlas gráficamente; en la práctica, se trabaja con un gran número de dimensiones, de lo cual\
+se deduce la importancia de tomarán algunos métodos de reducción dimensional para el éxito de los algoritmos\
+de entrenamiento de modelos más complejos.
+
+\subsubsection*{Limitaciones del perceptrón}
+
+TODO
+
+
+\subsubsection*{El perceptrón multicapa}
+
+TODO
