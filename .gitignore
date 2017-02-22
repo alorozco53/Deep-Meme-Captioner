@@ -64,4 +64,10 @@ target/
 *.jpg
 *.jpeg
 *.gif
+logfile.txt
+wget-log*
+items.json
+*.csv
+
+# shitty OS X auto-generated file
 *.DS_Store
