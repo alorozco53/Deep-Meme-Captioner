@@ -19,16 +19,14 @@
 	  + `character_n_metadata.csv`
 	  + `character_n.jpg`
 
-This structure is usually located at `meme_crawler\meme_crawler\`
+This structure is usually located at `meme_crawler/meme_crawler/`
 
 ## LSTM text generation script usage
 
 ```bash
 cd meme_crawler/scripts
 ```
-(Change the `global_dir` variable (line 31 of [`lstm_text_generation.py`]
-(https://github.com/alorozco53/Deep-Meme-Captioner/blob/crawling/meme_crawler/scripts/lstm_text_generation.py))
-to directory pointing to global structure as defined previously.)
+(Change the `global_dir` variable (line 31 of [`lstm_text_generation.py`](https://github.com/alorozco53/Deep-Meme-Captioner/blob/crawling/meme_crawler/scripts/lstm_text_generation.py)) to directory pointing to global structure as defined previously.)
 
 ```bash
 python lstm_text_generation.py
