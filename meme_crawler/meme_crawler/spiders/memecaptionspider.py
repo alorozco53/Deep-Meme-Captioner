@@ -1,6 +1,10 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+
 import os
 
 from scrapy.spiders import Spider
@@ -21,28 +25,14 @@ class MemeCaptionSpider(Spider):
             meme_list_page = 1
 
         # get a list for all memes in the current webpage
-        meme_names = response.xpath('//strong[@class="generator-name"]/text()').extract()
+        meme_names = response.xpath('//span[@class="display-name"]/text()').extract()
 
-        # save plain meme image
-        if not os.path.exists('meme_characters/'):
-            os.mkdir('meme_characters')
-        plain_memes = response.xpath('//img[@class="item-image"]/@src').extract()
+        plain_memes = response.xpath('//img[@class="mr10px loading-bg"]/@src').extract()
         meme_name_map = [(meme_names[i], plain_memes[i]) for i in range(len(plain_memes))]
         for name, url in meme_name_map:
             # process the name to be used as url and directory name
             meme_name = name.strip().lower().replace(' ', '-')
-            # meme_url = 'https://memegenerator.net/' + meme_name
-            meme_url = 'https://memegenerator.net/' + meme_name + '/images/popular/alltime/page/1'
-
-            # save plain meme image
-            meme_path = os.path.join('meme_characters', meme_name + '.jpg')
-            if not os.path.isfile(meme_path):
-                os.system('wget ' +\
-                          '--accept .jpg,.jpeg ' +\
-                          '--cookies=on ' +\
-                          '-p \"' + url  + '\" ' +\
-                          '-O \"' + meme_path + '\"')
-
+            meme_url = 'https://memegenerator.net/{}/images/popular/alltime/page/1'.format(meme_name)
             # create and yield request to meme_url
             request = Request(meme_url, callback=self.parse_memes)
             request.meta['counter'] = 1
@@ -54,9 +44,9 @@ class MemeCaptionSpider(Spider):
         # go to next page
         next_pages = [w for w in response.xpath('//li/a/@href').extract() if 'page/' in w]
         for next_page in next_pages:
-            next_page_suffix = next_page[next_page.rfind('/') + 1 : len(next_page)]
+            next_page_suffix = next_page[next_page.rfind('/') + 1 : ]
             if int(next_page_suffix) == meme_list_page + 1:
-                request = Request('https://memegenerator.net' + next_page,
+                request = Request('https://memegenerator.net{}'.format(next_page),
                                   callback=self.parse)
                 request.meta['list_page'] = meme_list_page + 1
                 yield request
@@ -75,7 +65,7 @@ class MemeCaptionSpider(Spider):
             item['meme_img_url'] = meme_img_url
             item['meme_captions'] = []
 
-        img_urls = response.xpath('//img[@class="item-image"]/@src').extract()
+        img_urls = [im for im in response.xpath('//img/@src').extract() if '.jpg' in im][1:]
         captions = [r for r in response.xpath('//img/@alt').extract() if '-' in r]
         cap_img_map = [(img_urls[i], captions[i]) for i in range(len(captions))]
 
@@ -86,7 +76,7 @@ class MemeCaptionSpider(Spider):
         # process each meme
         for img_url, raw_caption in cap_img_map:
             splitted_caption = raw_caption.split('-')
-            caption = splitted_caption[len(splitted_caption) - 1].strip()
+            caption = splitted_caption[1].strip()
             cap_item = CaptionItem()
             cap_item['caption'] = caption
             cap_item['img_url'] = img_url
@@ -97,7 +87,7 @@ class MemeCaptionSpider(Spider):
         # go to next page
         next_pages = [w for w in response.xpath('//li/a/@href').extract() if 'page/' in w]
         for next_page in next_pages:
-            next_page_suffix = next_page[next_page.rfind('/') + 1 : len(next_page)]
+            next_page_suffix = next_page[next_page.rfind('/') + 1 : ]
             if int(next_page_suffix) == meme_page + 1:
                 request = Request('https://memegenerator.net' + next_page,
                                   callback=self.parse_memes)

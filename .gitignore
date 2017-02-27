@@ -68,6 +68,7 @@ logfile.txt
 wget-log*
 items.json
 *.csv
+*/crawls/*
 
 # shitty OS X auto-generated file
 *.DS_Store
