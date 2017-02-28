@@ -19,7 +19,7 @@
 	  + `character_n_metadata.csv`
 	  + `character_n.jpg`
 
-This structure is usually located at `meme_crawler/meme_crawler/`
+This structure is usually located at `meme_crawler/meme_crawler/` (Path to global meme dir)
 
 ## Getting stats for the available memes
 
