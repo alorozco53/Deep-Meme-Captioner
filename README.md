@@ -38,12 +38,3 @@ python lstm_text_generation.py
 cd meme_crawler/scripts
 python meme_stats.py <path-to-global-meme-dir>
 ```
-
-## Running the crawler
-
-```bash
-cd meme_crawler/
-scrapy crawl memecaptionspider -s JOBDIR=<previous-state-dir>
-```
-
-where `<previous-state-dir>` is the path to the directory where the spider's last state is stored.

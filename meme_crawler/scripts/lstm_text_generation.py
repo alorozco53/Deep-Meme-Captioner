@@ -22,27 +22,48 @@ import sys
 import os
 import csv
 import codecs
+import argparse
 
 # # default training corpus
 # path = get_file('nietzsche.txt', origin="https://s3.amazonaws.com/text-datasets/nietzsche.txt")
 # text = open(path).read().lower()
 # print('corpus length:', len(text))
 
-global_dir = '../meme_crawler/meme_characters'
+parser = argparse.ArgumentParser(description='script\'s argument parser')
+parser.add_argument('meme_characs_path', help='directory where memes are stored')
+args = parser.parse_args()
+global_dir = args.meme_characs_path
+
 text = ''
 gdir_contents = [m for m in os.listdir(global_dir)
-                 if os.listdir(os.path.join(global_dir, m)) != []]
-halved_contents = gdir_contents[:int(len(gdir_contents)/4)]
-for meme in halved_contents:
-    meme_file = os.path.join(global_dir, meme, '{}.csv'.format(meme))
-    if os.path.exists(meme_file):
-        with codecs.open(meme_file, 'r') as f:
-            reader = csv.reader(f)
-            first = True
-            for row in reader:
-                if not first:
-                    text += '{} '.format(row[0])
-                first = False
+                 if os.path.isdir(os.path.join(global_dir, m))
+                 and os.listdir(os.path.join(global_dir, m)) != []]
+counter = 1
+while len(text.encode('utf-8')) < 1000000:
+    for meme in gdir_contents:
+        meme_file = os.path.join(global_dir, meme, '{}.csv'.format(meme))
+        if os.path.exists(meme_file):
+            with codecs.open(meme_file, 'r') as f:
+                reader = csv.reader(f)
+                i = 0
+                for row in reader:
+                    if i == counter:
+                        text += '{} '.format(row[0])
+                        break
+                    i += 1
+    counter += 1
+
+# halved_contents = gdir_contents[:len(halved_contents)/4]
+# for meme in halved_contents:
+#     meme_file = os.path.join(global_dir, meme, '{}.csv'.format(meme))
+#     if os.path.exists(meme_file):
+#         with codecs.open(meme_file, 'r') as f:
+#             reader = csv.reader(f)
+#             first = True
+#             for row in reader:
+#                 if not first:
+#                     text += '{} '.format(row[0])
+#                 first = False
 print('corpus length:', len(text))
 
 chars = sorted(list(set(text)))

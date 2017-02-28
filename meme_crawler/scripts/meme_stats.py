@@ -13,6 +13,13 @@ import argparse
 
 GEN_PATH = None
 
+def sizeof_fmt(num, suffix='B'):
+    for unit in ['','Ki','Mi','Gi','Ti','Pi','Ei','Zi']:
+        if abs(num) < 1024.0:
+            return "%3.1f%s%s" % (num, unit, suffix)
+        num /= 1024.0
+    return "%.1f%s%s" % (num, 'Yi', suffix)
+
 def stats():
     words = 0
     text = ''
@@ -36,8 +43,7 @@ def stats():
     print('total number of meme characters', meme_characters)
     print('total number of words:', words)
     print('total number of characters:', len(list(set(text))))
-    print('total size:', sys.getsizeof(text), 'bytes')
-
+    print('total size:', sizeof_fmt(len(text.encode('utf-8'))))
 
 
 def main():
