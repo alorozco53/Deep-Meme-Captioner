@@ -1,4 +1,4 @@
-# Crawling branch
+# LSTM branch
 
 ## Global meme directory structure
 
@@ -19,7 +19,7 @@
 	  + `character_n_metadata.csv`
 	  + `character_n.jpg`
 
-This structure is usually located at `meme_crawler/meme_crawler/`
+This structure is usually located at `meme_crawler/meme_crawler/` (path to global meme dir)
 
 ## LSTM text generation script usage
 
