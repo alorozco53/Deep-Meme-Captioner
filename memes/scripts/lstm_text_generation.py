@@ -23,6 +23,7 @@ import os
 import csv
 import codecs
 import argparse
+import re
 
 # # default training corpus
 # path = get_file('nietzsche.txt', origin="https://s3.amazonaws.com/text-datasets/nietzsche.txt")
@@ -39,7 +40,8 @@ gdir_contents = [m for m in os.listdir(global_dir)
                  if os.path.isdir(os.path.join(global_dir, m))
                  and os.listdir(os.path.join(global_dir, m)) != []]
 counter = 1
-while len(text.encode('utf-8')) < 1000000:
+two_spaces = re.compile('[ ]{2,}')
+while len(text.encode('utf-8')) < 588000:
     for meme in gdir_contents:
         meme_file = os.path.join(global_dir, meme, '{}.csv'.format(meme))
         if os.path.exists(meme_file):
@@ -48,7 +50,9 @@ while len(text.encode('utf-8')) < 1000000:
                 i = 0
                 for row in reader:
                     if i == counter:
-                        text += '{} '.format(row[0])
+                        clean = '{}. '.format(row[0].strip()s).lower()
+                        clean = two_spaces.sub(' ', clean)
+                        text += clean
                         break
                     i += 1
     counter += 1
