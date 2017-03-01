@@ -36,5 +36,7 @@ python lstm_text_generation.py
 
 ```bash
 cd meme_crawler/scripts
-python meme_stats.py <path-to-global-meme-dir>
+python meme_stats.py <path-to-global-meme-dir> --max N
 ```
+
+where `N` is the maximum size (in bytes!) of memes to be used; if not passed directly, the script uses 574.2KiB by default.

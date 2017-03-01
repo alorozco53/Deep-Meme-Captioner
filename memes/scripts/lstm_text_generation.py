@@ -16,6 +16,7 @@ from keras.layers import Dense, Activation
 from keras.layers import LSTM
 from keras.optimizers import RMSprop
 from keras.utils.data_utils import get_file
+from meme_stats import sizeof_fmt
 import numpy as np
 import random
 import sys
@@ -25,6 +26,7 @@ import codecs
 import argparse
 import re
 
+
 # # default training corpus
 # path = get_file('nietzsche.txt', origin="https://s3.amazonaws.com/text-datasets/nietzsche.txt")
 # text = open(path).read().lower()
@@ -32,16 +34,18 @@ import re
 
 parser = argparse.ArgumentParser(description='script\'s argument parser')
 parser.add_argument('meme_characs_path', help='directory where memes are stored')
+parser.add_argument('--max', help='maximum size (in bytes!) of memes to be used',
+                    default=588000)
 args = parser.parse_args()
 global_dir = args.meme_characs_path
-
+print('extracting', sizeof_fmt(float(args.max)), 'of memes from', global_dir)
 text = ''
 gdir_contents = [m for m in os.listdir(global_dir)
                  if os.path.isdir(os.path.join(global_dir, m))
                  and os.listdir(os.path.join(global_dir, m)) != []]
 counter = 1
 two_spaces = re.compile('[ ]{2,}')
-while len(text.encode('utf-8')) < 588000:
+while len(text.encode('utf-8')) < float(args.max):
     for meme in gdir_contents:
         meme_file = os.path.join(global_dir, meme, '{}.csv'.format(meme))
         if os.path.exists(meme_file):
@@ -50,7 +54,7 @@ while len(text.encode('utf-8')) < 588000:
                 i = 0
                 for row in reader:
                     if i == counter:
-                        clean = '{}. '.format(row[0].strip()s).lower()
+                        clean = '{}. '.format(row[0].strip()).lower()
                         clean = two_spaces.sub(' ', clean)
                         text += clean
                         break
