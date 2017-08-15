@@ -1,0 +1,8 @@
+#! /usr/bin/env bash
+
+python finetune.py \
+	   logs/ \
+	   /media/backup/crawling/memes/meme_characters/ \
+	   /media/backup/crawling/memes/test2014 \
+	   --epochs 400 \
+	   --initial_epoch 110

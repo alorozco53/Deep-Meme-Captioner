@@ -1,0 +1,15 @@
+#! /usr/bin/env bash
+
+base=32
+delta=$2
+
+for i in $(seq $1 $END);
+do
+    echo "Step: " $i >> log.txt
+    for part in 10k/part*;
+    do
+		echo "python train.py model/train --dataset_dir" $part "--vocab_file 10k/word_count.txt --number_of_steps" $base >> log.txt
+		python train.py model/train --dataset_dir $part --vocab_file 10k/word_count.txt --number_of_steps $base >> output.txt
+		base=`expr $base + $delta`
+    done
+done
