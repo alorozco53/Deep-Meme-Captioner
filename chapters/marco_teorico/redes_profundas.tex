@@ -6,9 +6,9 @@ TODO
 
 \noindent
 En 1989, el francés Yann LeCun comenzó a trabajar en los fundamentos de un novedoso modelo\
-neuronal basado en la biología de la corteza visual del cerebro animal. Su trabajo, eventualmente\
-lo llevó a ser nombrado director de la investigación en IA en Facebook. Pero más allá de su ascenso\
-al \emph{``podio''} del aprendizaje profundo, su trabajo ha provocado una revolución en el\
+neuronal basado en la biología de la corteza visual del cerebro animal. Su trabajo, eventualmente,\
+lo llevó a ser nombrado director de la investigación en IA en Facebook. Su ascenso\
+al \emph{``podio''} del aprendizaje profundo es producto de una revolución en el\
 \emph{estado del arte} del reconocimiento de imágenes a través de computadoras. Y lo más probable\
 es que el mismo modelo continúe sobresaliendo por algunos años.\par
 Como la mayoría de las arquitecturas neuronales, las \textbf{redes neuronales convolucionales}\
@@ -18,21 +18,14 @@ significativo en la capacidad de cómputo de los dispositivos modernos. Sin emba
 obtenido resultados sobresalientes hacía 1998, en tareas de reconocimiento de patrones \cite{bengio2009}.\
 El enfoque de LeCun, y de su equipo en \emph{Bell Labs}, consistió en dar un modelo de mayor\
 capacidad en \emph{representaciones internas} que el tradicional perceptrón multicapa.\par
-Un aspecto importante en esta arquitectura trata sobre la delegación de ciertas partes de la misma\
+Un aspecto importante en esta arquitectura consiste en la delegación de ciertas partes de la misma\
 a sub-problemas específicos de la tarea a resolver. Por consiguiente, cada capa de una CNN definirá\
-uno (o varios) niveles de representación, los cuales abstraen ciertas características inherentes\
+uno (o varios) niveles de representación, los cuales capturan ciertas características inherentes\
 al flujo de datos de entrada. Mediante un basto conjunto etiquetado de datos, se pueden aprender dichas\
 abstracciones de manera supervisada.
 
-\subsubsection*{La capa convolucional}
+\subsubsection{La capa convolucional}
 
-La filosofía \emph{reduccionista} de la ciencia, que es la que sigue dando sustento a diversos métodos\
-de trabajo de distintas disciplinas, sugiere que al estudiar a un objeto o fenómeno, se haga de manera\
-modular, empezando por las estructuras más básicas que lo componen hasta \emph{``el todo''}. Ello supone\
-una jerarquía de fragmentos, con atributos bien definidos y una especie de \emph{función}, cuyo rol\
-es el de componer todos los fragmentos en uno. Asimismo, la idea de una jerarquía de características\
-conduce a la arquitectura convolucional, de la misma manera con la que una persona identifica parte por\
-parte lo que sucede en una imagen.\par
 Para iniciar la discusión sobre la estructura de una CNN, usaremos como ejemplo al reconocimiento\
 computacional de imágenes; sin embargo, cabe notar que esta arquitectura es popular en tareas donde\
 exista la necesidad de reconocer patrones y sobre conjuntos de datos con topología \emph{cuadriculada}.\
@@ -63,7 +56,13 @@ de programación de redes neuronales), a esta estructura se le llama \textbf{ten
 la convención. Volviendo a nuestra búsqueda, necesitamos un parámetro que nos indique el mínimo de pixeles a\
 analizar para empezar a encontrar detalles claves de la imagen. Por ello, vamos a usar un pequeño tensor\
 para recorrer toda la imagen e ir desvelando patrones claves. A dicho tensor le llamaremos \textbf{filtro}\
-(\emph{kernel}, en inglés) y a su dimensión, \textbf{zancada} (\emph{stride}, en inglés)\par
+(\emph{kernel}, en inglés) y a su dimensión, \textbf{zancada} (\emph{stride}, en inglés).\par
+Los parámetros que acaban de ser presentados constituyen a la \textbf{capa convolucional}, en la cual\
+reside la mayor carga computacional de la arquitectura. Para abreviar, en adelante nos referiremos a dicha\
+capa con la sigla CONV.
+
+\subsubsection*{La \emph{convolución}}
+
 Matemáticamente, este proceso se puede formalizar mediante la convolución de dos funciones reales.\
 Si $x$ denota a nuestro dígito desconocido y $w$ a nuestro filtro, entonces la convolución de $x$ con\
 $w$, en un punto $t$, se define como:
@@ -97,8 +96,8 @@ teoría, la ventaja que trae esto consiste en una mayor facilidad de probar cier
 Para terminar de describir a lo que se le conoce como la \textbf{capa convolucional} de la arquitectura,\
 vale la pena hablar un poco sobre la salida de (\ref{cross_corr}). De hecho, en realidad tenemos muchas salidas que\
 son resultado de multiplicar partes de la imagen de entrada con el filtro. (El producto de matrices usado\
-en este caso se efectúa \emph{entrada por entrada} y no como se acostumbra.) A los tensores resultantes\
-se les conoce, convenientemente, como \textbf{mapas de características}.\par
+en este caso se efectúa \emph{entrada por entrada}, es decir, una especie de \emph{``producto punto''})\
+A los tensores resultantes se les conoce, convenientemente, como \textbf{mapas de activación}.\par
 Aquí cabe señalar que la eficiencia de la convolución es mucho mayor a la de una\
 multiplicación de matrices (en una capa densa) y esto ocurre, principalmente, por las siguientes razones:
 \begin{itemize}
@@ -116,11 +115,53 @@ multiplicación de matrices (en una capa densa) y esto ocurre, principalmente, p
 En resumen, si tenemos $m$ entradas y $n$ salidas en una capa, y ésta es densa, entonces habremos de realizar\
 $O(m \times n)$ operaciones para calcular la salida. En cambio, en una capa convolucional, podemos tener\
 una zancada $k$ de pixeles en el filtro, con un orden de magnitud mucho menor a $n$; lo cual va a provocar\
-que sea más eficiente calcular $O(m \times k)$ operaciones.\par
+que sea más eficiente calcular $O(m \times k)$ operaciones.
+
+\subsubsection*{Filtros vistos como arreglos de neuronas}
+
+Dependiendo del número de filtros escogidos para aplicarse en la capa CONV, se definirá la salida de la misma.\
+Intuitivamente, si se usan $12$ filtros en una imagen cuya dimensión de entrada es de $32 \times 32 \times 3$,\
+un puede imaginarse $12$ imágenes procesadas por la capa CONV, como resultado del procesamiento REF-IMAGEN.\
+Es decir, la dimensión de la salida sería de $32 \times 32 \times 12$.\par
+Esto no corresponde al ``mecanismo canónico'' que caracteriza a una capa neuronal, en donde todas las entradas\
+participan en la decisión de la salida. Más aún, a diferencia del perceptrón multicapa, en donde el aprendizaje se\
+da ajustando los pesos de cada \emph{sinapsis}, aquí cada neurona tendrá asociado un peso que será ajustado.\
+Sin embargo, podemos ahorrarnos la discusión sobre cómo adaptar al algoritmo de propagación hacia atrás para\
+hacer que cada neurona aprenda, transformando un poco la arquitectura:
+\begin{itemize}
+\item Si nuestra dimensión de entrada es de $32 \times 32 \times 3$, ``aplanamos'' dicho tensor de manera vertical,\
+  es decir, en uno de dimensión $1024 \times 1 \times 3$.
+\item Por cada filtro, apilamos todas las neuronas en una salida cuya altura está determinada por el valor de la zancada.
+\item Cada neurona de salida estará conectada a tantas neuronas de entrada como indique, otra vez, la zancada. Éstas\
+  serán contiguas tras ser transformadas como indica el primer punto mencionado. Adicionalmente, podemos pensar\
+  que todas las demás neuronas de entrada están conectadas a cada salida con un peso equivalente a cero unidades.
+\item En este caso, los valores que constituyen al tensor de filtro estarán codificados como pesos en cada sinapsis.
+\item La $i+1$-ésima neurona de salida tendrá como primera entrada (en orden de arriba hacia abajo), a la segunda\
+  entrada de la $i$-ésima neurona.
+\end{itemize}\par
+La capa de salida de este reacomodo corresponde a un mapa de activación ``aplanado''. Si queremos un \emph{volumen}\
+de salida con 12 mapas, entonces habrá que visualizar un modelo en el cual tenemos 12 mapas aplanados conectados, cada uno,\
+al tensor de entrada y sin sinapsis alguna entre cada uno de éstos. Cabe destacar que durante el entrenamiento,\
+basta actualizar únicamente un solo conjunto de pesos que conectan a una neurona de salida con una cantidad de entradas\
+equivalente al valor de la zancada y, posteriormente, propagar los nuevos valores a los demás pesos por cada neurona de\
+salida; esto por cada uno de los filtros. Esto ocurre debido a que cada uno de los filtros \emph{``comparte parámetros''},\
+como se observa en la figura \label{fCNN_fig}.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.65\textwidth]{fCNN}
+  \caption{El concepto de pesos compartidos. Las sinapsis del mismo color representan conexiones con pesos iguales.
+    En este caso, se tendría una zancada de 4 neuronas.
+    (Tomado de \url{http://www.jefkine.com/general/2016/09/05/backpropagation-in-convolutional-neural-networks/}.)}
+  \label{fCNN_fig}
+\end{figure}
+
+\subsubsection*{La \emph{``capa''} de activación}
+
 Como sucede al calcular las salidas de una capa densa, aquí hay que utilizar una función no lineal (y \emph{suave}) para\
 finalizar la clasificación. En algunos casos, a este paso se le suele llamar \textbf{capa de no linealidad}.\
 En \cite{lecun2010}, además de usar dicho término, se propone a la función $tanh$, sobre cada entrada de los\
-mapas de características, como el estándar en CNN's. Sin embargo, también se señala que una \emph{sigmoide}\
+mapas de activación, como el estándar en CNN's. Sin embargo, también se señala que una \emph{sigmoide}\
 \emph{rectificada} ha dado buenos resultados en reconocimiento de imágenes (sujeta a una normalización posterior);\
 el caso particular es el de la \textbf{unidad lineal rectificada} (\emph{ReLU}, por sus siglas en inglés):
 \begin{equation}
@@ -145,9 +186,9 @@ detalles claves en lugares precisos. Es necesario, entonces, ocuparse de que una
 \emph{generalice} suficientemente su aprendizaje para aumentar su robustez.\par
 Por ello, las CNN's llevan, además de capas convolucionales, algunas capas de \textbf{agrupación}\
 (\emph{pooling}, en inglés y usaremos esta palabra en adelante) con las cuales se puede extraer\
-los detalles más fundamentales de cada mapa de características. En la práctica, existen dos operaciones\
+los detalles más fundamentales de cada mapas de activación. En la práctica, existen dos operaciones\
 de pooling que sobresalen sobre las demás: \emph{max}-pooling y \emph{avg}-pooling. Para calcular cualquier\
-capa de pooling, se define una vecindad en cada mapa de características (que no exceda su zancada);\
+capa de pooling, se define una vecindad en cada mapa de activación (que no exceda su zancada);\
 acto seguido, dependiendo del pooling a usar, se almacena el máximo o el promedio de los pixeles\
 abarcados en la vecindad.\par
 Con esta capa, la arquitectura convolucional se vuelve \textbf{aproximadamente invariante} a modificaciones\
