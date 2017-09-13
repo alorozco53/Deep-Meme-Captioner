@@ -123,14 +123,15 @@ en $\{-1,1\}$ (una posible función de activación):
 \end{equation}
 Geométricamente, el perceptrón genera un \emph{hiperplano} que, con los pesos adecuados logrará dividir\
 las entradas de manera que cada entrada correspondiente a una cierta clase quede dentro de \emph{una y sólo una}\
-partición del espacio multidimiensional en cuestión. El hecho de que estamos usando funciones de activación valuadas de manera binaria nos invita a explorar el\
+partición del espacio multidimiensional en cuestión.\par
+El hecho de que estamos usando funciones de activación valuadas de manera binaria nos invita a explorar el\
 cómputo \emph{neuronal} de las diversas funciones lógicas. Como ejemplo, está la clasificación de\
 la función \verb+OR+ en la figura (\ref{or-fig}). En este caso, se tienen entradas de dos dimensiones, por lo que es\
 posible visualizarlas gráficamente; en la práctica, se trabaja con un gran número de dimensiones, de lo cual\
 se deduce la importancia de tomarán algunos métodos de reducción dimensional para el éxito de los algoritmos\
-de entrenamiento de modelos más complejos.
+de entrenamiento de modelos más complejos.\par
 
- \begin{figure}[H]
+\begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{or}
   \caption{La función lógica \texttt{OR}, en su versión bidimensional, tiene cuatro posibles salidas:
@@ -138,6 +139,17 @@ de entrenamiento de modelos más complejos.
     separable mediante una recta.
     (Elaboración propia.)}
   \label{or-fig}
+\end{figure}
+
+Para finalizar esta sección, cabe destacar que la función de activación ($signo$) que acaba de ser presentada\
+no es la única. En realidad, se buscan opciones más suavizadas y, sobre todo, diferenciables con el fin de\
+optimizar los parámetros de modelos más complejos.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{activations}
+  \caption{Las funciones de activación más comunes.
+    (Tomado de (\url{https://www.slideshare.net/SungJuKim2/multi-layer-perceptron-back-propagation}))}
 \end{figure}
 
 \subsection{El perceptrón multicapa}
