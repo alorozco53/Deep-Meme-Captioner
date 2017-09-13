@@ -1,8 +1,4 @@
-\section{Redes neuronales profundas}
-
-TODO
-
-\subsection{Redes neuronales convolucionales}
+\section{Redes neuronales convolucionales}
 
 \noindent
 En 1989, el francés Yann LeCun comenzó a trabajar en los fundamentos de un novedoso modelo\
@@ -24,7 +20,7 @@ uno (o varios) niveles de representación, los cuales capturan ciertas caracter�
 al flujo de datos de entrada. Mediante un basto conjunto etiquetado de datos, se pueden aprender dichas\
 abstracciones de manera supervisada.
 
-\subsubsection{La capa convolucional}
+\subsection{La capa convolucional}
 
 Para iniciar la discusión sobre la estructura de una CNN, usaremos como ejemplo al reconocimiento\
 computacional de imágenes; sin embargo, cabe notar que esta arquitectura es popular en tareas donde\
@@ -79,9 +75,18 @@ está dada por
 \end{equation}
 donde este número es un entero positivo.
 
-TODO: Ejemplos con imágenes
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{conv_process}
+  \caption{Ilustración de una pequeña capa convolucional.
+    Cada imagen de entrada contiene tres niveles de profundidad, con los cuales trabaja
+    el filtro (un tensor de pesos). Cabe destacar que cada valor de $x$ está rellenado por ceros.
+    Dado que la profundiad del volumen de la salida es sólo 2, hay igual número de filtros en total.
+    (Tomado de \url{http://cs231n.github.io/convolutional-networks/}.)}
+  \label{fCNN_fig}
+\end{figure}
 
-\subsubsection*{La \emph{convolución}}
+\subsection{La \emph{convolución}}
 
 \noindent
 Matemáticamente, este proceso se puede formalizar mediante la convolución de dos funciones reales.\
@@ -138,7 +143,7 @@ $O(m \times n)$ operaciones para calcular la salida. En cambio, en una capa conv
 una zancada $k$ de pixeles en el filtro, con un orden de magnitud mucho menor a $n$; lo cual va a provocar\
 que sea más eficiente calcular $O(m \times k)$ operaciones.
 
-\subsubsection*{Filtros vistos como arreglos de neuronas}
+\subsection{Filtros vistos como arreglos de neuronas}
 
 \noindent
 Dependiendo del número de filtros escogidos para aplicarse en la capa CONV, se definirá la salida de la misma.\
@@ -178,7 +183,7 @@ como se observa en la figura \label{fCNN_fig}.
   \label{fCNN_fig}
 \end{figure}
 
-\subsubsection*{La \emph{``capa''} de activación}
+\subsection{La \emph{``capa''} de activación}
 
 \noindent
 Como sucede al calcular las salidas de una capa densa, aquí hay que utilizar una función no lineal (y \emph{suave}) para\
@@ -200,7 +205,7 @@ el caso particular es el de la \textbf{unidad lineal rectificada} (\emph{ReLU}, 
   \label{2dconv_fig}
 \end{figure}
 
-\subsubsection*{La capa de \emph{pooling}}
+\subsection{La capa de \emph{pooling}}
 
 \noindent
 Un exceso de aprendizaje en la capa de convolución puede provocar un \emph{sobreajuste} sobre\
@@ -230,7 +235,7 @@ brindando la posibilidad de optimizar mucho más la memoria utilizada y las dime
 \end{figure}
 
 
-\subsection{Redes neuronales recurrentes}
+\section{Redes neuronales recurrentes}
 
 \noindent
 Es frecuente encontrar situaciones en las que exista un orden secuencial entre los datos de entrenamiento.\
@@ -269,7 +274,7 @@ un resumen de los aspectos importantes de cada símbolo de la sucesión $\mathbf
 \begin{figure}
   \centering
   \includegraphics[width=\textwidth]{rnn}
-  \caption{Estructura de la compuerta cerrada de una LSTM.
+  \caption{Arquitectura gráfica de una red neuronal recurrente.
     (Tomado de \cite{goodfellow-et-al-2016})}
   \label{convnet_fig}
 \end{figure}
@@ -283,7 +288,7 @@ entre capas convolucionales. Más aún, dejando de lado el proceso de entrenamie
 que carece de una memoria temporal, pues la información solo fluye ascendentemente entre capas\
 ignorando un posible retroalimentación de lo que se aprendió con $\mathbf{x}^i$ al momento de procesar $\mathbf{x}^{i+1}$.
 
-\subsubsection*{¿Cómo funciona la arquitectura recurrente?}
+\subsection{¿Cómo funciona la arquitectura recurrente?}
 
 \noindent
 Como se mencionó anteriormente, la memoria interna de una RNN se codifica con una matriz de pesos. Se dice que estos parámetros\
@@ -330,7 +335,7 @@ se optiene a partir de la entrada de $y^{(t)}$ del tensor $\mathbf{\hat{y}}^{(t)
 Visualmente, este modelo neuronal ya especifica cómo es que se calculará el gradiente, para fines de entrenamiento.\
 El costo del mismo depende totalmente de la ``profundidad'' dada por el parámetro $\tau$ y se discutirá a continuación.
 
-\subsubsection*{Propagación hacia atrás, a través del tiempo}
+\subsection{Propagación hacia atrás, a través del tiempo}
 
 \noindent
 Aludiendo a una de sus interpretaciones empíricas, el entero positivo $\tau$ nos permite trabajar un modelo de\
@@ -397,18 +402,22 @@ $\mathbf{W}^{(t)}$ para referirnos a la \emph{``copia''} de $\mathbf{W}$ en el t
 Por último, ya teniendo los gradientes lo que procede para actualizar los parámetros de la RNN sería aplicar el\
 algoritmo de descenso por el gradiente estocástico.
 
-\subsubsection*{LSTM's}
+\subsection{LSTM's}
 
 Durante el proceso de generación de lenguaje natural, es extremadamente incierto determinar qué hechos del pasado\
 son relevantes para seguir tomando en cuenta y qué cosas valen la pena ser olvidadas. El modelo recurrente\
 que hasta ahora ha sido presentado carece de un mecanismo que tenga la capacidad de recordar y olvidar\
 información durante intervalos de tiempo.\par
-Por ello, equiparemos al modelo con \emph{unidades recurrentes cerradas}, las cuales reemplazarán a las neuronas\
+Por ello, equiparemos al modelo con \emph{compuertas recurrentes cerradas}, las cuales reemplazarán a las neuronas\
 ocultas $\mathbf{h}$ por un esquema que posee ciclos internos y que es capaz de acumular y olvidar información.\
 La estructura de cada unidad es análoga a la de una compuerta lógica (en hardware) donde el flujo de datos\
 es modificado por operaciones acumulativas, cuyo funcionamiento depende del ajuste de algunos parámetros.\par
 Uno de los modelos con mayor popularidad es el de la \textbf{memoria larga a corto plazo} (\emph{LSTM} por sus\
-siglas en inglés).
+siglas en inglés). Mientras que la inclusión de ciclos en la arquitectura de una RNN es suficiente para\
+codificar una memoria \emph{a corto plazo}, una compuerta LSTM extiende el tiempo en el que la\
+información va desapareciendo, permitiendo que el modelo guarde una memoria \emph{a largo plazo}.\
+El éxito de la compuerta LSTM ha permeado tareas como reconocimiento y generación de caligrafía, reconocimiento de\
+voz, traducción automática, análisis sintáctico y etiquetamiento de imágenes (que motiva a esta tesis).
 
 \begin{figure}
   \centering
@@ -418,8 +427,34 @@ siglas en inglés).
   \label{convnet_fig}
 \end{figure}
 
-
-
-\subsubsection*{Entrenamiento}
-
-TODO
+La arquitectura RNN-LSTM se caracteriza por ser superficial en cuanto al número de neuronas que separan una\
+entrada de una salida; sin embargo, ello no implica un pobre desempeño. Una \textbf{célula LSTM} contiene\
+\begin{itemize}
+\item un \emph{bucle} interno;
+\item las mismas entradas y salidas de una RNN ordinaria;
+\item una \emph{unidad de estado} $s_i^{(t)}$ que se conecta a sí misma a través del bucle,\
+  de manera lineal;
+\item una \emph{compuerta de olvido} $f_i^{(t)}$ que controla la matriz de pesos del bucle y\
+  mantiene un valor entre 0 y 1 por medio de una activación sigmoide;
+\item una \emph{compuerta de entrada} $g_i^{(t)}$ que mantiene sus valores entre 0 y 1\
+  mediante una sigmoide;
+\item una \emph{compuerta de salida} $q_i^{(t)}$ que mantiene sus valores entre 0 y 1\
+  mediante una sigmoide.
+\end{itemize}\par
+Aquí hablamos de la $i$-ésima célula en el tiempo $t$. En símbolos,
+\begin{align}
+  f_i^{(t+1)} &= \sigma\left(b_i^f + \sum_j U_{i,j}^f x_j^{(t+1)} + \sum_j W_{i,j}^f h_j^{(t)}\right)\\
+  s_i^{(t+1)} &= f_i^{(t+1)} s_i^{(t)} + g_i^{(t+1)} \nonumber \\
+  &+ \sigma\left(b_i + \sum_j U_{i,j} x_j^{(t+1)} + \sum_j W_{i,j} h_j^{(t)}\right)\\
+  g_i^{(t+1)} &= \sigma\left(b_i^g + \sum_j U_{i,j}^g x_j^{(t+1)} + \sum_j W_{i,j}^g h_j^{(t)}\right)\\
+  h_i^{(t+1)} &= \tanh(s_i^{(t+1)}) q_i^{(t+1)}\\
+  g_i^{(t+1)} &= \sigma\left(b_i^O + \sum_j U_{i,j}^O x_j^{(t+1)} + \sum_j W_{i,j}^O h_j^{(t)}\right)
+\end{align}\par
+donde $\mathbf{x}^{(t+1)}$ es el vector de entrada actual y $\mathbf{h}^{(t+1)}$ es el vector\
+de la capa oculta actual. $\mathbf{b}$, $\mathbf{U}$ y $\mathbf{W}$ son los sesgos\
+pesos de entrada y recurrentes para la célula LSTM, respectivamente; los análogos\
+que contienen algún superíndice entre $^f$, $^g$ y $^O$ corresponden a los pesos de\
+las compuertas de olvido, entrada y salida, respectivamente.\par
+Con estas ecuaciones, es posible realizar propagación hacia adelante sin mayor problema.\
+Para entrenar una red LSTM, se puede usar una variante del algoritmo de propagación hacia\
+atrás (a través del tiempo) como se proporciona en \cite{hochreiter1997}.

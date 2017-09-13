@@ -1,10 +1,10 @@
 \section{Aproximando funciones con neuronas}
 
 \noindent
-El uso de la palabra \emph{aprendizaje} como sinónimo de ``minimización de\
-errores'' nos lleva a cuestionarnos la existencia de una conexión entre\
+En computación, la palabra \emph{aprendizaje} es sinónimo de ``minimización de\
+errores'', lo que lleva a cuestionarnos la existencia de una conexión entre\
 este fenómeno estadístico con las maneras que, naturalmente, posee el cuerpo humano\
-para comprender su medio ambiente. Concretamente, la tarea que tiene el computólogo\
+para comprender de su medio ambiente. Concretamente, la tarea que tiene el computólogo\
 ante sí consiste en transformar los problemas de aprendizaje automático en\
 equivalentes compatibles con el funcionamiento del sistema nervioso humano. Dadas,\
 las evidencias empíricas sobre el buen desempeño del cerebro humano en su cotidianidad,\
@@ -35,7 +35,13 @@ es transmitida a través del \emph{axón} de la célula. Los organelos mencionad
 constituyen las principales partes de la neurona que habrán de servir como estructuras\
 fundamentales de las arquitecturas de aprendizaje a presentar en las siguientes secciones.\cite{rojas1996}
 
-TODO: ILUSTRACIÓN DE LA NEURONA HUMANA
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth, height=0.6\textheight]{neurona}
+  \caption{Ilustración de las partes más importantes de una neurona humana.
+    (Tomado de (\url{https://psi121f.wordpress.com/2016/07/03/la-estructura-de-la-neurona-2/}))}
+\end{figure}
+
 
 \subsection{El modelo de cómputo neuronal}
 
@@ -63,7 +69,7 @@ que se sigue a diseñar modelos específicos para ciertas tareas. Si se sabe inf
 sobre los datos a procesar, es mejor integrarlas en el diseño de la arquitectura a dejar que ésta\
 los aprenda durante el entrenamiento. Después de todo, en el cuerpo humano existen una gran cantidad\
 de estructuras neuronales especializadas para funciones como visión y audición, muy distintas a otras\
-presentes en el cerebro. TODO: MENCIONAR NO-FREE-LUNCH THEOREM
+presentes en el cerebro.
 
 \subsection{El perceptrón de Rosenblatt}
 
@@ -75,9 +81,17 @@ El perceptrón es la red neuronal más simple y, muchas veces, será uno de los 
 más complejas. La intuición matemática detrás de su estructura consiste en \emph{separar linealmente} las entradas dadas en\
 dos clases, lo cual se logra mediante un aprendizaje que va ajustando pesos de acuerdo a las salidas esperadas.\par
 
-TODO: IMAGEN DE ARQUITECTURA DEL PERCEPTRÓN
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{perceptron}
+  \caption{El perceptrón de Rosenblatt es un modelo gráfico cuya salida depende de las contribuciones
+    lineales de cada una de las entradas, de un sesgo y de una función no lineal de activación.
+    (Tomado de \cite{haykin2009})}
+  \label{perceptron-fig}
+\end{figure}
 
-De acuerdo a la IMAGEN-REF, el perceptrón opera de la siguiente manera: dados los valores\
+
+De acuerdo a la figura (\ref{perceptron-fig}), el perceptrón opera de la siguiente manera: dados los valores\
 de entrada $x_1, x_2,\ldots, x_m$ y los pesos $w_1, w_2,\ldots, w_m$,
 \begin{itemize}
 \item se calcula una suma ponderada con los $m$ pesos (\emph{sinápticos}) del modelo,
@@ -111,16 +125,67 @@ Geométricamente, el perceptrón genera un \emph{hiperplano} que, con los pesos 
 las entradas de manera que cada entrada correspondiente a una cierta clase quede dentro de \emph{una y sólo una}\
 partición del espacio multidimiensional en cuestión. El hecho de que estamos usando funciones de activación valuadas de manera binaria nos invita a explorar el\
 cómputo \emph{neuronal} de las diversas funciones lógicas. Como ejemplo, está la clasificación de\
-la función $AND$ en la figura REF-IMAGEN. En este caso, se tienen entradas de dos dimensiones, por lo que es\
+la función \verb+OR+ en la figura (\ref{or-fig}). En este caso, se tienen entradas de dos dimensiones, por lo que es\
 posible visualizarlas gráficamente; en la práctica, se trabaja con un gran número de dimensiones, de lo cual\
 se deduce la importancia de tomarán algunos métodos de reducción dimensional para el éxito de los algoritmos\
 de entrenamiento de modelos más complejos.
 
-\subsubsection*{Limitaciones del perceptrón}
+ \begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{or}
+  \caption{La función lógica \texttt{OR}, en su versión bidimensional, tiene cuatro posibles salidas:
+    tres de ellas arrojan un valor positivo, mientras que la otra es negativa. Claramente, se trata de una función
+    separable mediante una recta.
+    (Elaboración propia.)}
+  \label{or-fig}
+\end{figure}
 
-TODO
+\subsection{El perceptrón multicapa}
 
+\noindent
+No todos los patrones de datos son linealmente separables. Por ejemplo, la función lógica \verb+XOR+, contiene\
+salidas cuyos valores no pueden ser divididos en dos partes del plano sin ser mezclados. Por consiguiente,\
+es necesario aumentar la capacidad de cómputo del perceptrón. Combinaremos, ahora, varios perceptrones\
+en una \emph{red neuronal de propagación hacia adelante}, estructurando el cómputo en distintas\
+\emph{capas ocultas}.\par
+El flujo de la información irá de capa en capa, en una sola dirección hasta llegar a una \emph{capa de salida}.
+Cada capa oculta consta de un conjunto de neuronas, sin conexiones entre ellas, pero totalmente conectadas a la\
+capa inmendiatamente anterior y posterior. A este modelo se le conoce comúnmente como\
+\textbf{perceptrón multicapa} (\emph{MLP} por sus siglas en inglés) y es el punto de partida de la rama\
+del aprendizaje automático conocida como \textbf{aprendizaje profundo} (\emph{deep learning} por sus siglas en inglés).
 
-\subsubsection*{El perceptrón multicapa}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{mlp}
+  \caption{Arquitectura de un MLP con dos capas ocultas.
+    (Tomado de \cite{haykin2009}.)}
+\end{figure}
 
-TODO
+El flujo del cómputo en un MLP puede ser pensado como la composición de las capas ocultas, vistas como funciones que\
+procesan los datos de entrada. Formalmente, dado un vector de entrada $\mathbf{x}$, la primera capa oculta $h_1$\
+calcula su valor utilizando una matriz de pesos $\mathbf{W_1}$, un sesgo $\mathbf{b_1}$ de la siguiente manera:
+\begin{equation}
+  h_1 = \sigma\left(\mathbf{W_1}^\top \mathbf{x} + \mathbf{b}_1\right),
+\end{equation}
+donde $\sigma$ es una función de activación no lineal y \emph{diferenciable}.\
+Las dimensiones de $\mathbf{W}$ corresponden a la entrada y al número de neuronas en la capa $h_1$.\
+La $i+1$-ésima capa oculta de un MLP actualiza su valor a partir de la $i$-ésima mediante
+\begin{equation}
+  h_{i+1} = \sigma\left(\mathbf{W_{i+1}}^\top h_i + \mathbf{b}_{i+1}\right),
+\end{equation}
+es decir, cada capa tendrá una matriz de pesos y un vector de sesgos propio. La salida, suponiendo que\
+hay $m$ capas ocultas, obtiene su valor con la equación
+\begin{equation}
+  \hat{y} = \sigma\left(\mathbf{W_{m+1}}^\top h_m + \mathbf{b}_{m+1}\right).
+\end{equation}
+Obsérvese que es posible que $\hat{y}$ tenga más de una dimensión, entonces, cada uno de los valores de dicho\
+vector codificará ``la existencia'' de alguna característica en particular. Esto es muy útil para aprender\
+clasificadores cuyo contra-dominio es mayor al conjunto binario.\par
+En ocasiones, al subrafo dirigido formado por las capas ocultas $h_i$ y $h_{i+1}$ se le conoce como\
+\emph{capa densa} o \emph{totalmente conectada} y es común encontrarla en arquitecturas de mayor complejidad\
+y especialización. El MLP está dentro del ``estado del arte'' de los algoritmos de clasificación automática y\
+será parte fundamental de los dos modelos neuronales que compone a la arquitectura de procesamiento de imágenes\
+y generación de lenguaje de la presente tesis. La parte más importante de ello recae en su algoritmo de\
+aprendizaje que a continuación se describe.
+
+\subsection{Retroalimentación para aprender}
