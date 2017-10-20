@@ -14,8 +14,11 @@ from scrapy.http import Request
 class MemeCaptionSpider(Spider):
     name = 'memecaptionspider'
     allowed_domains = ['memegenerator.net']
-    start_urls = ['https://memegenerator.net/memes/popular/alltime']
-    MAX_NUMBER_OF_MEMES = 2000
+    start_urls = ['https://memegenerator.net/memes/popular/alltime/page/1',
+                  'https://memegenerator.net/memes/popular/alltime/page/10',
+                  'https://memegenerator.net/memes/popular/alltime/page/50',
+                  'https://memegenerator.net/memes/popular/alltime/page/100']
+    MAX_NUMBER_OF_MEMES = 20
 
     def parse(self, response):
         # get current meme-list page number
@@ -26,8 +29,9 @@ class MemeCaptionSpider(Spider):
 
         # get a list for all memes in the current webpage
         meme_names = response.xpath('//span[@class="display-name"]/text()').extract()
-
         plain_memes = response.xpath('//img[@class="mr10px loading-bg"]/@src').extract()
+        if not meme_names:
+            return
         meme_name_map = [(meme_names[i], plain_memes[i]) for i in range(len(plain_memes))]
         for name, url in meme_name_map:
             # process the name to be used as url and directory name
@@ -42,7 +46,7 @@ class MemeCaptionSpider(Spider):
             yield request
 
         # go to next page
-        next_pages = [w for w in response.xpath('//li/a/@href').extract() if 'page/' in w]
+        next_pages = [w for w in response.xpath('//li/a/@href').extract() if 'page/' in w][1:]
         for next_page in next_pages:
             next_page_suffix = next_page[next_page.rfind('/') + 1 : ]
             if int(next_page_suffix) == meme_list_page + 1:
@@ -65,9 +69,10 @@ class MemeCaptionSpider(Spider):
             item['meme_img_url'] = meme_img_url
             item['meme_captions'] = []
 
-        img_urls = [im for im in response.xpath('//img/@src').extract() if '.jpg' in im][1:]
+        img_urls = [im for im in response.xpath('//img/@src').extract()
+                    if '.jpg' in im and '250x250' in im]
         captions = [r for r in response.xpath('//img/@alt').extract() if '-' in r]
-        cap_img_map = [(img_urls[i], captions[i]) for i in range(len(captions))]
+        cap_img_map = zip(img_urls, captions) #[(img_urls[i], captions[i]) for i in range(len(captions))]
 
         # check if the limit for downloaded memes has been reached
         if counter > self.MAX_NUMBER_OF_MEMES:
@@ -84,8 +89,8 @@ class MemeCaptionSpider(Spider):
             item['meme_captions'].append(cap_item)
             counter += 1
 
-        # go to next page
-        next_pages = [w for w in response.xpath('//li/a/@href').extract() if 'page/' in w]
+        # go to the next page
+        next_pages = [w for w in response.xpath('//li/a/@href').extract() if 'page/' in w][1:]
         for next_page in next_pages:
             next_page_suffix = next_page[next_page.rfind('/') + 1 : ]
             if int(next_page_suffix) == meme_page + 1:
