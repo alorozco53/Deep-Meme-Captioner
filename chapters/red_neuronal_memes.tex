@@ -131,7 +131,7 @@ mismo sobre una imagen le permite capturar mayores detalles de la misma. Ahora, 
 puede ser vista como un MLP, como se vio en el capítulo anterior; en realidad, ¡el filtro en cuestión\
 es una capa totalmente conectada que pasa por toda la imagen de entrada! ¿Por qué no descomponer este MLP\
 en varios filtros pequeños aplicados de manera \emph{paralela} sobre la imagen? El resultado es la\
-factorización en dos filtros de $3 \times 3$ como se muestra en la figura (\ref{conv-to-mlp}).\par
+factorización en dos filtros de $3 \times 3$ como se muestra en la Figura \ref{conv-to-mlp}.\par
 
 \begin{figure}[H]
   \centering
@@ -150,7 +150,7 @@ de pequeñas entidades \emph{bien} definidas. ¿Cómo es que, entonces, se optim
 del cómputo de sus estructuras básicas. En este caso, aprovechamos el cómputo paralelo para factorizar un\
 filtro, de donde surgen varios ``hilos de ejecución'' en el grafo de la misma que, deberán ser\
 eventualmente \emph{concatenados} en un solo tensor resultante.\par
-A la estructura presentada en la figura (\ref{factorization}), se le denomina comúnmente como módulo\
+A la estructura presentada en la Figura \ref{factorization}, se le denomina comúnmente como módulo\
 \emph{Inception}. Por otro lado, decimos que una convolución con un filtro de $1 \times 1$ procesa\
 \emph{localmente} una imagen de entrada pues realiza una activación (filtrado) exhaustiva a nivel\
 de pixeles individuales. En contraste, siguiendo el principio de diseño (\ref{sp-agg}), la reducción\
@@ -176,49 +176,58 @@ altas.
 \end{figure}
 
 Para concluir con esta sección, presentamos las capas que constituyen a la arquitectura Inception\
-en la siguiente tabla.
+en la Tabla \ref{capas-inception}.
 
 \noindent
-\resizebox{\textwidth}{!}{
-  \begin{tabular}{|l|c|c|}
-    \hline
-    \textbf{tipo} & \textbf{tamaño de filtro / zancada} & \textbf{tamaño de la entrada}\\
-    \hline \hline
-    CONV & $3 \times 3 / 2$ & $299 \times 299 \times 3$ \\
-    \hline
-    CONV & $3 \times 3 / 1$ & $149 \times 149 \times 32$ \\
-    \hline
-    CONV con relleno de ceros & $3 \times 3 / 1$ & $147 \times 147 \times 32$ \\
-    \hline
-    POOL & $3 \times 3 / 2$ & $147 \times 147 \times 64$ \\
-    \hline
-    CONV & $3 \times 3 / 1$ & $73 \times 73 \times 64$ \\
-    \hline
-    CONV & $3 \times 3 / 2$ & $71 \times 71 \times 80$ \\
-    \hline
-    CONV & $3 \times 3 / 1$ & $35 \times 35 \times 192$ \\
-    \hline
-    $3 \times$ Inception & figura (\ref{factorization}) & $35 \times 35 \times 288$ \\
-    \hline
-    $5 \times$ Inception & figura (\ref{factorization2}) & $17 \times 17 \times 768$ \\
-    \hline
-    $2 \times$ Inception & figura (\ref{factorization3}) & $8 \times 8 \times 1280$ \\
-    \hline
-    POOL & $8 \times 8 / 2$ & $8 \times 8 \times 2048$ \\
-    \hline
-    LINEAL & logits ($\log$-probabilidades) & $1 \times 1 \times 2048$ \\
-    \hline
-    MLP-SOFTMAX & clasificador & $1 \times 1 \times 1000$ \\
-    \hline
-  \end{tabular}
-}
+\begin{table}[H]
+  \resizebox{\textwidth}{!}{
+    \begin{tabular}{|l|c|c|}
+      \hline
+      \textbf{tipo} & \textbf{tamaño de filtro / zancada} & \textbf{tamaño de la entrada}\\
+      \hline \hline
+      CONV & $3 \times 3 / 2$ & $299 \times 299 \times 3$ \\
+      \hline
+      CONV & $3 \times 3 / 1$ & $149 \times 149 \times 32$ \\
+      \hline
+      CONV con relleno de ceros & $3 \times 3 / 1$ & $147 \times 147 \times 32$ \\
+      \hline
+      POOL & $3 \times 3 / 2$ & $147 \times 147 \times 64$ \\
+      \hline
+      CONV & $3 \times 3 / 1$ & $73 \times 73 \times 64$ \\
+      \hline
+      CONV & $3 \times 3 / 2$ & $71 \times 71 \times 80$ \\
+      \hline
+      CONV & $3 \times 3 / 1$ & $35 \times 35 \times 192$ \\
+      \hline
+      $3 \times$ Inception & Figura \ref{factorization} & $35 \times 35 \times 288$ \\
+      \hline
+      $5 \times$ Inception & Figura \ref{factorization2} & $17 \times 17 \times 768$ \\
+      \hline
+      $2 \times$ Inception & Figura \ref{factorization3} & $8 \times 8 \times 1280$ \\
+      \hline
+      POOL & $8 \times 8 / 2$ & $8 \times 8 \times 2048$ \\
+      \hline
+      LINEAL & logits ($\log$-probabilidades) & $1 \times 1 \times 2048$ \\
+      \hline
+      MLP-SOFTMAX & clasificador & $1 \times 1 \times 1000$ \\
+      \hline
+    \end{tabular}
+  }
+  \caption{
+    Las capas que conforman a la arquitectura convolucional \emph{Inception V3}.
+    Normalmente, a la dimensión de la última capa se modifica dependiendo de la tarea de clasificación
+    deseada. (Tomado de \url{https://arxiv.org/pdf/1512.00567.pdf}.)
+  }
+  \label{capas-inception}
+\end{table}
 
 \section{Poniendo todo junto}
 
 \noindent
 Esencialmente, la estructura de cada unidad LSTM usada en la implementación de la RNN es la misma\
 que la que fue presentada en la última sección del capítulo anterior. Lo único que cambia es la\
-incorporación del tensor de la penúltima capa de Inception ($CNN(I)$), como memoria inicial ($h^{(0)}$).\par
+incorporación del tensor de la última capa de Inception ($CNN(I)$), como memoria inicial ($h^{(0)}$).\
+Esto se ilustra en la Figura \ref{show_and_tell_architecture}.\par
 El entrenamiento de la LSTM se lleva a cabo \emph{desenvolviendo} la recurrencia en un tamaño\
 fijo de copias de la LSTM (digamos, $N$). En el tiempo $t+1$, se calcula la probabilidad que tiene\
 cada palabra en el diccionario de ser $S_{t+1}$ a partir de $p(S_t|I,S_0,\ldots,S_{t-1})$.\
@@ -226,7 +235,7 @@ En resumen,
 \begin{align}
   x_{-1} &= CNN(I)\\
   x_t &= W_eS_t,\ \ t \in \{0,\ldots,N-1\}\\
-  p_{t+1} &= LSTM(x_t),\ \ t \in \{0,\ldots,N-1\}
+  p_{t+1} &= LSTM(x_t),\ \ t \in \{0,\ldots,N-1\} \label{lstm-output}
 \end{align}
 donde $x_{-1}$ indica la primera entrada de la LSTM, $x_t$ son las entradas subsecuentes,
 $W_e$ es un tensor que incrusta la palabra $S_t$ en el mismo espacio vectorial que $CNN(\cdot)$ y\
@@ -240,9 +249,9 @@ Cabe destacar que $S_t$ se representa matricialmente como un vector codificado \
 El error de la arquitectura se calcula mediante la verosimilitud logarítmica negativa,\
 sumando cada palabra:
 \begin{equation}
-  L(I, S) = - \sum_{t=1} ^N \log p_t(S_t). 
+  L(I, S) = - \sum_{t=1}^N \log p_t(S_t).
 \end{equation}
-Acto seguido, se minimiza este error con respecto a todos los parámetros de la LSTM, la penúltima\
+Acto seguido, se minimiza este error con respecto a todos los parámetros de la LSTM, la última (¡ver la siguiente sección!)\
 capa de la CNN y las incrustaciones $W_e$.\par
 Finalmente, para la generación de enunciados se utiliza el algoritmo de \textbf{búsqueda por haces}\
 (\emph{beam search} en inglés). Iterativamente, se considera el conjunto de las $k$ mejores palabras\
@@ -259,3 +268,89 @@ que son candidatas para ser $S_t$ en el tiempo $t$. Esto es una aproximación de
     (Tomado de \url{https://arxiv.org/pdf/1411.4555.pdf}.)}
   \label{show_and_tell_architecture}
 \end{figure}
+
+\section{Aprendizaje por transferencia}
+
+\noindent
+En cada una de las capas de una CNN \emph{profunda}, como las de la Tabla \ref{capas-inception}, se abstraen\
+distintas características del conjunto de datos aprendido. ¿Por qué colocar capas MLP tras sucesiones de CONV?\
+Otra interpretación de lo que pasa dentro de una capa \emph{densa} consiste en pensar en un cambio de\
+espacio vectorial. Cuando la dimensión de la salida es menor que la de la entrada, podemos afirmar que el\
+espacio ``objetivo'' comprime la información contenida en las capas previas. Así es como la última\
+capa de una arquitectura convolucional preserva la información adquirida tras el entrenamiento.\par
+Asumiendo una reducción considerable del error de entropía cruzada y, tras una existosa evaluación\
+a través de distintas métricas\footnote{
+  Las métricas de evaluación de una CNN se discuten en la Sección \ref{sec:metrics}.
+},\
+la red convolucional por sí sola pasa a ser un excelente mecanismo de extracción de características de un conjunto\
+de datos. Para entrenar una red de la profundidad de \emph{Inception V3} se requiere una cantidad de\
+imágenes que muchas veces excede los \verb+10 GB+ en tamaño total. Además, el hecho de reunir semejante tamaño de imágenes\
+es, en sí, un tema de gran importancia para las ciencias de datos y un trabajo difícil de lograr.\par
+Por ello, la comunidad de \textbf{código abierto} (\emph{open source} en inglés) suele compartir los pesos\
+de los parámetros que usaron para entrenar una arquitectura profunda con un conjunto de datos como \emph{Imagenet}.\
+Así es como
+Dada la riqueza de dicho conjunto de datos, resulta completamente viable suponer que los atributos más importantes\
+que comprende un meme de Internet serán identificados por la última capa de \emph{Inception V3}.\par
+Consecuentemente, nos ahorramos el entrenamiento de una arquitectura convolucional profunda ``desde cero'' y\
+utilizamos los vectores resultantes de un lote de entrenamiento como memoria inicial de la LSTM. Por otro lado,\
+el nivel de abstracción que adquiere una CNN entrenada con \emph{Imagenet} es demasiado amplio, en comparación,\
+con lo que necesitamos para obtener una buena representación vectorial de un meme\footnote{
+  Un meme obtenido de \url{https://memegenerator.net} consiste básicamente en el rostro de un personaje\
+  (``viralmente'') famoso centrado en la imagen. Aprender un conjunto de datos obtenido de este sitio se\
+  reduce, entonces, a localizar las características más importantes del rostro del personaje en cuestión.
+}.\
+En este caso, es posible utilizar la distribución probabilística (multivariada) resultante de\
+\emph{Inception V3} para mejorar la generalización de una distribución que se enfoque en reconocer atributos de memes.\par
+Hablamos, ahora, de un área de estudio conocida como \textbf{aprendizaje por transferencia}.\
+A partir del aprendizaje de una distribución $P_1$, ¿qué tanto ésta puede ser explotada para\
+aprender otra distribución $P_2$? Para un conjunto de datos como \emph{Imagenet}, es común que las\
+primeras capas de un arquitectura profunda se especialicen en detectar pequeños atributos: desde bordes,
+cambios de brillo, texturas y partes sombreadas hasta estructuras geométricas básicas (Figura \ref{first-layer}).\
+Hace sentido, entonces, utilizar la especialización de estas capas para\
+extraer las características más fundamentales de un conjunto de memes.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{first-layer}
+  \caption{
+    Así se ven los filtros entrenados de la primera capa de una CNN profunda.
+    En este caso se trata de una AlexNet. La literatura suele conocer a los resultados de estos
+    filtros como \emph{``características generales''}.
+    (Tomado de \url{http://cs231n.github.io/understanding-cnn/}.)}
+  \label{first-layer}
+\end{figure}
+
+El procedimiento consecuente a la idea del aprendizaje por transferencia consiste en \textbf{afinar}\
+la red neuronal, continuando con el algoritmo de propagación hacia atrás. Esto se hace con un nuevo\
+conjunto de datos (el de memes). Usualmente, se propaga el error únicamente sobre algunas de las últimas\
+capas (más \emph{específicas}), del modelo; si se vuelven a entrenar todas las capas, cabe la posibilidad\
+de llegar a un sobreajuste \cite{DBLP:journals/corr/YosinskiCBL14}.\par
+El enfoque tomado para este trabajo consiste en experimentar con una red \emph{Inception V3} como\
+extractora de características. Más aún, se probará afinando dicha arquitectura con el conjunto de datos\
+reunido. El tamaño del mismo permite hacer dicha afinación.
+
+\section{La arquitectura en acción}\label{sec:arq-accion}
+
+\noindent
+Antes de pasar a describir los experimentos realizados para esta tesis, vale la pena echar\
+un vistazo formal a cómo funciona el modelo propuesto. De acuerdo a las elecciones de implementación\
+(descritas en el siguiente capítulo), la arquitectura tiene tres \verb+modos de operación+:\
+\verb+entrenamiento+, \verb+inferencia+ y \verb+evaluación+. Éstos dos últimos consisten en hacer predicciones, utilizando\
+el algoritmo de búsqueda por haces para generar un enunciado o añadiendo métricas de evaluación, respectivamente.\par
+En cualquiera de estos modos de operación, una entrada del modelo se puede entender como un par ordenado\
+$(I, S)$, donde
+\begin{itemize}
+\item $I$ es un tensor que representa a una imagen (cuadrada) con dimensión fija (\verb+n+), es decir,
+  posee tres dimensiones de la forma \verb+[n, n, 3]+;
+\item $S$ es un vector cuya dimensión se define por el tamaño del vocabulario obtenido a partir de todas\
+  las palabras que conforman el conjunto de datos.
+\end{itemize}\par
+Usualmente, el vocabulario se construye enumerando todas las palabras existentes (sin repeticiones); $S$ está\
+formado, entonces, por los índices numéricos de las respectivas palabras en el vocabulario. En el modo de\
+\verb+entrenamiento+, el algoritmo de descenso por el gradiente estocástico sugiere utilizar lotes de\
+datos, por lo que los valores de las dimensiones tanto de $I$ como de $S$ suelen ser de la forma\
+\verb+[tamaño_lote, n, n, 3]+ y \verb+[tamaño_lote, tamaño_vocabulario]+, respectivamente.\par
+En los tres modos, se procede con el cálculo de $CNN(\cdot)$. En el modo de \verb+entrenamiento+\
+se sigue hasta el cálculo dado por la Ecuación \ref{lstm-output} y se propaga el error sobre la\
+LSTM desenvuelta. Tanto en \verb+inferencia+ como en \verb+evaluación+ se utiliza la LSTM en su\
+forma recurrente, dado que será necesario utilizar el tensor resultante de la Ecuación \ref{lstm-output}.

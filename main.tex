@@ -21,9 +21,16 @@
 \usepackage{listings}
 \usepackage{enumitem}
 \usepackage{tabularx}
+\usepackage{caption}
+\usepackage{dirtree}
+\usepackage{cleveref}
+
+\newtheorem{experiment}{Experimento}
 
 \DeclareMathOperator*{\argmin}{arg\,min}
 \DeclareMathOperator*{\argmax}{arg\,max}
+
+\setcounter{secnumdepth}{3}
 
 \addbibresource{bibliography.bib}
 \setlength{\parindent}{4em}
@@ -34,6 +41,8 @@
 \graphicspath{{img/}} %% image directory
 
 \begin{document}
+
+\captionsetup[table]{name={Tabla}}
 
 \thispagestyle{empty}
 
@@ -95,6 +104,8 @@
 \input{chapters/red_neuronal_memes.tex}
 \input{chapters/evaluacion.tex}
 \input{chapters/conclusiones.tex}
+
+\includegraphics[width=\linewidth]{thesis-its-finally-finished}
 
 %% \bibliographystyle{acm}
 %% \bibliography{bibliography}
