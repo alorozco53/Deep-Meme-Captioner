@@ -19,16 +19,18 @@ se construyen para el mundo de los videojuegos.
 \section{Estructura del conjunto de datos} \label{sec:dataset}
 
 \noindent
-Como ya fue mencionado anteriormente, los datos se obtuvieron del sitio \url{https://memegenerator.net}.
+Como ya fue mencionado anteriormente, los datos se obtuvieron del sitio \verb+MemeGenerator.net+%
+\footnote{\url{https://memegenerator.net}}.\
 La información recabada en este sitio es reunida a través de usuarios alrededor del mundo,\
 quienes de manera libre tienen la posibilidad de generar un nuevo meme. El sitio, además,\
 agrupa a los memes en personajes (Figura \ref{meme-characters}), y los jerarquiza en base a\
-su popularidad\footnote{
+su popularidad%
+\footnote{
   Más aún, cualquier usuario puede crear libremente un personaje nuevo, lo que habilita la idea de\
   buscar y agrupar los memes de acuerdo a su personaje.
-}.\par
+}.
 
-\begin{figure}[H]
+\begin{figure}[h]
   \centering
   \begin{minipage}[l]{0.3\linewidth}
     \includegraphics[width=\linewidth]{meme1}
@@ -75,27 +77,35 @@ la búsqueda de la información y la acumulación de los datos. Se escribió un 
 programación \textbf{Python} (versión 3.6)\footnote{\url{https://www.python.org}} con la biblioteca\
 \textit{Scrapy} (versión 1.4.0)\footnote{\url{https://scrapy.org}}, la cual organiza hilos de ejecución concurrentes\
 para obtener el contenido de las \verb+URL+'s necesarias mediante peticiones \verb+GET+ de \verb+HTTP+.\
-Al final, se organizaron los datos bajo la siguiente jerarquía:\par
-\vspace*{0.5cm}
-\dirtree{%
-  .1 personaje-1/.
-  .2 personaje-1{.}csv.
-  .2 personaje-1{.}jpg.
-  .2 personaje-1-metadata{.}csv.
-  .1 personaje-2/.
-  .2 personaje-2{.}csv.
-  .2 personaje-2{.}jpg.
-  .2 personaje-2-metadata{.}csv.
-  .1 {.}.
-  .1 {.}.
-  .1 {.}.
-  .1 personaje-n/.
-  .2 personaje-n{.}csv.
-  .2 personaje-n{.}jpg.
-  .2 personaje-n-metadata{.}csv.
-}\par
-Como se observa, los datos se guardaron bajo el formato \verb+CSV+, asociando cada leyenda con la \verb+URL+\
-de su meme asociado y su idioma de origen (Figura \ref{meme-file}). Se estima que un $90\%$ de datos está en inglés.
+Al final, se organizaron los datos bajo la jerarquía presente en la Figura \ref{file-hierarchy}.
+
+\begin{figure}[h]
+  \centering
+  \begin{minipage}[l]{\linewidth}
+    \dirtree{%
+      .1 personaje-1/.
+      .2 personaje-1{.}csv.
+      .2 personaje-1{.}jpg.
+      .2 personaje-1-metadata{.}csv.
+      .1 personaje-2/.
+      .2 personaje-2{.}csv.
+      .2 personaje-2{.}jpg.
+      .2 personaje-2-metadata{.}csv.
+      .1 {.}.
+      .1 {.}.
+      .1 {.}.
+      .1 personaje-n/.
+      .2 personaje-n{.}csv.
+      .2 personaje-n{.}jpg.
+      .2 personaje-n-metadata{.}csv.
+    }
+  \end{minipage}
+  \caption{
+    Como se observa, los datos se guardaron bajo el formato \texttt{CSV}, asociando cada leyenda con la \texttt{URL}
+    de su meme asociado y su idioma de origen (Figura \ref{meme-file}). Se estima que un $90\%$ de datos está en inglés.
+  }
+  \label{file-hierarchy}
+\end{figure}
 
 \begin{figure}[H]
   \centering
@@ -433,7 +443,7 @@ los $k=3$ mejores enunciados para cada imagen.
 La evaluación de un modelo de aprendizaje automático suele ser un proceso subestimado, sobre todo\
 si la función de error elegida para ser optimizada fue minimizada durante el entrenamiento.\
 No obstante, el efectuar algunas métricas, traen consigo evidencia de la buena generalización\
-del modelo. Las Figuras \ref{eval:exp2} \ref{eval:exp3} ilustran con gráficos algunas métricas de\
+del modelo. Las Figuras \ref{eval:exp2} y \ref{eval:exp3} ilustran con gráficos algunas métricas de\
 evaluación utilizadas para el desempeño de las CNNs usadas para los experimentos.
 
 \begin{figure}[H]
