@@ -28,7 +28,16 @@ su popularidad%
 \footnote{
   Más aún, cualquier usuario puede crear libremente un personaje nuevo, lo que habilita la idea de\
   buscar y agrupar los memes de acuerdo a su personaje.
-}.
+}.\par
+En total, se reunieron \textbf{4379} personajes del sitio web antes mencionado. Por cada uno de ellos\
+el número de leyendas usadas para entrenar varía según los resultados obtenidos en cada experimento.\
+Considerando que es necesario dividir un conjunto de datos en subconjuntos de entrenamiento y\
+validación%
+\footnote{
+  Usualmente esta división se realiza muestreando aleatoriamente del $70$ al $80\%$ de los datos\
+  para entrenamiento y del $30$ al $20\%$ para validación.
+}, podemos afirmar que el tamaño de los datos de entrenamiento es pequeño en relación a otros\
+conjuntos como \emph{ImageNet}.
 
 \begin{figure}[h]
   \centering
@@ -136,6 +145,27 @@ Al final, se organizaron los datos bajo la jerarquía presente en la Figura \ref
   \label{meme-separation}
 \end{figure}
 
+\section{Generación de leyendas}
+
+\noindent
+El modo \verb+inferencia+ del modelo consiste en generar una leyenda para una imagen de entrada.\
+Dada la manera con la cual se representa el modelo de lenguaje aprendido del conjunto de datos\
+de entrenamiento, sabemos que por cada palabra hay una distribución de probabilidad que evalúa\
+qué tan viable es que cada palabra del vocabulario sea la que sigue. Por lo tanto, muchas veces\
+conviene observar los $k$ enunciados que \emph{mejor} describen una imagen, maximizando la\
+probabilidad conjunta entre cada una de las palabras que los componen (en orden).\par
+La \textbf{búsqueda por haces} (\emph{beam search}, en inglés) es algoritmo que logra calcular\
+enunciados de \emph{``máxima verosimimilitud''}. El procedimiento incorpora a un agente cuyo\
+objetivo es encontrar el camino de mayor \emph{peso} posible en una máquina de estados, en la cual solo\
+tiene conocimiento del estado actual y los pesos para llegar a los vecinos del mismo. La salida\
+del algoritmo muestra los $k$ enunciados más viables para cierta imagen. El agente, entonces\
+registra de manera paralela las $k$ palabras de mayor probabilidad que sucedan a la palabra anterior.\par
+Normalmente, esto se programa mediante $k$ hilos de ejecución en paralelo. Cada uno se inicializa\
+aleatoriamente con las $k$ palabras de inicio de mayor probabilidad. En el paso $t$, cada\
+hilo vuelve a calcular los $k$ siguientes mejores estados (un total de $k^2$ estados) y, al final,\
+el agente se queda con los mejores $k$ para proceder al paso $t+1$. En este caso, se consideraron\
+los $k=3$ mejores enunciados para cada imagen.
+
 \section{Experimentos}
 
 \noindent
@@ -143,7 +173,7 @@ Los experimentos realizados obedecen a lo sugerido por la teoría presentada en 
 Se buscó seguir la metodología sugerida por el \emph{estado del arte} (\cite{DBLP:journals/corr/VinyalsTBE16}).\
 Por ello, se eligió trabajar con el lenguaje de programación Python (versión 3.6) y las bibliotecas\
 \textbf{Tensorflow} (versión 1.3.0)\footnote{\url{https://www.tensorflow.org}} y \textbf{Keras}\
-(versión 2.0.8)\footnote{\url{https://keras.io}}.\par
+(versión 2.0.9)\footnote{\url{https://keras.io}}.\par
 Ambas bibliotecas son obra \emph{reciente} de la división de código abierto de \emph{Google}.\
 \emph{Tensorflow} surgió como una iniciativa para compartir la manera en que dicha empresa despliega\
 sus proyectos que involucran aprendizaje profundo. El paradigma que se sigue consiste en definir un\
@@ -159,31 +189,32 @@ facilita la tarea de definir un modelo profundo con una sintaxis más amigable q
 y configura algunos \emph{hiper-parámetros} de ésta, con el fin de facilitar el prototipado de redes neuronales\
 profundas.
 
-\subsection{El \emph{primer} experimento}
+\subsection{Experimentos exploratorios}
 
 \noindent
 Vinyals, \emph{et al}, presentan tanto en \cite{DBLP:journals/corr/VinyalsTBE14} como en \cite{DBLP:journals/corr/VinyalsTBE16}\
 el \emph{estado del arte} de los modelos neuronales capaces de generar descripciones a partir de imágenes.\
 Por ende, el primer paso experimental consistió en replicar el entrenamiento completo, usando el conjunto de datos\
-\emph{ImageNet}.
-
-\begin{experiment} \label{experiment:1}
-  Utilizando pesos pre-entrenados%
-  \footnote{
-    \emph{Tensorflow} provee un conjunto de modelos previamente entrenados bajo un subconjunto de\
-    \emph{ImageNet} (\url{http://www.image-net.org/challenges/LSVRC/2012/}). Esto ahorra tiempo en la vectorización\
-    de imágenes. Para mayor información, consultar el sitio\
-    \url{https://github.com/tensorflow/models/tree/master/research/slim\#tensorflow-slim-image-classification-library}.
-  } de Inception V3, se realizó el proceso de generar un tensor de incrustaciones de las imágenes de ImageNet\
-  en un espacio vectorial. Acto seguido se alimentó una LSTM con dicho tensor, como memoria inicial, y se\
-  entrenó utilizando las leyendas asociadas a cada imagen.
-\end{experiment}
-
-Dentro de las ventajas consecuentes del Experimento \ref{experiment:1}, está el tener una implementación\
+\emph{ImageNet}.\par
+Utilizando pesos pre-entrenados%
+\footnote{
+  \emph{Tensorflow} provee un conjunto de modelos previamente entrenados bajo un subconjunto de\
+  \emph{ImageNet} (\url{http://www.image-net.org/challenges/LSVRC/2012/}). Esto ahorra tiempo en la vectorización\
+  de imágenes. Para mayor información, consultar el sitio\
+  \url{https://github.com/tensorflow/models/tree/master/research/slim\#tensorflow-slim-image-classification-library}.
+} de Inception V3, se realizó el proceso de generar un tensor de incrustaciones de las imágenes de ImageNet\
+en un espacio vectorial. Acto seguido se alimentó una LSTM con dicho tensor, como memoria inicial, y se\
+entrenó utilizando las leyendas asociadas a cada imagen.\par
+Dentro de las ventajas consecuentes de este experimento, está el tener una implementación\
 de una LSTM para ser entrenada de nuevo, con cualquier memoria inicial. El desempeño del entrenamiento\
 se ilustra en la Figura \ref{exp1}. Es importante destacar que, dadas las altas dimensiones con las que\
 se trabaja en cada capa, se estima que se requieren alrededor de 1 millón de épocas para que el error\
-dado por la entropía cruzada se estabilice en un valor mínimo.
+dado por la entropía cruzada se estabilice en un valor mínimo (este comportamiento es común para la mayoría\
+de los experimentos subsecuentes).\par
+El objetivo principal de este primer experimento era familiarizarse con el uso de las implementaciones y la\
+tecnología necesaria para realizar aprendizaje profundo. Por ende, se decidió dejar a un lado la evaluación\
+del desempeño de este modelo neuronal, mediante un conjunto de datos independiente del de entrenamiento y\
+validación.
 
 \begin{figure}[H]
   \centering
@@ -194,17 +225,52 @@ dado por la entropía cruzada se estabilice en un valor mínimo.
     \includegraphics[width=\linewidth]{exp1-2}
   \end{minipage}
   \caption{
-    De esta manera se ve la función de el error por entropía cruzada asociado al modelo del
-    Experimento \ref{experiment:1}. En el gráfico de la parte superior se muestra el error
+    Función de error de entropía cruzada para el primer experimento exploratorio.
+    En el gráfico de la parte superior se muestra el error
     a través de cada época del entrenamiento, mientras que el de la parte inferior se
-    calculó por medio de un conjunto de datos de validación (de menor tamaño que el de entrenamiento).
+    calculó por medio de un conjunto de datos de \emph{validación} (de menor tamaño que el de entrenamiento).
     (Fuente: elaboración propia.)
   }
   \label{exp1}
 \end{figure}
 
+Tenemos, ahora, una CNN que es ``experta'' en etiquetar imágenes con detalles muy generales. Vale la pena,\
+entonces, probarla con el conjunto de datos de memes. Buscamos ver, de entrada, que sea capaz de distinguir\
+entre dos imágenes distintas (mediante representaciones vectoriales muy diferentes), que además se\
+refleje en la discrepancia entre las leyendas generadas. Para ello, diseñamos un experimento en el\
+que entrenamos una LSTM con una memoria inicial dada por los códigos convolucionales obtenidos\
+a partir de \textbf{97} personajes del conjunto de datos. Estos personajes pasarán por la red\
+\emph{Inception V3} pre-entrenada del experimento anterior.\par
+Cada personaje posee un promedio de 700 leyendas, pues el número total de leyendas por personaje varía\
+según la popularidad del mismo. Cabe destacar que el vocabulario construído tuvo alrededor de 20 mil palabras distintas.\
+El desempeño fue deficiente tanto en entrenamiento (Figura \ref{exp4}) como en resultados \emph{anecdóticos}.\
+Las siguientes observaciones fueron notables:
+\begin{itemize}
+\item los códigos convolucionales resultantes del paso por la CNN fueron indistinguibles entre\
+  una imagen y otra, dejando en claro la necesidad de realizar una afinación);
+\item lo anterior provocó que las leyendas fueran todas iguales para imágenes distintas;
+\item el elevado tamaño del vocabulario no favoreció al modelo para poder asignar probabilidades,\
+  condicionales, al momento de generar frases (repetición palabras de manera contigua).
+\end{itemize}\par
+El bajo desempeño de este experimento motivó a \emph{no} realizar una evaluación de los resultados pero\
+trajo consigo dos hipótesis para considerarse. La primera de ellas consiste en afinar la red \emph{Inception V3}\
+con el conjunto de datos de memes, pues se cree que el modelo implícito en sus parámetros pre-entrenados\
+explora detalles mucho más generales de los requeridos para clasificar imágenes como las mostradas en la\
+Figura \ref{meme-characters}. Dado el tamaño del conjunto de datos, se plantea, de igual manera, como\
+hipótesis, la viabilidad de que una CNN más \textbf{superficial} (menos profunda) tenga éxito al\
+generar códigos convolucionales.
 
-\subsection{Afinación de \emph{Inception V3}}
+\begin{figure}[h]
+  \includegraphics[width=\linewidth]{exp4-1}
+  \caption{
+    Función de error para el experimento que utiliza la CNN \emph{Inception V3}
+    con pesos pre-entrenados, sin ser afinada.
+    (Fuente: elaboración propia.)
+  }
+  \label{exp4}
+\end{figure}
+
+\subsection{Experimentos que involucran la afinación de una arquitectura convolucional profunda}
 
 \noindent
 Para aprovechar la especialización que posee \emph{Inception V3}, de reconocer patrones simples en\
@@ -216,43 +282,175 @@ Por otro lado, dadas las características de las imágenes de los memes, existe 
 a clasificar \emph{ImageNet}. Esto nos brindó la solución para poder afinar a \emph{Inception V3}: colocar\
 una capa MLP, al final de la red, con salida de dos dimensiones para decidir si la entrada es, o no es,\
 un meme.\par
-Las imágenes \emph{``no memes''} utilizadas en este punto se tomaron aleatoriamente muestreando alrededor\
-de 4 mil ejemplares de \emph{ImageNet}. Se trabajó bajo la premisa de que la profundidad de la red\
+Las imágenes \emph{``no memes''} utilizadas en este punto se tomaron aleatoriamente muestreando 4379 de \emph{ImageNet}.\
+Se trabajó bajo la premisa de que la profundidad de la red\
 alcanzará para generalizar la identificación de las características presentes en un meme. Después de todo,\
 nuestro conjunto de datos posee imágenes de mucho menor complejidad que las existentes en \emph{Inception V3}.
+En total, se dejaron 3065 imágenes (memes y no memes) para entrenamiento, 657 para validación y 657 para evaluación;
+el resultado de este proceso se ilustra en la Figura \ref{exp2}. El desempeño fue bastante favorable,\
+ya que se minimizó considerablemente el error de la entropía cruzada. Además, con el conjunto de\
+evaluación se corroboró dicho rendimiento mediante los gráficos de las métricas de \emph{precisión}%
+\footnote{
+  La \textbf{precisión} (\emph{accuracy}, en inglés) puede ser entendida como el porcentaje\
+  de aciertos que tiene el modelo al intentar predecir un lote de datos. Se busca, entonces,\
+  que su valor esté muy cercano a 1.
+} y \emph{error medio absoluto}%
+\footnote{
+  El \textbf{error medio absoluto} es la diferencia promedio que existe entre los valores\
+  estimados por un modelo ($\hat{Y}$) y los valores reales de un conjunto de datos ($Y$). Esto\
+  se calcula con la expresión
+  \[\frac{\sum_{i=1}^n \hat{Y}_i - Y_i}{n}.\]
+} (Figura \ref{eval:exp2}).
 
-\begin{experiment} \label{experiment:2}
-  Afinación de Inception V3, entrenando un clasificador entre lo que es un meme y lo que no es. Se quita\
-  la última capa y se añade un MLP con dos dimensiones de salida. El desempeño de este experimento\
-  se ilustra en la Figura \ref{exp2}.
-\end{experiment}
-
-\begin{figure}[H]
-  \includegraphics[width=\linewidth]{exp2-1}
+\begin{figure}[h]
+  \begin{minipage}[c]{\linewidth}
+    \includegraphics[width=\linewidth]{exp2-1}
+  \end{minipage}\hfill
+  \begin{minipage}[c]{\linewidth}
+    \includegraphics[width=\linewidth]{exp2-2}
+  \end{minipage}
   \caption{
-    Función de error para el Experimento \ref{experiment:2}.
+    Funciones de error de entrenamiento y validación (gráfico de arriba y de abajo,
+    respectivamente) para la afinación de \emph{Inception V3}.
+    Esto es, entrenar un clasificador entre lo que es un meme y lo que no es. Se quita\
+    la última capa y se añade un MLP con dos dimensiones de salida.
     (Fuente: elaboración propia.)
   }
   \label{exp2}
 \end{figure}
 
-\subsection{Una red convolucional \emph{pequeña}}
+\begin{figure}[H]
+  \centering
+  \begin{minipage}[c]{\linewidth}
+    \includegraphics[width=\linewidth]{exp2-3}
+  \end{minipage}\hfill
+  \begin{minipage}[c]{\linewidth}
+    \includegraphics[width=\linewidth]{exp2-4}
+  \end{minipage}
+  \caption{
+    Dos funciones de evaluación para la afinación de \emph{Inception V3}.
+    El gráfico de la parte superior muestra la \emph{precisión} con la que el modelo realiza
+    sus clasificaciones, mientras que el gráfico de la parte inferior muestra el
+    \emph{error medio absoluto} entre las clasificaciones hechas modelo contra las verdaderas.
+    Ambos gráficos se generaron a partir de un muestreo del $10\%$ de los datos disponibles.
+    (Fuente: elaboración propia.)
+  }
+  \label{eval:exp2}
+\end{figure}
+
+Una vez teniendo afinada una red neuronal profunda, surge la inquietud de ver si esto ayuda\
+a mejorar el primer experimento en el que se entrenó la LSTM usando memes. Por ello\
+se usaron los mismos datos que los que se usaron para dicho experimetno pero\
+con la \emph{Inception V3} previamente afinada. Esto provocó que entre cualesquiera\
+dos imágenes diferentes, existieran dos códigos convolucionales con valores suficientemente\
+distintos; lo que implica que las leyendas generadas serán también distintas.\par
+El tensor de imágenes y leyendas de entrada $(I, S)$ se fue construyendo en orden,\
+de manera que todas las leyendas de un solo personaje permanecían en posiciones contiguas.\
+Dada la cantidad desmedida de leyendas, esto provocó que tras ciertas iteraciones se sobreentrenara\
+el modelo sobre un mismo lote. Así, al probar el modo de \verb+inferencia+ del mismo,\
+se podía observar claramente una tendencia por repetir la ``manera de hablar'' de un cierto personaje\
+(Figura \ref{exp5:anec}). Iteraciones más tarde, esto cambiaba para que el modelo comenzará a repetir la manera de\
+hablar de otro personaje. Una de las evidencias del sobreajuste se ilustra en la Figura \ref{exp5}.\par
+A pesar que las leyendas generadas aparentan tener sentido, el sobreajuste que se dio en varios\
+momentos del entrenamiento motivó a realizar un mayor trabajo de procesamiento previo. En particular,\
+se destaca la importancia de restringir el tamaño del vocabulario, así como de mezclar aleatoriamente\
+los tensores de memoria inicial que alimentarán la LSTM. Esta última acción garantiza que no se repitan\
+ciertas frases un número de veces elevado en cada lote de entrenamiento, por lo que se espera una\
+reducción en el sobreajuste. Por lo tanto, se omitió la evaluación de este experimento, esperando\
+resultados más apegados a la realidad de la distribución del conjunto de entrenamiento.
+
+\begin{figure}[h]
+  \includegraphics[width=\linewidth]{exp5-1}
+  \caption{
+    Función de error para el entrenamiento de la LSTM, dándole como estado inicial\
+    un tensor generado a apartir de la red \emph{Inception V3} afinada.
+    (Fuente: elaboración propia.)
+  }
+  \label{exp5}
+\end{figure}
+
+\begin{figure}[H]
+  \begin{minipage}[c]{\linewidth}
+    \includegraphics[width=\linewidth]{exp5-anec-1}
+  \end{minipage}\hfill
+  \begin{minipage}[c]{\linewidth}
+    \includegraphics[width=\linewidth]{exp5-anec-2}
+  \end{minipage}
+  \caption{
+    Resultados \emph{anecdóticos} del entrenamiento de la LSTM, con previa afinación\
+    de \emph{Inception V3}. Como el orden en los tensores de entrenamiento está determinado\
+    por cada personaje, ocurrió un sobreajuste durante ciertas épocas contiguas. Esto se\
+    muestra mediante la repetición de frases muy características en la elaboración de\
+    leyendas.
+    (Fuente: elaboración propia.)
+  }
+  \label{exp5:anec}
+\end{figure}
+
+Para refinar el desempeño de la CNN afinada, el siguiente experimento se diseñó muestreando aleatoriamente\
+\textbf{3416} personajes. Además, se eliminaron todas las palabras que no aparecen al menos\
+5 veces en todo el conjunto de datos y se usaron únicamente 5 leyendas\
+para cada personaje, con el fin de reducir el tamaño del vocabulario. Por consiguiente\
+el vocabulario se redujo a 4528 palabras.\par
+Previo al entrenamiento, se mezclaron los datos de manera aleatoria en el tensor $(I, S)$;\
+esto provocó la diversificación en la manera con la que se generan leyendas para\
+imágenes que no aparecen en el conjunto de entrenamiento. El comportamiento de la función de\
+error se muestra en la Figura \ref{exp6}.
+
+\begin{figure}[H]
+  \includegraphics[width=\linewidth]{exp6-1}
+  \caption{
+    Función de error para el experimento que involucra la red \emph{Inception V3}
+    afinada y 5 leyendas por personaje en el entrenamiento.
+    (Fuente: elaboración propia.)
+  }
+  \label{exp6}
+\end{figure}
+
+Cualitativamente, la Figura \ref{exp6} muestra una curva descendente más suave, lo que hace pensar\
+que el modelo, en efecto, aprendió a generalizar ciertos detalles del conjunto de datos. En promedio,\
+podemos afirmar que el error de la entropía cruzada baja, con los cambios hechos y da cierto grado de\
+confianza debido a la mezcla aleatoria de las leyendas. Por otro lado, queda la duda de qué pasaría si\
+el tensor de códigos convolucionales es generado a partir de una CNN más superficial, algo que es\
+válido plantearse debido al número de imágenes disponibles.
+
+\begin{figure}[H]
+  \begin{minipage}[c]{\linewidth}
+    \includegraphics[width=\linewidth]{exp6-anec-1}
+  \end{minipage}\hfill
+  \begin{minipage}[c]{\linewidth}
+    \includegraphics[width=\linewidth]{exp6-anec-2}
+  \end{minipage}
+  \caption{
+    Resultados \emph{anecdóticos} del entrenamiento de la LSTM, con previa afinación\
+    de \emph{Inception V3} y reducción del vocabulario. Se puede apreciar la repetición\
+    de palabras, como principal característica.
+    (Fuente: elaboración propia.)
+  }
+  \label{exp6:anec}
+\end{figure}
+
+Este último experimento será el que mejor desempeño trae de los que usaron la red \emph{Inception V3}\
+afinada. Efectuar métricas de evaluación como \emph{precisión} y \emph{error medio absoluto} es una\
+práctica poco común en tareas que involucran generación de texto: la calidad de las leyendas generadas\
+debe ser comparada con un modelo de lenguaje real. Por ello, en la Sección \ref{sec:metrics} presentamos\
+una evaluación basada en una métrica común para el procesamiento del lenguaje natural. La Figura\
+\ref{exp6:anec} muestra algunos resultados anecdóticos de este experimento.
+
+\subsection{Experimentos que involucran una arquitectura convolucional superficial}
 
 \noindent
 Aunque afinar una CNN profunda, previamente entrenada, es un procedimiento justificado por la literatura,\
 el número máximo de imágenes que conforman el conjunto de datos sugiere otro tratamiento.\
-En total se tienen 4379 personajes, de los cuales se suele tomar un $80\%$ para entrenamiento y el resto\
-para validación. Esto indica que entrenar una red neuronal desde cero no es una mala apuesta,\
-después de todo, de acuerdo a \cite{DBLP:journals/corr/YosinskiCBL14}.
+Esto indica que entrenar una red neuronal desde cero no es una mala apuesta,\
+después de todo, de acuerdo a \cite{DBLP:journals/corr/YosinskiCBL14}.\par
+Ahora, presentamos el entrenamiento de una red neuronal superficial (\emph{bastante menos profunda}).\
+Se usaron los mismos datos que para la afinación de \emph{Inception V3}.
+La arquitectura de esta red se muestra en la Tabla \ref{capas-small},\
+el desempeño del entrenamiento se ilustra en la Figura \ref{exp3}, mientras que\
+la evaluación del modelo se encuentra en la Figura \ref{eval:exp3}.
 
-\begin{experiment} \label{experiment:3}
-  Se entrenó una red neuronal \emph{bastante menos profunda} a \emph{Inception V3}. Se usaron\
-  los mismos datos que para la afinación descrita en el Experimento \ref{experiment:2}.\
-  La arquitectura de esta red se muestra en la Tabla \ref{capas-small}, mientras que\
-  el desempeño del entrenamiento se ilustra en la Figura \ref{exp3}.
-\end{experiment}
-
-\begin{table}[H]
+\begin{table}[h]
   \resizebox{\textwidth}{!}{
     \begin{tabular}{|l|c|c|}
       \hline
@@ -275,7 +473,7 @@ después de todo, de acuerdo a \cite{DBLP:journals/corr/YosinskiCBL14}.
     \end{tabular}
   }
   \caption[Nota al pie]{
-    Arquitectura utilizada para el Experimento \ref{experiment:3}. Las capas
+    Arquitectura utilizada para entrenar una CNN superficial. Las capas
     \textbf{DROPOUT} constituyen una popular técnica de \emph{regularización}\footnotemark en
     la que se descarta un porcentaje dado de las neuronas de entrada con el fin
     de evitar un sobreajuste sobre el conjunto de datos en cuestión.
@@ -292,9 +490,15 @@ después de todo, de acuerdo a \cite{DBLP:journals/corr/YosinskiCBL14}.
 }
 
 \begin{figure}[H]
-  \includegraphics[width=\linewidth]{exp3-1}
+  \begin{minipage}[c]{\linewidth}
+    \includegraphics[width=\linewidth]{exp3-1}
+  \end{minipage}\hfill
+  \begin{minipage}[c]{\linewidth}
+    \includegraphics[width=\linewidth]{exp3-2}
+  \end{minipage}
   \caption{
-    Función de error para el Experimento \ref{experiment:3}. Obsérvese que
+    Funciones de error de entrenamiento y validación (gráfico de arriba y de abajo,
+    respectivamente) de la CNN superficial. Obsérvese que
     solo se requirieron alrededor de 150 épocas de entrenamiento para llegar a un
     valor óptimo; esto dado el tamaño del conjunto de datos (\emph{memes} y
     \emph{no memes}) que es bastantes órdenes de magnitud más pequeño el\
@@ -304,140 +508,130 @@ después de todo, de acuerdo a \cite{DBLP:journals/corr/YosinskiCBL14}.
   \label{exp3}
 \end{figure}
 
-\subsection{Entrenamiento de la LSTM}
-
-\noindent
-Teniendo en cuenta las maneras de obtener los \emph{códigos convolucionales} para las imágenes\
-del conjunto de datos de memes, lo que procede es entrenar la LSTM con la correspondiente\
-memoria inicial. A continuación, se listan diversos experimentos junto con una explicación\
-de lo que motivó a llevarse a cabo, así como un breve análisis \emph{empírico} de los resultados obtenidos.\par
-Además, se dan detalles sobre si se hizo algún procesamiento previo de las leyendas de entrenamiento y\
-el vocabulario. En tareas que involucran procesamiento de algún \emph{corpus lingüístico}, es\
-común que se trabaje solamente con palabras en minúsculas, así como la supresión de palabras\
-con un bajo número de frecuencias en el conjunto de datos. En este último caso, se suelen reemplazar\
-dichas palabras por un \emph{token} que indique la imposibilidad de su reconocimiento\
-(\verb+<UNK>+, por ejemplo).
-
-\begin{experiment} \label{experiment:4}
-  Utilizando únicamente 97 personajes, cada uno con un promedio de 700 leyendas, se entrenó\
-  una LSTM sin restricción del vocabulario. Es decir, no se hizo procesamiento previo alguno sobre\
-  las leyendas; por ende, el vocabulario construído tuvo alrededor de 20 mil palabras distintas.\
-  Además, se utilizó como CNN a la \emph{Inception V3} sin ser afinada, con los pesos previamente\
-  entrenados sobre \emph{ImageNet}.\par
-  El desempeño fue deficiente tanto en entrenamiento (Figura \ref{exp4}) como en los resultados.\
-  Las siguientes observaciones fueron notables:
-  \begin{itemize}
-  \item los códigos convolucionales resultantes del paso por la CNN fueron indistinguibles entre\
-    una imagen y otra, dejando en claro la necesidad de realizar una afinación);
-  \item lo anterior provocó que las leyendas fueran todas iguales para imágenes distintas.
-  \end{itemize}
-\end{experiment}
-
-\begin{figure}[h]
-  \includegraphics[width=\linewidth]{exp4-1}
-  \caption{
-    Función de error para el Experimento \ref{experiment:4}.
-    (Fuente: elaboración propia.)
-  }
-  \label{exp4}
-\end{figure}
-
-\begin{experiment} \label{experiment:5}
-  Se usaron los mismos datos que los que se usaron para el Experimento \ref{experiment:4} pero\
-  con la \emph{Inception V3} previamente afinada. Esto provocó que entre cualesquiera\
-  dos imágenes diferentes, existieran dos códigos convolucionales con valores suficientemente\
-  distintos; lo que implica que las leyendas generadas serán también distintas.\par
-  El tensor de imágenes y leyendas de entrada $(I, S)$ se fue construyendo en orden,\
-  de manera que todas las leyendas de un solo personaje permanecían en posiciones contiguas.\
-  Dada la cantidad desmedida de leyendas, esto provocó que tras ciertas iteraciones se sobreentrenara\
-  el modelo sobre un mismo lote. Así, al probar el modo de \verb+inferencia+ del mismo,\
-  se podía observar claramente una tendencia por repetir la ``manera de hablar'' de un cierto personaje.\
-  Iteraciones más tarde, esto cambiaba para que el modelo comenzará a repetir la manera de\
-  hablar de otro personaje. Una de las evidencias del sobreajuste se ilustra en la Figura \ref{exp5}.
-\end{experiment}
-
-\begin{figure}[h]
-  \includegraphics[width=\linewidth]{exp5-1}
-  \caption{
-    Función de error para el Experimento \ref{experiment:5}.
-    (Fuente: elaboración propia.)
-  }
-  \label{exp5}
-\end{figure}
-
-\begin{experiment} \label{experiment:6}
-  Aquí se usaron alrededor de 3 mil personajes, eliminando todas las palabras que no aparezcan al menos\
-  5 veces en todo el conjunto de datos. Además, se mezclaron los datos de manera aleatoria en el\
-  tensor $(I, S)$; esto provocó la diversificación en la manera con la que se generan leyendas para\
-  imágenes que no aparecen en el conjunto de entrenamiento. Más aún, se usaron únicamente 5 leyendas\
-  para cada personaje, los cuales fueron procesados por la \emph{Inception V3} afinada. El desempeño\
-  convergió de la manera ilustrada en la Figura \ref{exp6}.
-\end{experiment}
+Procedemos, entonces, a replicar el último experimento realizado en la sección anterior.\
+Sin embargo, esta vez se utilizamos la CNN superficial entrenada sobre memes y no memes.\
+El entrenamiento arrojado (Figura \ref{exp7}) fue muy similar a lo observado en la\
+Figura \ref{exp6}; no obstante, se logró una mejora en la calidad de las leyendas\
+sin ser un detalle anecdótico muy considerable (Figura \ref{exp7:anec}).
 
 \begin{figure}[H]
-  \includegraphics[width=\linewidth]{exp6-1}
+  \centering
+  \begin{minipage}[c]{\linewidth}
+    \includegraphics[width=\linewidth]{exp3-3}
+  \end{minipage}\hfill
+  \begin{minipage}[c]{\linewidth}
+    \includegraphics[width=\linewidth]{exp3-4}
+  \end{minipage}
   \caption{
-    Función de error para el Experimento \ref{experiment:6}.
-    NOTA: ESTA IMAGEN DEBE SER ACTUALIZADA.
+    Dos funciones de evaluación para el modelo convolucional superficial.
+    El gráfico de la parte superior muestra la \emph{precisión} con la que el modelo realiza
+    sus clasificaciones, mientras que el gráfico de la parte inferior muestra el
+    \emph{error medio absoluto} entre las clasificaciones hechas modelo contra las verdaderas.
+    Ambos gráficos se generaron a partir de un muestreo del $10\%$ de los datos disponibles.
     (Fuente: elaboración propia.)
   }
-  \label{exp6}
+  \label{eval:exp3}
 \end{figure}
 
+Hasta este punto, podemos decir que hemos construido dos modelos convolucionales capaces\
+de distinguir entre cualesquiera dos personajes. La tarea pendiente recae en hallar los\
+(\emph{híper})-parámetros necesarios para que las leyendas generadas tengan más sentido a juicio\
+de un ser humano. Por ello, reportamos un último experimento que involucra un mayor número de palabras\
+por personaje.
 
-\begin{experiment} \label{experiment:7}
-  Este experimento fue idéntico al Experimento \ref{experiment:6}; sin embargo, se utilizó la CNN pequeña\
-  descrita en el Experimento \ref{experiment:3}. El entrenamiento arrojado fue muy similar a lo obtenido\
-  en el Experimento \ref{experiment:6} (Figura \ref{exp7}); no obstante, se buscaba mejorar la calidad de las leyendas\
-  generadas, algo que se logró sin ser una gran mejora empírica.
-\end{experiment}
+\begin{figure}[H]
+  \begin{minipage}[c]{\linewidth}
+    \includegraphics[width=\linewidth]{exp7-anec-1}
+  \end{minipage}\hfill
+  \begin{minipage}[c]{\linewidth}
+    \includegraphics[width=\linewidth]{exp7-anec-2}
+  \end{minipage}
+  \caption{
+    Resultados \emph{anecdóticos} del entrenamiento de la LSTM, a partir de una CNN superficial.
+    Al igual que con la red \emph{Inception V3}, hay una considerable repetición de palabras.
+    El desempeño mostrado sugiere pensar que la generalización de las imágenes pertenecientes
+    al conjunto de datos no requiere de un modelo que explore, con gran detalle, sus características
+    más intrínsecas.
+    (Fuente: elaboración propia.)
+  }
+  \label{exp7:anec}
+\end{figure}
 
-\begin{figure}[h]
+\begin{figure}[H]
   \includegraphics[width=\linewidth]{exp7-1}
   \caption{
-    Función de error para el Experimento \ref{experiment:7}.
+    Función de error para el entrenamiento de la LSTM, usando 5 leyendas por personaje,
+    un vocabulario reducido y códigos convolucionales generados a partir de una CNN superficial.
     (Fuente: elaboración propia.)
   }
   \label{exp7}
 \end{figure}
 
-\begin{experiment} \label{experiment:8}
-  Con los mismos datos que para los dos experimentos anteriores y con la CNN pequeña, se realizó\
-  el entrenamiento cuyo desempeño de ilustra en la Figura \ref{exp8}. Ahora se aumentó a 20 el\
-  número de leyendas por imagen.
-\end{experiment}
-
-\begin{figure}[h]
+\begin{figure}[H]
   \includegraphics[width=\linewidth]{exp8-1}
   \caption{
-    Función de error para el Experimento \ref{experiment:8}.
+    Función de error para el entrenamiento de la LSTM, con códigos convolucionales dados
+    por una CNN superficial y 20 leyendas por imagen. Como se observa, existe una ligera
+    disminución en el error resultante al final del entrenamiento, con respecto al obtenido
+    en experimentos anteriores.
     (Fuente: elaboración propia.)
   }
   \label{exp8}
 \end{figure}
 
-\subsection{Generación de leyendas}
+\begin{figure}[H]
+  \begin{minipage}[c]{\linewidth}
+    \includegraphics[width=\linewidth]{exp8-anec-1}
+  \end{minipage}\hfill
+  \begin{minipage}[c]{\linewidth}
+    \includegraphics[width=\linewidth]{exp8-anec-2}
+  \end{minipage}
+  \caption[Nota al pie]{
+    Resultados \emph{anecdóticos} del entrenamiento de la LSTM, a partir de una CNN superficial
+    y 20 leyendas por personaje. Aquí cabe destacar que cuando una palabra sucede a otra, si éstas son distintas,
+    la lógica entre \emph{categorías gramaticales} suele hacer sentido a juicio de un ser humano.
+    Por ejemplo, la aparición de un artículo antes de un sustantivo o verbos a la mitad de la leyenda.
+    (Fuente: elaboración propia.)
+  }
+  \label{exp8:anec}
+\end{figure}
 
-\noindent
-El modo \verb+inferencia+ del modelo consiste en generar una leyenda para una imagen de entrada.\
-Dada la manera con la cual se representa el modelo de lenguaje aprendido del conjunto de datos\
-de entrenamiento, sabemos que por cada palabra hay una distribución de probabilidad que evalúa\
-qué tan viable es que cada palabra del vocabulario sea la que sigue. Por lo tanto, muchas veces\
-conviene observar los $k$ enunciados que \emph{mejor} describen una imagen, maximizando la\
-probabilidad conjunta entre cada una de las palabras que los componen (en orden).\par
-La \textbf{búsqueda por haces} (\emph{beam search}, en inglés) es algoritmo que logra calcular\
-enunciados de \emph{``máxima verosimimilitud''}. El procedimiento incorpora a un agente cuyo\
-objetivo es encontrar el camino de mayor \emph{peso} posible en una máquina de estados, en la cual solo\
-tiene conocimiento del estado actual y los pesos para llegar a los vecinos del mismo. La salida\
-del algoritmo muestra los $k$ enunciados más viables para cierta imagen. El agente, entonces\
-registra de manera paralela las $k$ palabras de mayor probabilidad que sucedan a la palabra anterior.\par
-Normalmente, esto se programa mediante $k$ hilos de ejecución en paralelo. Cada uno se inicializa\
-aleatoriamente con las $k$ palabras de inicio de mayor probabilidad. En el paso $t$, cada\
-hilo vuelve a calcular los $k$ siguientes mejores estados (un total de $k^2$ estados) y, al final,\
-el agente se queda con los mejores $k$ para proceder al paso $t+1$. En este caso, se consideraron\
-los $k=3$ mejores enunciados para cada imagen.
+Con los mismos datos que para el experimento anterior y con la CNN superficial, se realizó\
+el entrenamiento cuyo desempeño de ilustra en la Figura \ref{exp8}. Ahora se aumentó a 20 el\
+número de leyendas por imagen. En cuanto a detalles anecdóticos, la Figura \ref{exp8:anec}\
+ilustra una generación de leyendas con un poco de más sentido cuando hay dos palabras\
+distintas contiguas. Resumimos los detalles técnicos de todos los experimentos presentados\
+en la Tabla \ref{exp-details}.
 
-\section{Evaluación} \label{sec:metrics}
+\begin{table}[H]
+  \begin{tabular}{|p{0.5\linewidth}|p{0.2\linewidth}|p{0.3\linewidth}|}
+    \hline
+    \textbf{tipo de experimento} & \textbf{número de personajes} & \textbf{número de leyendas por personaje}\\
+    \hline \hline
+    Réplica de entrenamiento de \emph{Inception V3}, como en \cite{DBLP:journals/corr/VinyalsTBE16} & \multicolumn{2}{|c|}{Conjunto de datos \emph{ImageNet}} \\
+    \hline
+    LSTM a partir de \emph{Inception V3} & 97 & 700, en promedio \\
+    \hline
+    Afinación de \emph{Inception V3} & \multicolumn{2}{|c|}{3065 memes y 3065 no memes} \\
+    \hline
+    LSTM a partir de \emph{Inception V3} afinada & 97 & 700, en promedio \\
+    \hline
+    LSTM a partir de \emph{Inception V3} afinada & 3416 & 5 \\
+    \hline
+    Entrenamiento de una CNN superficial & \multicolumn{2}{|c|}{3065 memes y 3065 no memes} \\
+    \hline
+    LSTM a partir de la CNN superficial & 3416 & 5 \\
+    \hline
+    LSTM a partir de la CNN superficial & 3416 & 20 \\
+    \hline
+  \end{tabular}
+  \caption{
+    Resumen de los detalles técnicos presentados en esta sección.
+  }
+  \label{exp-details}
+\end{table}
+
+\section{Evaluación del desempeño de la LSTM} \label{sec:metrics}
 
 \noindent
 La evaluación de un modelo de aprendizaje automático suele ser un proceso subestimado, sobre todo\
@@ -456,32 +650,6 @@ evaluación utilizadas para el desempeño de las CNNs usadas para los experiment
   }
   \label{eval:exp2}
 \end{figure}
-
-\begin{figure}[H]
-  \centering
-  \begin{minipage}[c]{\linewidth}
-    \includegraphics[width=\linewidth]{exp3-2}
-  \end{minipage}\hfill
-  \begin{minipage}[c]{\linewidth}
-    \includegraphics[width=\linewidth]{exp3-3}
-  \end{minipage}
-  \caption[Nota al pie]{
-    Dos funciones de evaluación para el Experimento \ref{experiment:3}.
-    Ambas calculan la \emph{precisión} con la que el modelo realiza
-    sus clasificaciones. El gráfico de la parte superior muestra dicha métrica
-    utilizando los datos de entrenamiento, mientras que para la parte inferior, se
-    usaron los datos de \emph{validación}, los cuales se obtuvieron muestreando\
-    aleatoriamente el $20\%$ del total de los datos para afinar la red neuronal.
-    (Fuente: elaboración propia.)
-  }
-  \label{eval:exp3}
-\end{figure}
-
-\footnotetext{
-  La \textbf{precisión} (\emph{accuracy}, en inglés) puede ser entendida como el porcentaje\
-  de aciertos que tiene el modelo al intentar predecir un lote de datos. Se busca, entonces,\
-  que su valor esté muy cercano a 1.
-}
 
 En el contexto del procesamiento del lenguaje natural, es común preguntarse qué tan \emph{buenos}\
 son los enunciados generados con respecto a un lenguaje referencia. En este caso, se trata\
