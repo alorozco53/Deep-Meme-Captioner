@@ -24,6 +24,8 @@ parser.add_argument('--eval_interval_secs', default=600, help='interval between 
 parser.add_argument('--num_eval_examples', default=10132, help='number of examples for evaluation', type=int)
 parser.add_argument('--min_global_step', default=5000, help='minimum global step to run evaluation', type=int)
 parser.add_argument('--dataset_dir', default='meme_characters/', help='directory where memes are stored')
+parser.add_argument('--vocab_file', default='meme_characters/word_count.txt', help='vocabulary file')
+parser.add_argument('--model_file', default='inception_log3.0/fine_inception.h5', help='model file')
 args = parser.parse_args()
 
 def evaluate_model(sess, model, global_step, summary_writer, summary_op):
@@ -132,7 +134,9 @@ def run():
     g = tf.Graph()
     with g.as_default():
         # Build the model for evaluation.
-        model = MemeModel('eval', args.dataset_dir)
+        model = MemeModel('eval', args.vocab_file,
+                          dataset_dir=args.dataset_dir,
+                          model_file=args.model_file)
         model.build()
 
         # Create the Saver to restore model Variables.

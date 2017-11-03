@@ -13,8 +13,8 @@ from __future__ import print_function
 inception_weights = 'imagenet'
 
 # Dimensions of Inception v3 input images.
-image_height = 299
-image_width = 299
+image_height = 150 # 299
+image_width = 150 # 299
 
 # Proportion of data to be gathered from dataset
 # in the range (0, 1]
@@ -25,16 +25,16 @@ initializer_scale = 0.08
 batch_size = 32 # 100
 queue_capacity = 200
 meta_batch_size = 200
-vocab_size = 500 # 12000
+#vocab_size = 500 # 12000
 
 # Number of threads for image preprocessing. Should be a multiple of 2.
-num_preprocess_threads = 4
+num_preprocess_threads = 2 # 4
 
 # Image embedding size
-embedding_size = 512 # 100
+embedding_size = 100 # 512
 
 # Number of units in LSTM
-num_units = 1000 # 100
+num_units = 100 # 1000
 
 # If < 1.0, the dropout keep probability applied to LSTM variables.
 lstm_dropout_keep_prob = 0.7
