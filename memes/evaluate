@@ -1,0 +1,9 @@
+#! /usr/bin/env bash
+
+python evaluate.py \
+	   model5.11/train \
+	   model5.11/test \
+	   --model_file small-conv/model.h5 \
+	   --dataset_dir batches/part-0-to-11960/ \
+	   --vocab_file batches/word_count.txt \
+	   --eval_interval_secs 30

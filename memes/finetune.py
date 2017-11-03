@@ -12,11 +12,13 @@ import argparse
 
 from keras.callbacks import TensorBoard
 from keras.models import Model, load_model
-from keras.layers import Input, Dense, Dropout, Flatten
+from keras.layers import Input, Dropout, Flatten
 from keras.layers import Conv2D, MaxPooling2D
+from keras.layers import Dense, GlobalAveragePooling2D
 from keras.optimizers import SGD
 from keras.preprocessing import image
 from keras.preprocessing.image import ImageDataGenerator
+from keras.applications.inception_v3 import InceptionV3
 
 def to_categorical(y, num_classes=None):
     """Converts a class vector (integers) to binary class matrix.
@@ -36,34 +38,45 @@ def to_categorical(y, num_classes=None):
     categorical[np.arange(n), y] = 1
     return categorical
 
-def ShitModel(input_shape=(299, 299, 3), output_dim=2):
+def build_model(input_shape=(299, 299, 3), output_dim=2):
     img = Input(shape=input_shape)
-    x = Conv2D(32, 3, 3, activation='relu', name='conv1')(img)
-    x = Conv2D(32, 3, 3, activation='relu', name='conv2')(x)
+    x = Conv2D(32, (3, 3), activation='relu', name='conv1')(img)
+    x = Conv2D(16, (3, 3), activation='relu', name='conv2')(x)
     x = MaxPooling2D(pool_size=(2, 2), name='max_pool1')(x)
     x = Dropout(0.25, name='droput1')(x)
 
-    x = Conv2D(64, 3, 3, activation='relu', name='conv3')(x)
-    x = Conv2D(64, 3, 3, activation='relu', name='conv4')(x)
-    x = MaxPooling2D(pool_size=(2, 2), name='max_pool2')(x)
-    x = Dropout(0.25, name='droput2')(x)
+    # x = Conv2D(64, (3, 3), activation='relu', name='conv3')(x)
+    # x = Conv2D(64, (3, 3), activation='relu', name='conv4')(x)
+    # x = MaxPooling2D(pool_size=(2, 2), name='max_pool2')(x)
+    # x = Dropout(0.25, name='droput2')(x)
 
     x = Flatten(name='flatten')(x)
-    x = Dense(256, activation='relu', name='fc1')(x)
+    x = Dense(128, activation='relu', name='fc1')(x)
     x = Dropout(0.5, name='dropout3')(x)
     x = Dense(output_dim, activation='softmax', name='fc2')(x)
     return Model(img, x)
 
-def train(x_train, y_train, model, datagen, batch_size=32, epochs=10, initial_epoch=0):
+def train(x_train,
+          y_train,
+          model,
+          datagen,
+          test_datagen,
+          logdir,
+          validation_steps=250,
+          batch_size=32,
+          epochs=10,
+          initial_epoch=0):
     # callback config
-    tb = TensorBoard(histogram_freq=1, write_images=True)
+    tb = TensorBoard(log_dir=logdir, write_graph=True, histogram_freq=0, write_images=True)
 
     # fits the model on batches with real-time data augmentation:
     return model.fit_generator(datagen.flow(x_train, y_train, batch_size=batch_size),
-                                samples_per_epoch = len(x_train) / batch_size,
-                                nb_epoch=epochs + initial_epoch,
-                                callbacks=[tb],
-                                initial_epoch=initial_epoch)
+                               steps_per_epoch = len(x_train) / batch_size,
+                               epochs=epochs + initial_epoch,
+                               callbacks=[tb],
+                               initial_epoch=initial_epoch,
+                               validation_data=test_datagen,
+                               validation_steps=validation_steps)
 
 def load_data(meme_path, non_meme_path, size=3000):
     assert os.path.exists(meme_path)
@@ -77,7 +90,7 @@ def load_data(meme_path, non_meme_path, size=3000):
     for meme in os.listdir(meme_path):
         img_path = os.path.join(meme_path, meme, '{}.jpg'.format(meme))
         if os.path.exists(img_path):
-            img = image.load_img(img_path, target_size=(299, 299))
+            img = image.load_img(img_path, target_size=(150, 150))
             x = image.img_to_array(img)
             x = np.expand_dims(x, axis=0)
             count += 1
@@ -97,7 +110,7 @@ def load_data(meme_path, non_meme_path, size=3000):
     for non_meme in os.listdir(non_meme_path):
         img_path = os.path.join(non_meme_path, non_meme)
         if os.path.exists(img_path):
-            img = image.load_img(img_path, target_size=(299, 299))
+            img = image.load_img(img_path, target_size=(150, 150))
             x = image.img_to_array(img)
             x = np.expand_dims(x, axis=0)
             count += 1
@@ -127,6 +140,8 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     filepath = args.train_dir
+    if not os.path.exists(filepath):
+        os.mkdir(filepath)
 
     # Load data
     m_train, m_test, n_train, n_test = load_data(args.meme_path,
@@ -145,11 +160,7 @@ if __name__ == '__main__':
     ny_test = np.zeros((n_test.shape[0], 1))
     y_test = to_categorical(np.vstack([my_test, ny_test]), num_classes=2)
 
-    # x_train = np.random.random((100, 299, 299, 3))
-    # y_train = to_categorical(np.random.randint(2, size=(100, 1)), 2)
-    # x_test = np.random.random((30, 299, 299, 3))
-    # y_test = to_categorical(np.random.randint(2, size=(30, 1)), 2)
-    # Data generator
+    # Train data generator
     datagen = ImageDataGenerator(
         featurewise_center=True, # set input mean to 0 over the dataset
         samplewise_center=False, # set each sample mean to 0
@@ -166,25 +177,66 @@ if __name__ == '__main__':
 
     # Load model
     try:
-        model_path = os.path.join(filepath, 'shitmodel.h5')
+        model_path = os.path.join(filepath, 'model.h5')
         model = load_model(model_path)
         print('model loaded from:', model_path)
     except:
-        model = ShitModel()
+        # model = build_model(input_shape=(150, 150, 3))
+        base_model = InceptionV3(weights='imagenet',
+                                 include_top=False,
+                                 input_shape=(150, 150, 3))
+        x = base_model.output
+        x = GlobalAveragePooling2D()(x)
+        x = Dense(1024, activation='relu')(x)
+        predictions = Dense(2, activation='softmax')(x)
+        model = Model(base_model.input, predictions)
+        # first: train only the top layers (which were randomly initialized)
+        # i.e. freeze all convolutional InceptionV3 layers
+        for layer in base_model.layers:
+            layer.trainable = False
         sgd = SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
-        model.compile(loss='categorical_crossentropy', optimizer=sgd)
+        model.compile(loss='categorical_crossentropy',
+                      metrics=['mae', 'acc'],
+                      optimizer=sgd)
         print('model built from scratch')
+        print(model.summary())
 
-    # Training
-    train(x_train, y_train, model, datagen,
-          batch_size=args.batch_size,
-          epochs=args.epochs,
-          initial_epoch=args.initial_epoch)
+    # Test data
+    test_datagen = ImageDataGenerator(rescale=1./255)
+    print('Fitting data generator...')
+    test_datagen.fit(x_test)
 
-    score = model.evaluate_generator(datagen.flow(x_test, y_test, batch_size=32), 32)
-    print('score:', score)
+    for i in range(2):
+        # Training
+        if i == 0:
+            ie = args.initial_epoch
+            eps = 50
+        else:
+            ie = eps
+            eps = args.epochs
+            # we chose to train the top 2 inception blocks, i.e. we will freeze
+            # the first 249 layers and unfreeze the rest:
+            for layer in model.layers[:249]:
+                layer.trainable = False
+            for layer in model.layers[249:]:
+                layer.trainable = True
+            model.compile(optimizer=SGD(lr=0.0001, momentum=0.9),
+                          loss='categorical_crossentropy',
+                          metrics=['mae', 'acc'])
+        try:
+            train(x_train, y_train, model,
+                  datagen,
+                  test_datagen.flow(x_test, y_test, batch_size=args.batch_size),
+                  filepath,
+                  batch_size=args.batch_size,
+                  epochs=eps,
+                  initial_epoch=ie)
+            score = model.evaluate_generator(datagen.flow(x_test, y_test, batch_size=32), 32)
+            print('score:', score)
+        except:
+            print('Training stopped!')
 
     # save model
-    model_path = os.path.join(filepath, 'shitmodel.h5')
+    model_path = os.path.join(filepath, 'model.h5')
     model.save(model_path)
     print('model saved in:', model_path)

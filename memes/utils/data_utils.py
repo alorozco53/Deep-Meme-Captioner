@@ -30,7 +30,30 @@ def clean_caption(caption):
 
     return cleaned
 
-def get_data(global_dir, model, vocab_file, quantity=1):
+def create_memes_csv(filepath):
+    global_dir = os.path.dirname(filepath)
+    with codecs.open(filepath, 'w') as f:
+        writer = csv.writer(f)
+        writer.writerow(['MEME_CAPTION','IMG_URL','LANGUAGE','IMG_PATH'])
+        for dirpath, dirnames, filenames in os.walk(global_dir):
+            if not dirnames:
+                meme = os.path.basename(dirpath)
+                for filename in filenames:
+                    csvf = os.path.join(dirpath, filename)
+                    if csvf.endswith('.csv') and not '_metadata' in csvf:
+                        with codecs.open(csvf, 'r') as orf:
+                            reader = csv.reader(orf)
+                            first = True
+                            for caption, url, lang in reader:
+                                if not first:
+                                    img = os.path.join(dirpath, '{}.jpg'.format(meme))
+                                    new_row = [clean_caption(caption), url, lang, img]
+                                    writer.writerow(new_row)
+                                first = False
+
+
+
+def get_data(global_dir, model, vocab_file, quantity=1, captions_per_image='ALL'):
     '''
     Extracts the given quantity of the dataset contained in global_dir.
     If the needed amount of data is already in cache, it only extracts it from
@@ -46,43 +69,61 @@ def get_data(global_dir, model, vocab_file, quantity=1):
       :vocab_size, int: length of the list of all vocabulary words
     '''
     assert 0.0 < quantity and quantity <= 1.0
-    assert os.path.exists(vocab_file)
+    # assert os.path.exists(vocab_file)
     seqs_raw = []
     text = set()
-    gdir_contents = [m for m in os.listdir(global_dir)
-                     if os.path.isdir(os.path.join(global_dir, m))
-                     and os.listdir(os.path.join(global_dir, m))]
-    _, _, _, _, total_size = stats(global_dir, False)
+    # gdir_contents = [m for m in os.listdir(global_dir)
+    #                  if os.path.isdir(os.path.join(global_dir, m))
+    #                  and os.listdir(os.path.join(global_dir, m))]
+    # _, _, _, _, total_size = stats(global_dir, False)
     size = 0.0
-    upper_bound = total_size * quantity
-    count = 1
-    for meme in gdir_contents:
-        meme_file = os.path.join(global_dir, meme, '{}.csv'.format(meme))
-        if os.path.exists(meme_file):
-            img_path = os.path.join(global_dir, meme, '{}.jpg'.format(meme))
-            img = image.load_img(img_path, target_size=(299, 299))
-            x = image.img_to_array(img)
-            x = np.expand_dims(x, axis=0)
-            x = preprocess_input(x)
-            preds = model.predict(x)
-            with codecs.open(meme_file, 'r') as f:
-                reader = csv.reader(f)
-                first = True
-                for row in reader:
-                    if not first:
-                        cap = clean_caption(row[0])
-                        if cap:
-                            c = ['<S>'] + cap.split() + ['</S>']
-                            text.update(c)
-                            seqs_raw.append((preds, c))
-                            size += len(cap.encode('utf-8'))
-                    first = False
-                    if size >= upper_bound:
-                        break
-                if size >= upper_bound:
-                    break
-            if size >= upper_bound:
-                break
+    # upper_bound = total_size * quantity
+    if isinstance(captions_per_image, int):
+        count_cap = captions_per_image
+    else:
+        count_cap = None
+    # for meme in gdir_contents:
+    #     meme_file = os.path.join(global_dir, meme, '{}.csv'.format(meme))
+    #     if os.path.exists(meme_file):
+    #         img_path = os.path.join(global_dir, meme, '{}.jpg'.format(meme))
+    #         img = image.load_img(img_path, target_size=(299, 299))
+    #         x = image.img_to_array(img)
+    #         x = np.expand_dims(x, axis=0)
+    #         x = preprocess_input(x)
+    #         preds = model.predict(x)
+    meme_file = os.path.join(global_dir, 'memes.csv')
+    if not os.path.exists(meme_file):
+        print('creating memes.csv...')
+        create_memes_csv(meme_file)
+    with codecs.open(meme_file, 'r') as f:
+        reader = csv.reader(f)
+        first = True
+        if isinstance(captions_per_image, int):
+            count_cap = captions_per_image
+        else:
+            count_cap = None
+        for row in reader:
+            if not first:
+                # process caption
+                cap = clean_caption(row[0])
+                if cap:
+                    c = ['<S>'] + cap.split() + ['</S>']
+                    text.update(c)
+                    size += len(cap.encode('utf-8'))
+                    if count_cap:
+                        count_cap -= 1
+                    # process image
+                    img_path = os.path.join(row[3])
+                    img = image.load_img(img_path, target_size=(150, 150))
+                    x = image.img_to_array(img)
+                    x = np.expand_dims(x, axis=0)
+                    # x = preprocess_input(x)
+                    preds = model.predict(x)
+                    seqs_raw.append((preds, c))
+
+            first = False
+            # if size >= upper_bound or (count_cap and int(count_cap) <= 0):
+            #     break
 
     with codecs.open(vocab_file, 'r') as f:
         word_indices = dict((c.split()[0], i) for i, c in enumerate(f))
@@ -91,7 +132,14 @@ def get_data(global_dir, model, vocab_file, quantity=1):
     print('Vectorization...')
     cap_img = []
     for img, sentence in seqs_raw:
-        cap_img.append([img, [word_indices[x] for x in sentence]])
+        indices = []
+        for x in sentence:
+            try:
+                index = word_indices[x]
+                indices.append(index)
+            except KeyError:
+                indices.append(word_indices['<UNK>'])
+        cap_img.append([img, indices])
     return np.array(cap_img), len(word_indices)
 
 def batch_with_dynamic_pad(images_and_captions,

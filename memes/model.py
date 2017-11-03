@@ -11,8 +11,6 @@ import numpy as np
 import tensorflow as tf
 import configuration as config
 
-from utils.inception_v3 import InceptionV3, preprocess_input
-
 # The `stats` function will compute the statistics from the existing dataset in
 # [`meme_characters/`](meme_characters/).
 from utils.meme_stats import stats, sizeof_fmt
@@ -21,6 +19,7 @@ from utils.data_utils import get_data, batch_with_dynamic_pad
 from utils.image_processing import process_image
 from utils.imagenet_utils import get_feature_layer
 from keras.models import load_model, Model
+from keras.applications.inception_v3 import InceptionV3
 
 # A [`LSTMStateTuple`](https://www.tensorflow.org/api_docs/python/tf/contrib/rnn/LSTMStateTuple)
 # will be needed to store all the (_batched_) embeddings obtained from the ConvNet, in order to initialize our RecurrentNet.
@@ -36,29 +35,38 @@ class MemeModel(object):
     The two last layers are ignored due to implementation issues
     """
 
-    def __init__(self, mode, vocab_file, dataset_dir='meme_characters/'):
+    def __init__(self,
+                 mode,
+                 vocab_file,
+                 dataset_dir='meme_characters/',
+                 model_file='inception_log3.0/fine_inception.h5',
+                 cap_per_img='ALL'):
         assert mode in ['train', 'eval', 'inference']
-        assert os.path.exists(vocab_file)
+        # assert os.path.exists(vocab_file)
         self.mode = mode
         self.vocab_file = vocab_file
         self.dataset_dir = dataset_dir
+        self.model_file = model_file
+        self.cpi = cap_per_img
 
     def build_conv_model(self, image_format='jpeg'):
         """
         Builds the convolutional neural network (Keras)
         """
-        # self.model, self.inception_graph = InceptionV3(include_top=True,
-        #                                                weights=config.inception_weights)
-        base_model = load_model('inception_log2.0/fine_inception.h5')
+        # self.model = InceptionV3(include_top=False,
+        #                          weights=config.inception_weights,
+        #                          input_shape=(150, 150, 3))
+        base_model = load_model(self.model_file)
         base_model.layers.pop()
         base_model.outputs = [base_model.layers[-1].output]
-        base_model.layers[-1].outbound_nodes = []
+        base_model.layers[-2].outbound_nodes = []
         self.model = Model(base_model.input, base_model.layers[-1].output)
         if self.mode == 'train':
             print(self.model.summary())
             print(self.model.output_shape)
         elif self.mode == 'inference':
-            images = tf.placeholder(tf.float32, shape=(1, 1000), name='image_feed')
+            shape = self.model.output.shape.as_list()[-1]
+            images = tf.placeholder(tf.float32, shape=(1, shape), name='image_feed')
             # In inference mode, images and inputs are fed via placeholders.
             # image_feed = tf.placeholder(dtype=tf.string, shape=[], name="image_feed")
             input_feed = tf.placeholder(dtype=tf.int64,
@@ -118,7 +126,8 @@ class MemeModel(object):
         if self.mode != 'inference':
             print('Getting dataset from {}'.format(self.dataset_dir))
             self.images_captions, self.vocab_size = get_data(self.dataset_dir, self.model, self.vocab_file,
-                                                             quantity=config.dataset_proportion)
+                                                             quantity=config.dataset_proportion,
+                                                             captions_per_image=self.cpi)
             self.vocab_size += 1
             print(np.shape(self.images_captions))
         else:

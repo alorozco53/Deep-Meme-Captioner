@@ -1,15 +1,41 @@
 #! /usr/bin/env bash
 
-base=32
-delta=$2
+python train.py \
+	   firstmodel/train \
+	   --dataset_dir batches/part-0-to-11960/ \
+	   --vocab_file batches/word_count.txt \
+	   --model_file /home/alorozco53/.keras/models/inception_v3_weights_tf_dim_ordering_tf_kernels.h5 \
+	   --number_of_steps 1000000
 
-for i in $(seq $1 $END);
-do
-    echo "Step: " $i >> log.txt
-    for part in 10k/part*;
-    do
-		echo "python train.py model/train --dataset_dir" $part "--vocab_file 10k/word_count.txt --number_of_steps" $base >> log.txt
-		python train.py model/train --dataset_dir $part --vocab_file 10k/word_count.txt --number_of_steps $base >> output.txt
-		base=`expr $base + $delta`
-    done
-done
+# base=50000
+# delta=$2
+
+# for i in $(seq $1 $END);
+# do
+#     echo "Step: " $i >> log.txt
+#     for part in batches/part*;
+#     do
+# 		echo "python train.py model5.1/train --dataset_dir" $part "--vocab_file batches/word_count.txt --model_file small-conv/model.h5 --number_of_steps" $base
+# 		python train.py \
+# 		       model5.1/train \
+# 		       --dataset_dir $part \
+# 		       --vocab_file batches/word_count.txt \
+# 			   --model_file small-conv/model.h5 \
+# 		       --number_of_steps $base
+# 		base=`expr $base + $delta`
+#     done
+# done
+
+# i=1
+# for part in batches/part*;
+# do
+# 	echo "python train.py model5.1"$i"/train --dataset_dir" $part "--vocab_file batches/word_count.txt --model_file small-conv/model.h5" >> log.txt
+# 	python train.py \
+# 		   model5.1$i/train \
+# 		   --dataset_dir $part \
+# 		   --vocab_file batches/word_count.txt \
+# 		   --model_file small-conv/model.h5 \
+# 		   --number_of_steps 2000000
+# 	i=`expr $i + 1`
+# 	mv  model5.1$i/ /media/memes/
+# done

@@ -20,6 +20,8 @@ parser.add_argument('--number_of_steps', default=1000000, help='number of traini
 parser.add_argument('--log_every_n_steps', default=1, help='frequency at which loss and global step are logged', type=int)
 parser.add_argument('--dataset_dir', default='meme_characters/', help='directory where memes are stored')
 parser.add_argument('--vocab_file', default='meme_characters/word_count.txt', help='vocabulary file')
+parser.add_argument('--model_file', default='inception_log3.0/fine_inception.h5', help='model file')
+parser.add_argument('--captions_per_image', default='ALL', help='maximum number of captions per image to consider')
 args = parser.parse_args()
 
 if __name__ == '__main__':
@@ -33,7 +35,9 @@ if __name__ == '__main__':
     g = tf.Graph()
     with g.as_default():
         # Build the model.
-        model = MemeModel('train', args.vocab_file, dataset_dir=args.dataset_dir)
+        model = MemeModel('train', args.vocab_file, dataset_dir=args.dataset_dir,
+                          model_file=args.model_file,
+                          cap_per_img=args.captions_per_image)
         model.build()
         # Set up the learning rate.
         learning_rate_decay_fn = None
