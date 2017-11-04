@@ -24,6 +24,6 @@
 | <img width="50" alt="50" src="evaldataset/memes/4.jpg"> | jeepers jeepers jeepers ganar ganar ganar / 7.14 |  |
 | <img width="50" alt="50" src="evaldataset/memes/14.png.jpg"> | crashed crashed 95 95 95 просто / 1751.52 |  |
 | <img width="50" alt="50" src="evaldataset/memes/2.png.jpg"> | lesbians lesbians lesbians graduation construction thread / 1751.52 |  |
-| <img width="50" alt="50" src="evaldataset/memes/19.png.jpg"> | selfies selfies selfies jones jones ps3 / 80.89 |  |
+| <img width="50" alt="50" src="evaldataset/memes/19.jpg"> | selfies selfies selfies jones jones ps3 / 80.89 |  |
 | <img width="50" alt="50" src="evaldataset/memes/7.png.jpg"> | cada cada cada cada messi nombre / 1751.52 |  |
 | <img width="50" alt="50" src="evaldataset/memes/16.jpg"> | crashed unicorn unicorn formula formula formula / 80.89 |  |
