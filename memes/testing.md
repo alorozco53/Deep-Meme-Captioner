@@ -27,3 +27,28 @@
 | <img width="50" alt="50" src="evaldataset/memes/19.jpg"> | selfies selfies selfies jones jones ps3 / 80.89 |  |
 | <img width="50" alt="50" src="evaldataset/memes/7.png.jpg"> | cada cada cada cada messi nombre / 1751.52 |  |
 | <img width="50" alt="50" src="evaldataset/memes/16.jpg"> | crashed unicorn unicorn formula formula formula / 80.89 |  |
+
+## Evaluación de No Memes
+
+| Imagen | Leyenda Modelo `A` / Perplejidad  | Leyenda Modelo `B` / Perplejidad |
+|:------:|:----------------:|:-------------:|
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000437409.jpg"> | ask ask ask burnt seats fora / 1751.52 |  |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000581919.jpg"> | musica musica starve victoria victoria victoria / 1751.52 |  |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000437984.jpg"> | facebook facebook 100000 100000 100000 matter / 1751.52 |  |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000581911.jpg"> | kanji kanji matter matter matter matter / 80.89 |  |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000291121.jpg"> | 100000 100000 100000 fanfic 500 500 / 1751.52 |  |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000581645.jpg"> | already already already already already already / 80.88 |  |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000437560.jpg"> | construct construct construct construct construct matter / 1751.52 |  |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000438020.jpg"> | deaths news news news news news / 80.88 |  |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000581923.jpg"> | compared compared compared compared compared compared / 80.88 |  |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000291429.jpg"> | epic epic settle settle dwarf settle / 7.14 |  |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000145319.jpg"> | direct direct 100000 100000 100000 compared / 80.89 |  |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000438022.jpg"> | already already already already ancestors ancestors / 80.89 |  |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000145729.jpg"> | sick sir sir sir sir sir / 80.89 |  |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000145754.jpg"> | wrestle wrestle wrestle wrestle compared compared / 80.89 |  |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000145275.jpg"> | winner winner maldita maldita burnt african / 1751.52 |  |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000291015.jpg"> | movie movie movie movie spiders spiders / 1751.52 |  |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000145756.jpg"> | compared compared compared compared compared compared / 80.89 |  |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000581585.jpg"> | fanfic fanfic fanfic fanfic fanfic ver / 80.89 |  |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000291434.jpg"> | gordo cameron stfu stfu stfu park / 1751.52 |  |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000291423.jpg"> | direct direct direct fanfic fanfic thru / 1751.52 |  |
