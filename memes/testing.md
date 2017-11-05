@@ -81,3 +81,28 @@
 | <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000581585.jpg"> | fanfic fanfic fanfic fanfic fanfic ver / 80.89 |  |
 | <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000291434.jpg"> | gordo cameron stfu stfu stfu park / 1751.52 |  |
 | <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000291423.jpg"> | direct direct direct fanfic fanfic thru / 1751.52 |  |
+
+- Perplejidad comparada contra corpus de memes
+
+| Imagen | Leyenda Modelo `A` / Perplejidad  | Leyenda Modelo `B` / Perplejidad |
+|:------:|:----------------:|:-------------:|
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000437409.jpg"> | obamas obamas vip vip vip jo / 4.45 |  |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000581919.jpg"> | he'll he'll he'll he'll he'll he'll / 125.84 |  |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000437984.jpg"> | obamas obamas 3am 3am 3am 3am / 58.65 |  |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000581911.jpg"> | racial racial racial racial crowded crowded / 58.65 |  |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000291121.jpg"> | defend defend ei ei ei ei / 1014.00 |  |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000581645.jpg"> | snowflake am am am sick sick / 1014.00 |  |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000437560.jpg"> | am am am am sick sick / 58.65 |  |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000438020.jpg"> | obamas obamas obamas obamas celebration celebration / 58.65 |  |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000581923.jpg"> | obamas obamas obamas obamas am am / 58.65 |  |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000291429.jpg"> | boyfriend's boyfriend's hanging chi chi chi / 6.42 |  |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000145319.jpg"> | time time time time time time / 6.18 |  |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000438022.jpg"> | droids droids droids droids droids droids / 6.18 |  |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000145729.jpg"> | dutch france france exercise exercise exercise / 6.18 |  |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000145754.jpg"> | obamas obamas obamas ei ei theme / 58.65 |  |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000145275.jpg"> | creo creo months months months months / 58.65 |  |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000291015.jpg"> | obamas obamas obamas obamas martin martin / 6.18 |  |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000145756.jpg"> | obamas obamas obamas obamas pe em / 58.65 |  |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000581585.jpg"> | truck constructive constructive constructive constructive constructive / 58.65 |  |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000291434.jpg"> | dutch dutch dutch thug thug thug / 6.18 |  |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000291423.jpg"> | thug thug thug time time time / 58.65 |  |
