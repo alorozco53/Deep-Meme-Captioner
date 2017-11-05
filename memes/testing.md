@@ -5,6 +5,8 @@
 
 ## Evaluación de Memes
 
+- Perplejidad comparada contra corpus _Brown_
+
 | Imagen | Leyenda Modelo `A` / Perplejidad  | Leyenda Modelo `B` / Perplejidad |
 |:------:|:----------------:|:-------------:|
 | <img width="50" alt="50" src="evaldataset/memes/20.jpg"> | ariel ariel purchase ariel ariel cereal / 80.89 |  |
@@ -28,7 +30,34 @@
 | <img width="50" alt="50" src="evaldataset/memes/7.png.jpg"> | cada cada cada cada messi nombre / 1751.52 |  |
 | <img width="50" alt="50" src="evaldataset/memes/16.jpg"> | crashed unicorn unicorn formula formula formula / 80.89 |  |
 
+- Perplejidad comparada contra corpus de memes
+
+| Imagen | Leyenda Modelo `A` / Perplejidad  | Leyenda Modelo `B` / Perplejidad |
+|:------:|:----------------:|:-------------:|
+| <img width="50" alt="50" src="evaldataset/memes/20.jpg"> | evolution approval approval approval approval approval / 58.65 |  |
+| <img width="50" alt="50" src="evaldataset/memes/12.png.jpg"> | professor theory grandpa grandpa studio studio / 58.65 |  |
+| <img width="50" alt="50" src="evaldataset/memes/1.jpg"> | statue then then laughter laughter laughter / 6.18 |  |
+| <img width="50" alt="50" src="evaldataset/memes/5.jpg"> | cant equally equally shit shit shit / 232.72 |  |
+| <img width="50" alt="50" src="evaldataset/memes/11.png.jpg"> | wrapped wrapped wrapped wrapped wrapped wrapped / 6.18 |  |
+| <img width="50" alt="50" src="evaldataset/memes/18.jpg"> | approval approval approval lincoln lincoln lincoln / 58.65 |  |
+| <img width="50" alt="50" src="evaldataset/memes/6.jpg"> | unlock unlock unlock unlock pleased restart / 58.65 |  |
+| <img width="50" alt="50" src="evaldataset/memes/8.jpg"> | freeze freeze stranger boss laughter laughter / 6.18 |  |
+| <img width="50" alt="50" src="evaldataset/memes/9.png.jpg"> | wrapped wrapped wrapped wrapped wrapped wrapped / 6.18 |  |
+| <img width="50" alt="50" src="evaldataset/memes/3.jpg"> | approval approval approval approval approval approval / 6.18 |  |
+| <img width="50" alt="50" src="evaldataset/memes/17.jpg"> | scorpion something something something something something / 19.24 |  |
+| <img width="50" alt="50" src="evaldataset/memes/15.png.jpg"> | paga paga paga paga paga paga / 6.18 |  |
+| <img width="50" alt="50" src="evaldataset/memes/13.png.jpg"> | visit something something something something signed / 58.65 |  |
+| <img width="50" alt="50" src="evaldataset/memes/10.png.jpg"> | genocide genocide genocide unlock unlock warfare / 1014.00 |  |
+| <img width="50" alt="50" src="evaldataset/memes/4.jpg"> | pops pops pops pops equally elephant / 58.65 |  |
+| <img width="50" alt="50" src="evaldataset/memes/19.jpg"> | jazz jazz occupied occupied occupied occupied / 58.65 |  |
+| <img width="50" alt="50" src="evaldataset/memes/14.png.jpg"> | wrapped wrapped wrapped wrapped wrapped wrapped / 58.65 |  |
+| <img width="50" alt="50" src="evaldataset/memes/2.png.jpg"> | wrapped wrapped wrapped wrapped wrapped shit / 1014.00 |  |
+| <img width="50" alt="50" src="evaldataset/memes/7.png.jpg"> | freeze freeze shit shit shit shit / 232.72 |  |
+| <img width="50" alt="50" src="evaldataset/memes/16.jpg"> | approval approval approval approval approval approval / 58.65 |  |
+
 ## Evaluación de No Memes
+
+- Perplejidad comparada contra corpus _Brown_
 
 | Imagen | Leyenda Modelo `A` / Perplejidad  | Leyenda Modelo `B` / Perplejidad |
 |:------:|:----------------:|:-------------:|
