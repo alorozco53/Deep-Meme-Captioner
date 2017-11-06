@@ -634,52 +634,64 @@ en la Tabla \ref{exp-details}.
 \section{Evaluación del desempeño de la LSTM} \label{sec:metrics}
 
 \noindent
-La evaluación de un modelo de aprendizaje automático suele ser un proceso subestimado, sobre todo\
-si la función de error elegida para ser optimizada fue minimizada durante el entrenamiento.\
-No obstante, el efectuar algunas métricas, traen consigo evidencia de la buena generalización\
-del modelo. Las Figuras \ref{eval:exp2} y \ref{eval:exp3} ilustran con gráficos algunas métricas de\
-evaluación utilizadas para el desempeño de las CNNs usadas para los experimentos.
-
-\begin{figure}[H]
-  \includegraphics[width=\linewidth]{exp2-2}
-  \caption[Nota al pie]{
-    Función de error para el Experimento \ref{experiment:2}, en la que se
-    calcula la \emph{precisión}\footnotemark del modelo con el conjunto de
-    datos de entrenamiento.
-    (Fuente: elaboración propia.)
-  }
-  \label{eval:exp2}
-\end{figure}
-
 En el contexto del procesamiento del lenguaje natural, es común preguntarse qué tan \emph{buenos}\
-son los enunciados generados con respecto a un lenguaje referencia. En este caso, se trata\
-de un lenguaje informal, generado a partir de la popularidad que adquieren ciertas frases\
+son los enunciados generados con respecto a un lenguaje referencia. En el caso que concierne a esta tesis,\
+tratamos con un lenguaje informal, generado a partir de la popularidad que adquieren ciertas frases\
 dentro del Internet. Sin embargo, es posible discernir entre un enunciado que hace sentido\
 empírico a uno que combina palabras sin patrón alguno.\par
-Las métricas sugeridas en \cite{DBLP:journals/corr/VinyalsTBE16} sugieren el uso de un corpus\
+Las métricas propuestas en \cite{DBLP:journals/corr/VinyalsTBE16} sugieren el uso de un corpus\
 lingüístico de referencia, con el cual se compare la similitud entre las estructuras gramaticales\
-generadas por el modelo con enunciados ``reales''. Debido a la dificultad en tiempos y la ambigüedad\
-que puede existir para reunir dicho corpus (¡el humor de los memes está muy definido por gustos personales!),\
-se prefirió reportar otro método.\par
+generadas por el modelo con enunciados ``reales''. Por ello, hemos tomado como referencia\
+al corpus \emph{Brown}%
+\footnote{
+  Para mayor información, consultar el sitio \url{http://www.hit.uib.no/icame/brown/bcm.html}.
+} de palabras en inglés y a la totalidad de las leyendas extraídas de Internet para fines de realizar una comparación\
+con los resultados emitidos por la LSTM.\par
 En particular, analizamos qué tan bien aprende el modelo a predecir la $t$-ésima palabra, a nivel\
-probabilístico. Dada la distribución de probabilidad $p(\cdot)$ que aprende la LSTM sobre todos\
-los enunciados posibles del vocabulario, definimos la \textbf{perplejidad} $PP(S)$ del modelo,\
-dado un enunciado $S = s_1 s_2 \ldots s_n$, como
+probabilístico. Dada distribución de probabilidad $p$ sobre los enunciados realizados a partir\
+de un alfabeto $\Sigma$%
+\footnote{
+  Es decir, un modelo de lenguaje.
+}, definimos la \textbf{perplejidad} $PP(S)$ del modelo como
+\begin{equation}
+  PP(S) = p(s_1 s_2 \ldots s_n) ^{-\frac{1}{n}}, \label{eq:perplexity0}
+\end{equation}
+donde $S = s_1, s_2, \ldots, s_n \in S^*$. Desarrollando la Ecuación \ref{eq:perplexity0},\
+tenemos que
 \begin{align}
-  PP(S) = p(s_1 s_2 \ldots s_n) ^{-\frac{1}{n}}.
-\end{align}
+  PP(S) &= \sqrt[n]{\frac{1}{p(s_1 s_2 \ldots s_n)}}\\
+  &= \sqrt[n]{\prod_{i=0}^n \frac{1}{p(s_{i+1}\ |\ s_1 s_2 \ldots s_i)}} \label{eq:perplexity1}
+\end{align}\par
+La Ecuación \ref{eq:perplexity1} se obtuvo aplicando la \emph{regla de la cadena} de las probabilidades\
+conjuntas a la predicción de cada palabra $s_i$. Lo que este razonamiento nos indica es que\
+minimizar la perplejidad de un enunciado $S$ con respecto a un modelo $p$, es lo mismo que\
+maximizar la probabilidad de $S$ bajo $p$.\par
 Intuitivamente, la \emph{perplejidad} del modelo nos dice el número de posibles candidatos que tiene\
-el modelo para la palabra $s_{t+1}$, dadas $s_1, s_2, \ldots, s_t$. Si la \emph{perplejidad} es minimizada,\
+el modelo para la palabra $s_{i+1}$, dadas $s_1, s_2, \ldots, s_i$. Si la \emph{perplejidad} es minimizada,\
 entonces el modelo aprende con éxito a descubrir patrones de secuencias de palabras.\par
-Para el Experimento \ref{experiment:7}, reportamos una \emph{perplejidad} final de $70.2$, dado un vocabulario\
-de 7413 palabras. Anteriormente, el primer experimento logra minimizar su \emph{perplejidad}\
-considerablemente (Figura \ref{eval:exp1}), generando así un buen modelo de lenguaje.
-
-\begin{figure}[h]
-  \includegraphics[width=\linewidth]{exp1-3}
-  \caption{
-    Minimización de la \emph{perplejidad} en el Experimento \ref{experiment:1}.
-    (Fuente: elaboración propia.)
-  }
-  \label{eval:exp1}
-\end{figure}
+Queremos comparar los dos \emph{mejores} modelos entrenados, es decir, el mejor de los que\
+codifican imágenes con la arquitectura convolucional superficial contra el mejor de los que\
+codifican con \emph{Inception V3}. Llamémoslos \verb+Modelo A+ y \verb+Modelo B+, respectivamente.\
+Para exponerlos a un conjunto de imágenes ajenas a los datos de entrenamiento, se tomaron 20 nuevos\
+memes (la mayoría, provenientes de sitios web con gran popularidad actual%
+\footnote{
+  \url{https://www.reddit.com} y \url{https://me.me}.
+}) y 20 imágenes nuevas de \emph{ImageNet} (``no memes''). Esta distinción se hizo con el fin de mostrar\
+qué tanto aprendió el modelo acerca de los memes y qué tanto generalizó en detalles.\par
+Las Tablas \ref{memesvsbrown} y \ref{nonmemesvsbrown} califican qué tan viable es que una leyenda generada\
+por cada uno de los modelos sea una frase escrita en inglés estadounidense (corpus \emph{Brown}).\
+Inmediatamente, observamos que los altos valores de algunas de las leyendas indican que realmente\
+se aprendió un modelo de lenguaje en un inglés bastante \emph{informal}. Por ello es que fue importante\
+realizar una comparación con el corpus de todas las leyendas extraidas (Tablas \ref{memesvsmemes} y\
+\ref{nonmemesvsmemes}).\par
+Por otra parte, vemos que en éstas tablas, la columna correspondiente al \verb+Modelo B+ suele repetir\
+algunas frases con mayor frecuencia. Esto da una idea de que, efectivamente, el conjunto de datos reunidos\
+(en cuanto a imágenes) sigue siendo bastante pequeño, por lo que modelos con pocas capas serán capaces de\
+brindar códigos convolucionales de menor correlacion para dos memes distintos. Dado que la implementación\
+de la LSTM fue la misma para cada uno de los experimentos realizados, proponemos al \verb+Modelo A+ como\
+el \emph{``ganador''} absoluto de esta disputa, pues es el que mejor clasifica y generaliza sobre el\
+conjunto de datos de memes. Los resultados de la evaluación pueden ser consultados de manera\
+interactiva en el \textbf{repositorio de código fuente}%
+\footnote{
+  El repositorio se encuentra en \url{https://github.com/alorozco53/Deep-Meme-Captioner/blob/evaluate/memes/testing.md}.
+} de esta tesis.
