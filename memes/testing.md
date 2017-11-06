@@ -33,7 +33,7 @@
 - Perplejidad comparada contra corpus de memes
 
 | Imagen | Leyenda Modelo `A` / Perplejidad  | Leyenda Modelo `B` / Perplejidad |
-|:------:|:----------------:|:-------------:|
+|:------:|:-------------:|:-------------:|
 | <img width="50" alt="50" src="evaldataset/memes/20.jpg"> | evolution approval approval approval approval approval / 58.65 | circle thick mad owner mad nye / 58.65 |
 | <img width="50" alt="50" src="evaldataset/memes/12.png.jpg"> | professor theory grandpa grandpa studio studio / 58.65 | circle thick mad owner mad nye / 1014.00 |
 | <img width="50" alt="50" src="evaldataset/memes/1.jpg"> | statue then then laughter laughter laughter / 6.18 | thick crying reaches reaches deh broadway / 58.65 |
