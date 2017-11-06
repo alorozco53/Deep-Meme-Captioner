@@ -34,26 +34,26 @@
 
 | Imagen | Leyenda Modelo `A` / Perplejidad  | Leyenda Modelo `B` / Perplejidad |
 |:------:|:----------------:|:-------------:|
-| <img width="50" alt="50" src="evaldataset/memes/20.jpg"> | evolution approval approval approval approval approval / 58.65 |  |
-| <img width="50" alt="50" src="evaldataset/memes/12.png.jpg"> | professor theory grandpa grandpa studio studio / 58.65 |  |
-| <img width="50" alt="50" src="evaldataset/memes/1.jpg"> | statue then then laughter laughter laughter / 6.18 |  |
-| <img width="50" alt="50" src="evaldataset/memes/5.jpg"> | cant equally equally shit shit shit / 232.72 |  |
-| <img width="50" alt="50" src="evaldataset/memes/11.png.jpg"> | wrapped wrapped wrapped wrapped wrapped wrapped / 6.18 |  |
-| <img width="50" alt="50" src="evaldataset/memes/18.jpg"> | approval approval approval lincoln lincoln lincoln / 58.65 |  |
-| <img width="50" alt="50" src="evaldataset/memes/6.jpg"> | unlock unlock unlock unlock pleased restart / 58.65 |  |
-| <img width="50" alt="50" src="evaldataset/memes/8.jpg"> | freeze freeze stranger boss laughter laughter / 6.18 |  |
-| <img width="50" alt="50" src="evaldataset/memes/9.png.jpg"> | wrapped wrapped wrapped wrapped wrapped wrapped / 6.18 |  |
-| <img width="50" alt="50" src="evaldataset/memes/3.jpg"> | approval approval approval approval approval approval / 6.18 |  |
-| <img width="50" alt="50" src="evaldataset/memes/17.jpg"> | scorpion something something something something something / 19.24 |  |
-| <img width="50" alt="50" src="evaldataset/memes/15.png.jpg"> | paga paga paga paga paga paga / 6.18 |  |
-| <img width="50" alt="50" src="evaldataset/memes/13.png.jpg"> | visit something something something something signed / 58.65 |  |
-| <img width="50" alt="50" src="evaldataset/memes/10.png.jpg"> | genocide genocide genocide unlock unlock warfare / 1014.00 |  |
-| <img width="50" alt="50" src="evaldataset/memes/4.jpg"> | pops pops pops pops equally elephant / 58.65 |  |
-| <img width="50" alt="50" src="evaldataset/memes/19.jpg"> | jazz jazz occupied occupied occupied occupied / 58.65 |  |
-| <img width="50" alt="50" src="evaldataset/memes/14.png.jpg"> | wrapped wrapped wrapped wrapped wrapped wrapped / 58.65 |  |
-| <img width="50" alt="50" src="evaldataset/memes/2.png.jpg"> | wrapped wrapped wrapped wrapped wrapped shit / 1014.00 |  |
-| <img width="50" alt="50" src="evaldataset/memes/7.png.jpg"> | freeze freeze shit shit shit shit / 232.72 |  |
-| <img width="50" alt="50" src="evaldataset/memes/16.jpg"> | approval approval approval approval approval approval / 58.65 |  |
+| <img width="50" alt="50" src="evaldataset/memes/20.jpg"> | evolution approval approval approval approval approval / 58.65 | circle thick mad owner mad nye / 58.65 |
+| <img width="50" alt="50" src="evaldataset/memes/12.png.jpg"> | professor theory grandpa grandpa studio studio / 58.65 | circle thick mad owner mad nye / 1014.00 |
+| <img width="50" alt="50" src="evaldataset/memes/1.jpg"> | statue then then laughter laughter laughter / 6.18 | thick crying reaches reaches deh broadway / 58.65 |
+| <img width="50" alt="50" src="evaldataset/memes/5.jpg"> | cant equally equally shit shit shit / 232.72 | thick comes dizer gringos threatens gringos / 58.65 |
+| <img width="50" alt="50" src="evaldataset/memes/11.png.jpg"> | wrapped wrapped wrapped wrapped wrapped wrapped / 6.18 | circle thick mad owner mad nye / 1014.00 |
+| <img width="50" alt="50" src="evaldataset/memes/18.jpg"> | approval approval approval lincoln lincoln lincoln / 58.65 | thick crying reaches reaches deh broadway / 58.65 |
+| <img width="50" alt="50" src="evaldataset/memes/6.jpg"> | unlock unlock unlock unlock pleased restart / 58.65 | thick crying earlier reaches reaches deh / 6.18 |
+| <img width="50" alt="50" src="evaldataset/memes/8.jpg"> | freeze freeze stranger boss laughter laughter / 6.18 | thick crying earlier reaches reaches deh / 6.18 |
+| <img width="50" alt="50" src="evaldataset/memes/9.png.jpg"> | wrapped wrapped wrapped wrapped wrapped wrapped / 6.18 | thick crying reaches reaches deh wow / 58.65 |
+| <img width="50" alt="50" src="evaldataset/memes/3.jpg"> | approval approval approval approval approval approval / 6.18 | circle asians asians dish asians mayor / 58.65 |
+| <img width="50" alt="50" src="evaldataset/memes/17.jpg"> | scorpion something something something something something / 19.24 | thick está wing unnecessary regal cleveland / 58.65 |
+| <img width="50" alt="50" src="evaldataset/memes/15.png.jpg"> | paga paga paga paga paga paga / 6.18 | circle thick mad owner mad nye / 1014.00 |
+| <img width="50" alt="50" src="evaldataset/memes/13.png.jpg"> | visit something something something something signed / 58.65 | circle thick mad owner mad nye / 1014.00 |
+| <img width="50" alt="50" src="evaldataset/memes/10.png.jpg"> | genocide genocide genocide unlock unlock warfare / 1014.00 | comes dizer hot deadmau5 gringos u / 6.18 |
+| <img width="50" alt="50" src="evaldataset/memes/4.jpg"> | pops pops pops pops equally elephant / 58.65 | circle asians asians dish asians mayor / 58.65 |
+| <img width="50" alt="50" src="evaldataset/memes/19.jpg"> | jazz jazz occupied occupied occupied occupied / 58.65 | circle thick mad owner mad nye / 1014.00 |
+| <img width="50" alt="50" src="evaldataset/memes/14.png.jpg"> | wrapped wrapped wrapped wrapped wrapped wrapped / 58.65 | circle thick mad owner mad nye / 1014.00 |
+| <img width="50" alt="50" src="evaldataset/memes/2.png.jpg"> | wrapped wrapped wrapped wrapped wrapped shit / 1014.00 | circle thick mad owner mad nye / 1014.00 |
+| <img width="50" alt="50" src="evaldataset/memes/7.png.jpg"> | freeze freeze shit shit shit shit / 232.72 | comes critical pizza hopes hopes pg / 58.65 |
+| <img width="50" alt="50" src="evaldataset/memes/16.jpg"> | approval approval approval approval approval approval / 58.65 | thick comes dizer dizer going bought / 6.18 |
 
 ## Evaluación de No Memes
 
@@ -61,48 +61,48 @@
 
 | Imagen | Leyenda Modelo `A` / Perplejidad  | Leyenda Modelo `B` / Perplejidad |
 |:------:|:----------------:|:-------------:|
-| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000437409.jpg"> | ask ask ask burnt seats fora / 1751.52 |  |
-| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000581919.jpg"> | musica musica starve victoria victoria victoria / 1751.52 |  |
-| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000437984.jpg"> | facebook facebook 100000 100000 100000 matter / 1751.52 |  |
-| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000581911.jpg"> | kanji kanji matter matter matter matter / 80.89 |  |
-| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000291121.jpg"> | 100000 100000 100000 fanfic 500 500 / 1751.52 |  |
-| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000581645.jpg"> | already already already already already already / 80.88 |  |
-| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000437560.jpg"> | construct construct construct construct construct matter / 1751.52 |  |
-| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000438020.jpg"> | deaths news news news news news / 80.88 |  |
-| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000581923.jpg"> | compared compared compared compared compared compared / 80.88 |  |
-| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000291429.jpg"> | epic epic settle settle dwarf settle / 7.14 |  |
-| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000145319.jpg"> | direct direct 100000 100000 100000 compared / 80.89 |  |
-| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000438022.jpg"> | already already already already ancestors ancestors / 80.89 |  |
-| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000145729.jpg"> | sick sir sir sir sir sir / 80.89 |  |
-| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000145754.jpg"> | wrestle wrestle wrestle wrestle compared compared / 80.89 |  |
-| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000145275.jpg"> | winner winner maldita maldita burnt african / 1751.52 |  |
-| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000291015.jpg"> | movie movie movie movie spiders spiders / 1751.52 |  |
-| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000145756.jpg"> | compared compared compared compared compared compared / 80.89 |  |
-| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000581585.jpg"> | fanfic fanfic fanfic fanfic fanfic ver / 80.89 |  |
-| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000291434.jpg"> | gordo cameron stfu stfu stfu park / 1751.52 |  |
-| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000291423.jpg"> | direct direct direct fanfic fanfic thru / 1751.52 |  |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000437409.jpg"> | ask ask ask burnt seats fora / 1751.52 | thankful tied butler situations thankful appie / 80.89 |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000581919.jpg"> | musica musica starve victoria victoria victoria / 1751.52 | thankful tied butler situations thankful appie / 80.89 |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000437984.jpg"> | facebook facebook 100000 100000 100000 matter / 1751.52 | thankful tied butler situations appie thankful / 7.14 |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000581911.jpg"> | kanji kanji matter matter matter matter / 80.89 | thankful ace bot intellectual beaver beaver / 7.14 |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000291121.jpg"> | 100000 100000 100000 fanfic 500 500 / 1751.52 | thankful tied butler situations appie thankful / 7.14 |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000581645.jpg"> | already already already already already already / 80.88 | thankful forgiven thankful kills tied tied / 7.14 |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000437560.jpg"> | construct construct construct construct construct matter / 1751.52 | thankful forgiven thankful kills tied tied / 7.14 |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000438020.jpg"> | deaths news news news news news / 80.88 | thankful ace bot intellectual beaver beaver / 7.14 |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000581923.jpg"> | compared compared compared compared compared compared / 80.88 | protein mushroom bedroom lives zombie profe / 7.14 |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000291429.jpg"> | epic epic settle settle dwarf settle / 7.14 | thankful forgiven thankful kills tied tied / 7.14 |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000145319.jpg"> | direct direct 100000 100000 100000 compared / 80.89 | thankful ace bot intellectual beaver beaver / 7.14 |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000438022.jpg"> | already already already already ancestors ancestors / 80.89 | thankful tied situations appie tied appie / 80.89 |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000145729.jpg"> | sick sir sir sir sir sir / 80.89 | thankful tied situations appie appie raises / 7.14 |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000145754.jpg"> | wrestle wrestle wrestle wrestle compared compared / 80.89 | thankful ace bot intellectual beaver beaver / 7.14 |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000145275.jpg"> | winner winner maldita maldita burnt african / 1751.52 | thankful forgiven thankful kills tied tied / 7.14 |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000291015.jpg"> | movie movie movie movie spiders spiders / 1751.52 | thankful tied appie appie raises which / 1751.52 |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000145756.jpg"> | compared compared compared compared compared compared / 80.89 | thankful tied situations appie tied appie / 80.89 |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000581585.jpg"> | fanfic fanfic fanfic fanfic fanfic ver / 80.89 | thankful tied appie appie raises which / 1751.52 |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000291434.jpg"> | gordo cameron stfu stfu stfu park / 1751.52 | protein mushroom bedroom lives zombie profe / 80.89 |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000291423.jpg"> | direct direct direct fanfic fanfic thru / 1751.52 | thankful forgiven thankful kills tied tied / 7.14 |
 
 - Perplejidad comparada contra corpus de memes
 
 | Imagen | Leyenda Modelo `A` / Perplejidad  | Leyenda Modelo `B` / Perplejidad |
 |:------:|:----------------:|:-------------:|
-| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000437409.jpg"> | obamas obamas vip vip vip jo / 4.45 |  |
-| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000581919.jpg"> | he'll he'll he'll he'll he'll he'll / 125.84 |  |
-| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000437984.jpg"> | obamas obamas 3am 3am 3am 3am / 58.65 |  |
-| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000581911.jpg"> | racial racial racial racial crowded crowded / 58.65 |  |
-| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000291121.jpg"> | defend defend ei ei ei ei / 1014.00 |  |
-| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000581645.jpg"> | snowflake am am am sick sick / 1014.00 |  |
-| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000437560.jpg"> | am am am am sick sick / 58.65 |  |
-| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000438020.jpg"> | obamas obamas obamas obamas celebration celebration / 58.65 |  |
-| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000581923.jpg"> | obamas obamas obamas obamas am am / 58.65 |  |
-| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000291429.jpg"> | boyfriend's boyfriend's hanging chi chi chi / 6.42 |  |
-| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000145319.jpg"> | time time time time time time / 6.18 |  |
-| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000438022.jpg"> | droids droids droids droids droids droids / 6.18 |  |
-| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000145729.jpg"> | dutch france france exercise exercise exercise / 6.18 |  |
-| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000145754.jpg"> | obamas obamas obamas ei ei theme / 58.65 |  |
-| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000145275.jpg"> | creo creo months months months months / 58.65 |  |
-| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000291015.jpg"> | obamas obamas obamas obamas martin martin / 6.18 |  |
-| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000145756.jpg"> | obamas obamas obamas obamas pe em / 58.65 |  |
-| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000581585.jpg"> | truck constructive constructive constructive constructive constructive / 58.65 |  |
-| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000291434.jpg"> | dutch dutch dutch thug thug thug / 6.18 |  |
-| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000291423.jpg"> | thug thug thug time time time / 58.65 |  |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000437409.jpg"> | obamas obamas vip vip vip jo / 4.45 | decide pushed term phil francisco hunting / 58.65 |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000581919.jpg"> | he'll he'll he'll he'll he'll he'll / 125.84 | decide pushed joined phil pounds amy / 58.65 |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000437984.jpg"> | obamas obamas 3am 3am 3am 3am / 58.65 | decide pushed phil hunting building building / 58.65 |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000581911.jpg"> | racial racial racial racial crowded crowded / 58.65 | decide pushed joined phil pounds amy / 58.65 |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000291121.jpg"> | defend defend ei ei ei ei / 1014.00 | decide pushed phil hunting building building / 58.65 |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000581645.jpg"> | snowflake am am am sick sick / 1014.00 | oink mind mind mind singles chemim / 58.65 |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000437560.jpg"> | am am am am sick sick / 58.65 | pushed joined photographer iceberg officer officer / 1014.00 |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000438020.jpg"> | obamas obamas obamas obamas celebration celebration / 58.65 | decide pushed joined phil building building / 58.65 |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000581923.jpg"> | obamas obamas obamas obamas am am / 58.65 | oink mind mind singles democracy mind / 6.18 |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000291429.jpg"> | boyfriend's boyfriend's hanging chi chi chi / 6.42 | oink mind mind mind singles chemim / 58.65 |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000145319.jpg"> | time time time time time time / 6.18 | decide pushed joined phil building building / 58.65 |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000438022.jpg"> | droids droids droids droids droids droids / 6.18 | oink mind mind mind singles chemim / 1014.00 |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000145729.jpg"> | dutch france france exercise exercise exercise / 6.18 | oink mind mind singles chemim socks / 58.65 |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000145754.jpg"> | obamas obamas obamas ei ei theme / 58.65 | decide pushed joined phil building building / 58.65 |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000145275.jpg"> | creo creo months months months months / 58.65 | decide pushed joined phil pounds amy / 58.65 |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000291015.jpg"> | obamas obamas obamas obamas martin martin / 6.18 | decide pushed joined phil building building / 1014.00 |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000145756.jpg"> | obamas obamas obamas obamas pe em / 58.65 | oink joined shipping cousins cousins cousins / 6.18 |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000581585.jpg"> | truck constructive constructive constructive constructive constructive / 58.65 | oink mind mind mind singles chemim / 58.65 |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000291434.jpg"> | dutch dutch dutch thug thug thug / 6.18 | oink mind mind singles democracy mind / 6.18 |
+| <img width="50" alt="50" src="evaldataset/no_memes/COCO_test2014_000000291423.jpg"> | thug thug thug time time time / 58.65 | decide pushed joined phil pounds amy / 58.65 |
