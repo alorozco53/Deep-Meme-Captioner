@@ -597,7 +597,7 @@ por personaje.
 \end{figure}
 
 Con los mismos datos que para el experimento anterior y con la CNN superficial, se realizó\
-el entrenamiento cuyo desempeño de ilustra en la Figura \ref{exp8}. Ahora se aumentó a 20 el\
+el entrenamiento cuyo desempeño se ilustra en la Figura \ref{exp8}. Ahora se aumentó a 20 el\
 número de leyendas por imagen. En cuanto a detalles anecdóticos, la Figura \ref{exp8:anec}\
 ilustra una generación de leyendas con un poco de más sentido cuando hay dos palabras\
 distintas contiguas. Resumimos los detalles técnicos de todos los experimentos presentados\
@@ -683,7 +683,8 @@ por cada uno de los modelos sea una frase escrita en inglés estadounidense (cor
 Inmediatamente, observamos que los altos valores de algunas de las leyendas indican que realmente\
 se aprendió un modelo de lenguaje en un inglés bastante \emph{informal}. Por ello es que fue importante\
 realizar una comparación con el corpus de todas las leyendas extraidas (Tablas \ref{memesvsmemes} y\
-\ref{nonmemesvsmemes}).\par
+\ref{nonmemesvsmemes}). Los promedios de las perplejidades arrojadas por cada experimento de\
+evaluación se muestran en la Tabla \ref{avgperplexities}.\par
 Por otra parte, vemos que en éstas tablas, la columna correspondiente al \verb+Modelo B+ suele repetir\
 algunas frases con mayor frecuencia. Esto da una idea de que, efectivamente, el conjunto de datos reunidos\
 (en cuanto a imágenes) sigue siendo bastante pequeño, por lo que modelos con pocas capas serán capaces de\
@@ -695,3 +696,13 @@ interactiva en el \textbf{repositorio de código fuente}%
 \footnote{
   El repositorio se encuentra en \url{https://github.com/alorozco53/Deep-Meme-Captioner/blob/evaluate/memes/testing.md}.
 } de esta tesis.
+
+\begin{table}[H]
+  \centering
+  \includegraphics[width=\textwidth]{avgperplexities}
+  \caption{
+    Promedios de las perplejidades arrojadas al evaluar los dos \emph{mejores} modelos contra los
+    \emph{córpora} Brown y el formado mediante las leyendas de los memes extraídos de Internet.
+  }
+  \label{avgperplexities}
+\end{table}
