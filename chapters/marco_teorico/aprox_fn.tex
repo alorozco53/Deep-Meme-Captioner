@@ -177,27 +177,174 @@ El flujo del cómputo en un MLP puede ser pensado como la composición de las ca
 procesan los datos de entrada. Formalmente, dado un vector de entrada $\mathbf{x}$, la primera capa oculta $h_1$\
 calcula su valor utilizando una matriz de pesos $\mathbf{W_1}$, un sesgo $\mathbf{b_1}$ de la siguiente manera:
 \begin{equation}
-  h_1 = \sigma\left(\mathbf{W_1}^\top \mathbf{x} + \mathbf{b}_1\right),
+  h_1 = \sigma\left(\mathbf{W_1}^\top \mathbf{x} + \mathbf{b}_1\right), \label{mlpfirst}
 \end{equation}
 donde $\sigma$ es una función de activación no lineal y \emph{diferenciable}.\
 Las dimensiones de $\mathbf{W}$ corresponden a la entrada y al número de neuronas en la capa $h_1$.\
 La $i+1$-ésima capa oculta de un MLP actualiza su valor a partir de la $i$-ésima mediante
 \begin{equation}
-  h_{i+1} = \sigma\left(\mathbf{W_{i+1}}^\top h_i + \mathbf{b}_{i+1}\right),
+  h_{i+1} = \sigma\left(\mathbf{W_{i+1}}^\top h_i + \mathbf{b}_{i+1}\right), \label{mlphidden}
 \end{equation}
 es decir, cada capa tendrá una matriz de pesos y un vector de sesgos propio. La salida, suponiendo que\
-hay $m$ capas ocultas, obtiene su valor con la equación
+hay $m$ capas ocultas, obtiene su valor con la ecuación
 \begin{equation}
-  \hat{y} = \sigma\left(\mathbf{W_{m+1}}^\top h_m + \mathbf{b}_{m+1}\right).
+  \hat{y} = \sigma\left(\mathbf{W_{m+1}}^\top h_m + \mathbf{b}_{m+1}\right). \label{mlpoutput}
 \end{equation}
 Obsérvese que es posible que $\hat{y}$ tenga más de una dimensión, entonces, cada uno de los valores de dicho\
 vector codificará ``la existencia'' de alguna característica en particular. Esto es muy útil para aprender\
-clasificadores cuyo contra-dominio es mayor al conjunto binario.\par
-En ocasiones, al subrafo dirigido formado por las capas ocultas $h_i$ y $h_{i+1}$ se le conoce como\
+clasificadores cuyo codominio es mayor al conjunto binario.\par
+En ocasiones, al subgrafo dirigido formado por las capas ocultas $h_i$ y $h_{i+1}$ se le conoce como\
 \emph{capa densa} o \emph{totalmente conectada} y es común encontrarla en arquitecturas de mayor complejidad\
 y especialización. El MLP está dentro del ``estado del arte'' de los algoritmos de clasificación automática y\
 será parte fundamental de los dos modelos neuronales que compone a la arquitectura de procesamiento de imágenes\
 y generación de lenguaje de la presente tesis. La parte más importante de ello recae en su algoritmo de\
-aprendizaje que a continuación se describe.
+entrenamiento.
 
 \subsection{Retroalimentación para aprender}
+
+\noindent
+Como cualquier arquitectura de aprendizaje supervisado, a un MLP debe de asociarse una función objetivo\
+(o de \emph{error}) $J$, que le permita estructurar un entrenamiento. La no-linealidad de las funciones de\
+activación causan que no se garantice la convexidad por parte de las funciones de error más comunes. Al\
+no existir un método analítico para encontrar mínimos sin importar la elección de $J$, el entrenamiento\
+de un MLP (y, en general, de una red neuronal profunda) se basa en métodos iterativos que van optimizando\
+los parámetros de la arquitectura, tales como optimizadores basados en gradientes.\par
+Para estar \textit{ad hoc} a la práctica, presentaremos un algoritmo de \emph{descenso por el gradiente estocástico},
+el cual, a pesar de no garantizar la convergencia hacia un punto mínimo, funciona bien sabiendo\
+escoger los valores adecuados de inicialización. Dada la salida $\hat{y}$ establecida en la Ecuación\
+\ref{mlpoutput}, definimos la función de error total del MLP como
+\begin{equation}
+  J(\bm{\theta}) = \frac{1}{2n} \sum_{i=1}^n (\hat{y}_i - y_i)^2 \label{mlperror}
+\end{equation}
+donde $\bm{\theta}$ es el conjunto de los parámetros del MLP, es decir, $\bm{\theta} := \bigcup\{\bm{W}_i, \bm{b}_i\}_{i=1}^n$;\
+$n$ es el número de capas del MLP; e $y_i$ es la $i$-ésima etiqueta\
+de entrenamiento. A esta función se le conoce como \emph{error cuadrático medio}; en general,
+una función de error $J$ se define conceptualmente como la \textbf{entropía cruzada}\
+de las distribuciones de los datos ($y \equiv p_{\text{DATOS}}$) y del modelo ($\hat{y} \equiv \hat{p}_{\text{MLP}}$).\
+Esto es, la esperanza de la verosimilitud logarítmica negativa del modelo%
+\footnote{
+  Suponiendo que $p_{\text{DATOS}}$ es una distribución \emph{normal},\
+  se puede demostrar la igualdad entre las Ecuaciones \ref{crossentropydef} y \ref{mlperror}.
+ }:
+\begin{align}
+  J(\bm{\theta}) &=  - \mathbb{E}_{p_{\text{DATOS}}} \log\hat{p}_{\text{MLP}}(\bm{x}) \label{crossentropydef}\\
+  &= - \sum_i (y_i\log(\hat{y}_i) + (1 - y_i)\log(1 - \hat{y}_i)). \label{crossentropy}
+\end{align}
+Esta función es particularmente útil si se desea interpretar las salidas del MLP como probabilidades, ya que,\
+$\sum_i \hat{y}_i = 1$ y $0 < \hat{y}_i < 1 $ para $1 \leq i \leq n$. Cabe destacar que ambas funciones\
+son completamente diferenciables y los procedimientos de optimización, basados en gradientes, son invariantes.
+
+\subsubsection{Propagación hacia atrás}
+
+\noindent
+Cualquier algoritmo de optimización basado en gradientes necesita de un método (\emph{eficiente}) para calcular\
+las derivadas de los parámetros del modelo. En la literatura de aprendizaje profundo el cálculo de $\hat{y}$\
+muchas veces se le conoce como \emph{propagación hacia adelante}. Esto da lugar al algoritmo de\
+\textbf{propagación hacia atrás} (o \emph{retropropagación}) que permite que el error resultante $J$ se\
+propague de atrás hacia adelante, a través de todos los parámetros del MLP. El objetivo principal de este\
+algoritmo será el cómputo del gradiente del modelo $J$ con respecto a los parámetros $\bm{\theta}$, es decir,\
+$\nabla_{\bm{\theta}} J(\bm{\theta})$.\par
+Para empezar, el algoritmo de propagación hacia atrás se fundamenta en la regla de la cadena del\
+\emph{cálculo infinitesimal} para el cómputo de derivadas de composiciones de funciones:\
+dados $x \in \mathbb{R}$, $y = g(x)$ y $z = f(g(x)) = f(y)$, la derivada de $z$ con respecto a $x$ se obtiene por
+\begin{equation}
+  \frac{dz}{dx} =  \frac{dz}{dy} \frac{dy}{dx}.
+\end{equation}
+Esta noción se generaliza a funciones que involucran la composición de más de dos funciones:\
+si
+\begin{itemize}
+\item $\mathbf{x} \in \mathbb{R}^m$,
+\item $\mathbf{y} \in \mathbb{R}^n$,
+\item $g: \mathbb{R}^m \to \mathbb{R}^n$,
+\item $f: \mathbb{R}^n \to \mathbb{R}$,
+\item $\mathbf{y} = g(\mathbf{x})$ y
+\item $z = f(\mathbf{y})$, entonces
+\end{itemize}
+\begin{equation}
+  \frac{\partial z}{\partial x_i} =
+  \sum_j \frac{\partial z}{\partial y_j} \frac{\partial y_j}{\partial x_i}. \label{multichain}
+\end{equation}
+En forma vectorial, la Ecuación \ref{multichain} se escribe como
+\begin{equation}
+  \nabla_{\mathbf{x}} z =
+  \left(\frac{\partial y}{\partial x}\right)^\top \nabla_{\mathbf{y}} z. \label{vectchain}
+\end{equation}\par
+De la Ecuación \ref{vectchain} vemos que la expresión $\frac{\partial \mathbf{y}}{\partial \mathbf{x}}$\
+es la matriz \emph{jacobiana} (de $n \times m$) de $g$, es decir, el gradiente de una variable vectorial\
+$\mathbf{x}$ se obtiene multiplicando dicho jacobiano por el gradiente $\nabla_{\mathbf{y}} z$.\
+Para cada operación en el \emph{grafo dirigido}, definido en un MLP, el algoritmo de propagación hacia atrás realizará\
+un producto entre jacobianos y gradientes.\par
+En la práctica, el cómputo de estos gradientes es invariante si en vez de vectores tenemos tensores.\
+Intuitivamente, uno puede pensar que, previamente a correr propagación hacia atrás, cualquier tensor\
+de dimensiones $n \times m \times p$ se \emph{aplane} a un vector de dimensión $1 \times nmp$. Tras el\
+cálculo de los gradientes, los vectores aplanados vuelven a su representación \emph{tensorial}.\par
+Mediante la regla de la cadena, es posible desarrollar una expresión para el cálculo del gradiente\
+de $J$ con respecto a todos los parámetros $\bm{\theta}$ del MLP. Sin embargo, una implementación\
+\emph{ingenua} involucraría que el cálculo de muchas subexpresiones se repita un número considerable de veces.\
+En muchas ocasiones, calcular la misma expresión más de una vez resulta una pérdida de tiempo y/o memoria,\
+la cual muchas veces puede significar un gasto de orden exponencial con respecto al número de parámetros.\par
+En términos formales, consideremos a $u$ como una neurona de la capa $k+1$ de un MLP arbitrario y que recibe como entradas\
+las salidas de las neuronas $v_1, v_2, \ldots, v_m$ de la capa $k$. De acuerdo a la Ecuación \ref{vectchain},\
+el gradiente de la función de error $J$ con respecto a $u$ se obtiene mediante
+\begin{equation}
+  \nabla_{u} J =
+  \left(\frac{\partial \bm{v}}{\partial u}\right)^\top \nabla_{\bm{v}} J, \label{neurongradient} 
+\end{equation}
+donde $\bm{v} = (v_1, v_2, \ldots, v_m)$. Este es un proceso recursivo que inicia con el cómputo del gradiente\
+para la última capa, en donde $\frac{\partial J}{\partial J_i} = 1$ para toda neurona de salida $J_i$.\
+Nótese que si para obtener $J$ se requirieron $n$ nodos y cada uno de éstos requiere un tiempo constante de\
+cómputo más $m$ arcos, entonces calcular $\nabla_{u} J$ requiere al menos $\Omega(m)$ cómputos y no es posible\
+obtener los gradientes de una manera más rápida.\par
+Remembrando la terminología establecida a partir de las Ecuaciones \ref{mlpfirst} y \ref{mlphidden}, sea
+\begin{equation}
+  a_k = \bm{b}_k + \bm{W}_kh_{k-1} \label{mlplinearcomb}
+\end{equation}
+la ecuación que define la combinación lineal que determina las salidas de la $k$-ésima capa de un MLP. En lo\
+secuente, utilizaremos a la función de error por entropía cruzada (Ecuación \ref{crossentropydef}) y asumimos,\
+sin pérdida de generalidad, como funciones de activación $\sigma = softmax$ para la última capa\
+y $\sigma = \tanh$ para las capas ocultas. Asumiendo que hay $L$ capas en un MLP,\
+es importante enfatizar en las siguientes observaciones:
+\begin{align}
+  \frac{\partial(-\log \hat{y})}{\partial a_{L, i}} &= \hat{y}_i - \mathbbm{1}_{y=i}, \label{derivlosscomb}\\
+  \frac{\partial \tanh(u)}{\partial u} &= 1 - \tanh(u)^2. \label{derivtanh}
+\end{align}
+Resulta lógico entender que la Ecuación \ref{derivlosscomb} calcula la diferencia que existe entre las salidas\
+del MLP y las etiquetas del conjunto de datos. Por otro lado, la Ecuación \ref{derivtanh} calcula las\
+derivadas parciales de la función tangente hiperbólica aplicada a cualquier tensor real $u$. Obsérvese\
+que de la expresión $a_{L, i}$ nos referimos a la última capa de un MLP mediante su índice, notación\
+que hará más fácil escribir el siguiente procedimiento.\par
+\begin{itemize}
+\item Para la función de error, $\frac{\partial J}{\partial J} = 1$.
+\item El gradiente del error con respecto a cada entrada de la última capa:
+  \begin{equation}
+    \frac{\partial J}{\partial a_{L, i}} =
+    \frac{\partial J}{\partial J} \frac{\partial J}{\partial a_{L, i}} =
+    \hat{y}_i - \mathbbm{1}_{y=i}. \label{derivtanh}
+  \end{equation}
+\item Para cada capa, desde $k = L$ bajando hasta 1:
+  \begin{itemize}
+  \item calculamos el gradiente con respecto a los sesgos:
+    \begin{equation}
+      \frac{\partial J}{\partial \bm{b}_{k, i}} =
+      \frac{\partial J}{\partial a_{k, i}} \frac{\partial a_{k, i}}{\partial \bm{b}_{k, i}} =
+      \frac{\partial J}{\partial a_{k, i}}, \label{biasgradient}
+    \end{equation}
+  \item calculamos el gradiente con respecto a los pesos:
+    \begin{equation}
+      \frac{\partial J}{\partial \bm{W}_{k, i, j}} =
+      \frac{\partial J}{\partial a_{k, i}} \frac{\partial a_{k, i}}{\partial \bm{W}_{k, i, j}} =
+      \frac{\partial J}{\partial a_{k, i}} h_{k-1, j}, \label{biasgradient}
+    \end{equation}
+  \item propagamos el gradiente hacia una capa inferior; para $k > 1$:
+    \begin{align}
+      \frac{\partial J}{\partial h_{k-1, j}} &=
+      \sum_i \frac{\partial J}{\partial a_{k, i}} \frac{\partial a_{k,i}}{\partial h_{k-1, j}} =
+      \sum_i \frac{\partial J}{\partial a_{k,i}} \bm{W}_{k, i, j}, \label{hiddenbackprop}\\
+      \frac{\partial J}{\partial a_{k-1, j}} &=
+      \frac{\partial J}{\partial h_{k-1, j}} \frac{\partial h_{k-1, j}}{\partial a_{k-1, j}} =
+      \frac{\partial J}{\partial h_{k-1, j}} (1 - h_{k-1, j}^2). \label{combbackprop}
+    \end{align}
+  \end{itemize}
+\end{itemize}
+
+\subsubsection{Descenso por el gradiente}

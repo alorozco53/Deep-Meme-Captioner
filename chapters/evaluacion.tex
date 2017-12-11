@@ -240,7 +240,18 @@ entre dos imágenes distintas (mediante representaciones vectoriales muy diferen
 refleje en la discrepancia entre las leyendas generadas. Para ello, diseñamos un experimento en el\
 que entrenamos una LSTM con una memoria inicial dada por los códigos convolucionales obtenidos\
 a partir de \textbf{97} personajes del conjunto de datos. Estos personajes pasarán por la red\
-\emph{Inception V3} pre-entrenada del experimento anterior.\par
+\emph{Inception V3} pre-entrenada del experimento anterior.
+
+\begin{figure}[h]
+  \includegraphics[width=\linewidth]{exp4-1}
+  \caption{
+    Función de error para el experimento que utiliza la CNN \emph{Inception V3}
+    con pesos pre-entrenados, sin ser afinada.
+    (Fuente: elaboración propia.)
+  }
+  \label{exp4}
+\end{figure}
+
 Cada personaje posee un promedio de 700 leyendas, pues el número total de leyendas por personaje varía\
 según la popularidad del mismo. Cabe destacar que el vocabulario construído tuvo alrededor de 20 mil palabras distintas.\
 El desempeño fue deficiente tanto en entrenamiento (Figura \ref{exp4}) como en resultados \emph{anecdóticos}.\
@@ -259,16 +270,6 @@ explora detalles mucho más generales de los requeridos para clasificar imágene
 Figura \ref{meme-characters}. Dado el tamaño del conjunto de datos, se plantea, de igual manera, como\
 hipótesis, la viabilidad de que una CNN más \textbf{superficial} (menos profunda) tenga éxito al\
 generar códigos convolucionales.
-
-\begin{figure}[h]
-  \includegraphics[width=\linewidth]{exp4-1}
-  \caption{
-    Función de error para el experimento que utiliza la CNN \emph{Inception V3}
-    con pesos pre-entrenados, sin ser afinada.
-    (Fuente: elaboración propia.)
-  }
-  \label{exp4}
-\end{figure}
 
 \subsection{Experimentos que involucran la afinación de una arquitectura convolucional profunda}
 
@@ -349,7 +350,7 @@ de manera que todas las leyendas de un solo personaje permanecían en posiciones
 Dada la cantidad desmedida de leyendas, esto provocó que tras ciertas iteraciones se sobreentrenara\
 el modelo sobre un mismo lote. Así, al probar el modo de \verb+inferencia+ del mismo,\
 se podía observar claramente una tendencia por repetir la ``manera de hablar'' de un cierto personaje\
-(Figura \ref{exp5:anec}). Iteraciones más tarde, esto cambiaba para que el modelo comenzará a repetir la manera de\
+(Tabla \ref{exp5:anec}). Iteraciones más tarde, esto cambiaba para que el modelo comenzará a repetir la manera de\
 hablar de otro personaje. Una de las evidencias del sobreajuste se ilustra en la Figura \ref{exp5}.\par
 A pesar que las leyendas generadas aparentan tener sentido, el sobreajuste que se dio en varios\
 momentos del entrenamiento motivó a realizar un mayor trabajo de procesamiento previo. En particular,\
@@ -367,24 +368,6 @@ resultados más apegados a la realidad de la distribución del conjunto de entre
     (Fuente: elaboración propia.)
   }
   \label{exp5}
-\end{figure}
-
-\begin{figure}[H]
-  \begin{minipage}[c]{\linewidth}
-    \includegraphics[width=\linewidth]{exp5-anec-1}
-  \end{minipage}\hfill
-  \begin{minipage}[c]{\linewidth}
-    \includegraphics[width=\linewidth]{exp5-anec-2}
-  \end{minipage}
-  \caption{
-    Resultados \emph{anecdóticos} del entrenamiento de la LSTM, con previa afinación\
-    de \emph{Inception V3}. Como el orden en los tensores de entrenamiento está determinado\
-    por cada personaje, ocurrió un sobreajuste durante ciertas épocas contiguas. Esto se\
-    muestra mediante la repetición de frases muy características en la elaboración de\
-    leyendas.
-    (Fuente: elaboración propia.)
-  }
-  \label{exp5:anec}
 \end{figure}
 
 Para refinar el desempeño de la CNN afinada, el siguiente experimento se diseñó muestreando aleatoriamente\
@@ -412,29 +395,12 @@ que el modelo, en efecto, aprendió a generalizar ciertos detalles del conjunto 
 podemos afirmar que el error de la entropía cruzada baja, con los cambios hechos y da cierto grado de\
 confianza debido a la mezcla aleatoria de las leyendas. Por otro lado, queda la duda de qué pasaría si\
 el tensor de códigos convolucionales es generado a partir de una CNN más superficial, algo que es\
-válido plantearse debido al número de imágenes disponibles.
-
-\begin{figure}[H]
-  \begin{minipage}[c]{\linewidth}
-    \includegraphics[width=\linewidth]{exp6-anec-1}
-  \end{minipage}\hfill
-  \begin{minipage}[c]{\linewidth}
-    \includegraphics[width=\linewidth]{exp6-anec-2}
-  \end{minipage}
-  \caption{
-    Resultados \emph{anecdóticos} del entrenamiento de la LSTM, con previa afinación\
-    de \emph{Inception V3} y reducción del vocabulario. Se puede apreciar la repetición\
-    de palabras, como principal característica.
-    (Fuente: elaboración propia.)
-  }
-  \label{exp6:anec}
-\end{figure}
-
+válido plantearse debido al número de imágenes disponibles.\par
 Este último experimento será el que mejor desempeño trae de los que usaron la red \emph{Inception V3}\
 afinada. Efectuar métricas de evaluación como \emph{precisión} y \emph{error medio absoluto} es una\
 práctica poco común en tareas que involucran generación de texto: la calidad de las leyendas generadas\
 debe ser comparada con un modelo de lenguaje real. Por ello, en la Sección \ref{sec:metrics} presentamos\
-una evaluación basada en una métrica común para el procesamiento del lenguaje natural. La Figura\
+una evaluación basada en una métrica común para el procesamiento del lenguaje natural. La Tabla\
 \ref{exp6:anec} muestra algunos resultados anecdóticos de este experimento.
 
 \subsection{Experimentos que involucran una arquitectura convolucional superficial}
@@ -512,7 +478,7 @@ Procedemos, entonces, a replicar el último experimento realizado en la sección
 Sin embargo, esta vez se utilizamos la CNN superficial entrenada sobre memes y no memes.\
 El entrenamiento arrojado (Figura \ref{exp7}) fue muy similar a lo observado en la\
 Figura \ref{exp6}; no obstante, se logró una mejora en la calidad de las leyendas\
-sin ser un detalle anecdótico muy considerable (Figura \ref{exp7:anec}).
+sin ser un detalle anecdótico muy considerable (Tabla \ref{exp7:anec}).
 
 \begin{figure}[H]
   \centering
@@ -540,24 +506,6 @@ de un ser humano. Por ello, reportamos un último experimento que involucra un m
 por personaje.
 
 \begin{figure}[H]
-  \begin{minipage}[c]{\linewidth}
-    \includegraphics[width=\linewidth]{exp7-anec-1}
-  \end{minipage}\hfill
-  \begin{minipage}[c]{\linewidth}
-    \includegraphics[width=\linewidth]{exp7-anec-2}
-  \end{minipage}
-  \caption{
-    Resultados \emph{anecdóticos} del entrenamiento de la LSTM, a partir de una CNN superficial.
-    Al igual que con la red \emph{Inception V3}, hay una considerable repetición de palabras.
-    El desempeño mostrado sugiere pensar que la generalización de las imágenes pertenecientes
-    al conjunto de datos no requiere de un modelo que explore, con gran detalle, sus características
-    más intrínsecas.
-    (Fuente: elaboración propia.)
-  }
-  \label{exp7:anec}
-\end{figure}
-
-\begin{figure}[H]
   \includegraphics[width=\linewidth]{exp7-1}
   \caption{
     Función de error para el entrenamiento de la LSTM, usando 5 leyendas por personaje,
@@ -579,26 +527,9 @@ por personaje.
   \label{exp8}
 \end{figure}
 
-\begin{figure}[H]
-  \begin{minipage}[c]{\linewidth}
-    \includegraphics[width=\linewidth]{exp8-anec-1}
-  \end{minipage}\hfill
-  \begin{minipage}[c]{\linewidth}
-    \includegraphics[width=\linewidth]{exp8-anec-2}
-  \end{minipage}
-  \caption[Nota al pie]{
-    Resultados \emph{anecdóticos} del entrenamiento de la LSTM, a partir de una CNN superficial
-    y 20 leyendas por personaje. Aquí cabe destacar que cuando una palabra sucede a otra, si éstas son distintas,
-    la lógica entre \emph{categorías gramaticales} suele hacer sentido a juicio de un ser humano.
-    Por ejemplo, la aparición de un artículo antes de un sustantivo o verbos a la mitad de la leyenda.
-    (Fuente: elaboración propia.)
-  }
-  \label{exp8:anec}
-\end{figure}
-
 Con los mismos datos que para el experimento anterior y con la CNN superficial, se realizó\
 el entrenamiento cuyo desempeño se ilustra en la Figura \ref{exp8}. Ahora se aumentó a 20 el\
-número de leyendas por imagen. En cuanto a detalles anecdóticos, la Figura \ref{exp8:anec}\
+número de leyendas por imagen. En cuanto a detalles anecdóticos, la Tabla \ref{exp8:anec}\
 ilustra una generación de leyendas con un poco de más sentido cuando hay dos palabras\
 distintas contiguas. Resumimos los detalles técnicos de todos los experimentos presentados\
 en la Tabla \ref{exp-details}.
@@ -641,11 +572,8 @@ dentro del Internet. Sin embargo, es posible discernir entre un enunciado que ha
 empírico a uno que combina palabras sin patrón alguno.\par
 Las métricas propuestas en \cite{DBLP:journals/corr/VinyalsTBE16} sugieren el uso de un corpus\
 lingüístico de referencia, con el cual se compare la similitud entre las estructuras gramaticales\
-generadas por el modelo con enunciados ``reales''. Por ello, hemos tomado como referencia\
-al corpus \emph{Brown}%
-\footnote{
-  Para mayor información, consultar el sitio \url{http://www.hit.uib.no/icame/brown/bcm.html}.
-} de palabras en inglés y a la totalidad de las leyendas extraídas de Internet para fines de realizar una comparación\
+generadas por el modelo con enunciados ``reales''. Por ello, hemos construido un corpus lingüístico
+formado por leyendas en el conjunto de \emph{evaluación} para fines de realizar una comparación\
 con los resultados emitidos por la LSTM.\par
 En particular, analizamos qué tan bien aprende el modelo a predecir la $t$-ésima palabra, a nivel\
 probabilístico. Dada distribución de probabilidad $p$ sobre los enunciados realizados a partir\
@@ -672,26 +600,26 @@ entonces el modelo aprende con éxito a descubrir patrones de secuencias de pala
 Queremos comparar los dos \emph{mejores} modelos entrenados, es decir, el mejor de los que\
 codifican imágenes con la arquitectura convolucional superficial contra el mejor de los que\
 codifican con \emph{Inception V3}. Llamémoslos \verb+Modelo A+ y \verb+Modelo B+, respectivamente.\
-Para exponerlos a un conjunto de imágenes ajenas a los datos de entrenamiento, se tomaron 20 nuevos\
-memes (la mayoría, provenientes de sitios web con gran popularidad actual%
+Para exponerlos a un conjunto de imágenes ajenas a los datos de entrenamiento, se tomaron 20 ``nuevos\
+memes'' (la mayoría, provenientes de sitios web con gran popularidad actual%
 \footnote{
   \url{https://www.reddit.com} y \url{https://me.me}.
-}) y 20 imágenes nuevas de \emph{ImageNet} (``no memes''). Esta distinción se hizo con el fin de mostrar\
+}), 20 de las imágenes del conjunto de datos de evaluación\
+y 20 imágenes nuevas de \emph{ImageNet} (``no memes''). Esta distinción se hizo con el fin de mostrar\
 qué tanto aprendió el modelo acerca de los memes y qué tanto generalizó en detalles.\par
-Las Tablas \ref{memesvsbrown} y \ref{nonmemesvsbrown} califican qué tan viable es que una leyenda generada\
-por cada uno de los modelos sea una frase escrita en inglés estadounidense (corpus \emph{Brown}).\
-Inmediatamente, observamos que los altos valores de algunas de las leyendas indican que realmente\
-se aprendió un modelo de lenguaje en un inglés bastante \emph{informal}. Por ello es que fue importante\
-realizar una comparación con el corpus de todas las leyendas extraidas (Tablas \ref{memesvsmemes} y\
-\ref{nonmemesvsmemes}). Los promedios de las perplejidades arrojadas por cada experimento de\
-evaluación se muestran en la Tabla \ref{avgperplexities}.\par
-Por otra parte, vemos que en éstas tablas, la columna correspondiente al \verb+Modelo B+ suele repetir\
-algunas frases con mayor frecuencia. Esto da una idea de que, efectivamente, el conjunto de datos reunidos\
-(en cuanto a imágenes) sigue siendo bastante pequeño, por lo que modelos con pocas capas serán capaces de\
-brindar códigos convolucionales de menor correlacion para dos memes distintos. Dado que la implementación\
-de la LSTM fue la misma para cada uno de los experimentos realizados, proponemos al \verb+Modelo A+ como\
-el \emph{``ganador''} absoluto de esta disputa, pues es el que mejor clasifica y generaliza sobre el\
-conjunto de datos de memes. Los resultados de la evaluación pueden ser consultados de manera\
+Los promedios de las perplejidades arrojadas por cada experimento de\
+evaluación se muestran en la Tabla \ref{avgperplexities}. Observamos que la profundidad de la\
+CNN del \verb+Modelo B+ brinda un mejor contexto a la LSTM de los\
+atributos que constituyen a la imagen de entrada, por lo que se justifica la discrepancia entre las\
+perplejidades del \verb+Modelo A+ y del \verb+Modelo B+.\par
+Recordemos que la CNN del \verb+Modelo A+ fue entrenada bajo la tarea de distinguir el conjunto de datos\
+de memes con un subconjunto de \emph{ImageNet}. Por ello, muchas abstracciones posiblemente identificadas\
+por la CNN del \verb+Modelo B+ no logran ser reflejadas en las salidas de la CNN del \verb+Modelo A+.\
+Más aún, como la CNN del \verb+Modelo B+ estuvo previamente entrenada con los datos de \emph{ImageNet},\
+de los cuales surgen los ``no memes'', es entendible que dicho modelo haya logrado un desempeño similar con\
+``no memes'' y memes de evaluación. En contraste, los nuevos memes constituyen una clase de imágenes que no\
+fue parte tanto del pre-entrenamiento como de la afinación del \verb+Modelo B+.\par
+Los resultados de la evaluación pueden ser consultados de manera\
 interactiva en el \textbf{repositorio de código fuente}%
 \footnote{
   El repositorio se encuentra en \url{https://github.com/alorozco53/Deep-Meme-Captioner/blob/evaluate/memes/testing.md}.
@@ -701,8 +629,8 @@ interactiva en el \textbf{repositorio de código fuente}%
   \centering
   \includegraphics[width=\textwidth]{avgperplexities}
   \caption{
-    Promedios de las perplejidades arrojadas al evaluar los dos \emph{mejores} modelos contra los
-    \emph{córpora} Brown y el formado mediante las leyendas de los memes extraídos de Internet.
+    Promedios de las perplejidades arrojadas al evaluar los dos \emph{mejores} modelos contra el
+    \emph{corpus} formado mediante las leyendas de los memes extraídos de Internet.
   }
   \label{avgperplexities}
 \end{table}
