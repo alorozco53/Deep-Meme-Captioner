@@ -348,3 +348,74 @@ que hará más fácil escribir el siguiente procedimiento.\par
 \end{itemize}
 
 \subsubsection{Descenso por el gradiente}
+
+\noindent
+Una vez obtenido el diferencial por el cual se va a optimizar un MLP con respecto a la función\
+de error, lo que procede es actualizar los parámetros de la red neuronal con una cantidad adecudad.\
+\emph{Descenso por el gradiente} es un algoritmo que minimiza la función de error $J(\bm{\theta})$\
+de una red neuronal (en general) mediante la actualización de los parámetros $\bm{\theta} \in \mathbb{R}^d$\
+en dirección opuesta al gradiente $\nabla_{\bm{\theta}}J(\bm{\theta})$.\par
+En su versión más sencilla, este algoritmo intenta encontrar un mínimo local mediante un proceso\
+iterativo en el que el gradiente $\nabla_{\bm{\theta}}J(\bm{\theta})$ se calcula y se actualizan \emph{todos}\
+los parámetros en proporción con el \emph{meta}-parámetro $\eta$, conocido como \textbf{tasa de aprendizaje}.\
+El número $\eta$ determina el \textit{tamaño de los pasos} que se deben tomar para llegar al\
+mínimo local. Así,
+\begin{equation}
+  \bm{\theta} = \bm{\theta} - \eta \nabla_{\bm{\theta}}J(\bm{\theta}). \label{vanillagd}
+\end{equation}\par
+La Ecuación \ref{vanillagd} implica que hay que calcular los gradientes por cada parámetro del\
+conjunto de datos para realizar \emph{una sola} actualización. Esto deriva en un procedimiento\
+realmente lento e incluso intratable para conjuntos de datos que no quepan en memoria. La lentitud\
+se justifica por el cómputo redundante de varios gradientes para entradas similares antes\
+de actualizar cada parámetro. Para sobreponerse a este problema, se da lugar al algoritmo de\
+\emph{descenso por el gradiente estocástico} (\emph{SGD}, por sus siglas en inglés)\
+en el cual se realiza una actuación por cada ejemplar $(x^{(i)}, y^{(i)})$ del conjunto de datos:
+\begin{equation}
+  \bm{\theta} = \bm{\theta} - \eta \nabla_{\bm{\theta}}J(\bm{\theta}; x^{(i)}; y^{(i)}). \label{sgd}
+\end{equation}
+Potencialmente, SGD permite llegar a mejores mínimos locales a los que converge la primera\
+versión descrita. Por otro lado, es más probable que no se pueda llegar al mínimo global, dada\
+la fluctuación que puede haber en las primeras actualizaciones. Sin embargo, se puede demostrar\
+que si la tasa de aprendizaje es suficientemente pequeña, es casi segura la convergencia hacia\
+un mínimo local.\par
+En la práctica, la versión implementada en la mayoría de las bibliotecas de aprendizaje automático\
+incorpora lo mejor de las Ecuaciones \ref{vanillagd} y \ref{sgd}:
+\begin{equation}
+  \bm{\theta} = \bm{\theta} - \eta \nabla_{\bm{\theta}}J(\bm{\theta}; x^{[i:i+n]}; y^{[i:i+n]}). \label{minibatchgd}
+\end{equation}
+Cada actualización propuesta por la Ecuación \ref{minibatchgd} se da en un rango de los datos,\
+conocido como \textbf{mini-lote} o, simplemente, \emph{lote}. Esto permite que la covergencia se de\
+de manera más estable. Además, el tamaño del lote $n$ usualmente varía entre 50 y 256. El número\
+de veces que el algoritmo ve el conjunto de datos entero se le llama número de \textbf{épocas}\
+Por otro lado, definimoas al número de \emph{iteraciones} del algoritmo,\
+contando el número de veces que cada lote pasa por el mismo. El Procedimiento \ref{minibatchgdcode}\
+describe una implementación del algoritmo de descenso por el gradiente utilizado en muchas bibliotecas\
+actuales de aprendizaje automático.
+\begin{lstlisting}[language=Python,
+    caption={
+      Implementación del algoritmo de descenso por el gradiente utilizando mini-lotes, en lenguaje
+      Python. Antes de iterar sobre todos los lotes, se mezclan los datos de manera aleatoria.
+    },
+   label=minibatchgdcode
+  ]
+  for i in range(num_epocas):
+  np.random.shuffle(datos)
+  for lote in get_lotes(datos, tamanyo_lote=50):
+    params_grad = evaluar_gradiente(funcion_error, lote, params)
+    params = params - tasa_aprendizaje * params_grad
+\end{lstlisting}\par
+Visualmente el algoritmo de descenso por el gradiente se puede entender mediante la Figura \ref{visualgd}.\
+El componente restante, y que es motivo de investigación, es la manera en la que la tasa de aprendizaje\
+se calcula. Para ello, se proponen varios \emph{optimizadores} descritos en \cite{DBLP:journals/corr/Ruder16};\
+la elección de su uso depende fuertemente del diseño de la arquitectura en cuestión.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\textwidth]{visualgd}
+  \caption{
+    La optimización realizada por el algoritmo SGD con mini-lotes. Se muestra
+    el comportamiento de distintos optimizadores.
+    (Tomado de \cite{DBLP:journals/corr/Ruder16}.)
+  }
+  \label{visualgd}
+\end{figure}
