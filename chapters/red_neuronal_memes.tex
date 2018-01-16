@@ -126,7 +126,7 @@ equivalente a la capa factorizada.\par
 La reducción de parámetros por capa CONV implica, además, un entrenamiento más rápido. El costo radica en aplicar\
 más convoluciones por cada capa CONV cuyo filtro tiene dimensiones \emph{considerablemente} grandes. Para\
 profundizar más en esta idea, imaginemos un filtro de $5 \times 5$. Uno de los beneficios que trae consigo\
-el tener una filtro de tamaño ``grande'' (por conveniencia, aquí así lo consideramos) es que la cobertura del\
+el tener un filtro de tamaño ``grande'' (por conveniencia, aquí así lo consideramos) es que la cobertura del\
 mismo sobre una imagen le permite capturar mayores detalles de la misma. Ahora, recordemos que una capa CONV\
 puede ser vista como un MLP, como se vio en el capítulo anterior; en realidad, ¡el filtro en cuestión\
 es una capa totalmente conectada que pasa por toda la imagen de entrada! ¿Por qué no descomponer este MLP\
