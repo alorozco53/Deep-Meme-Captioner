@@ -30,31 +30,31 @@
 \lccode`~=0
 
 \usepackage{color}
- 
+
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
 \definecolor{codepurple}{rgb}{0.58,0,0.82}
 \definecolor{backcolour}{rgb}{0.95,0.95,0.92}
- 
+
 \lstdefinestyle{mystyle}{
-    backgroundcolor=\color{backcolour},   
+    backgroundcolor=\color{backcolour},
     commentstyle=\color{codegreen},
     keywordstyle=\color{magenta},
     numberstyle=\tiny\color{codegray},
     stringstyle=\color{codepurple},
     basicstyle=\footnotesize,
-    breakatwhitespace=false,         
-    breaklines=true,                 
-    captionpos=b,                    
-    keepspaces=true,                 
-    numbers=left,                    
-    numbersep=5pt,                  
-    showspaces=false,                
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
     showstringspaces=false,
-    showtabs=false,                  
+    showtabs=false,
     tabsize=2
 }
- 
+
 \lstset{style=mystyle}
 
 \renewcommand{\lstlistingname}{Procedimiento}
@@ -132,6 +132,30 @@
 \mainmatter
 
 \twelveptsize
+
+\chapter*{Resumen}
+\addcontentsline{toc}{chapter}{Resumen}
+
+\noindent
+Se le llama \emph{\textbf{meme de Internet}} a la unidad de propagación de información vía electrónica,\
+que muchas veces utiliza bromas, chistes y/o rumores en su estructura\cite{shifman2014}.\
+La exorbitante popularidad del Internet ha permitido el crecimiento del uso de memes,\
+en particular, con el formato de imagen y leyenda corta. Más aún, el problema de la generación automática de\
+memes de Internet ha sido escasamente estudiado dentro de las disciplinas del procesamiento de\
+lenguaje natural y visión computacional.\par
+\noindent
+En este trabajo, se aborda dicho problema mediante el uso de aprendizaje profundo, una rama\
+del aprendizaje automático que ha redefinido el \emph{estado del arte} de diversas tareas en inteligencia artificial.\
+Se recolectó una gran cantidad de memes de Internet, separando la imagen de su leyenda y priorizando\
+el modelo que predomina en el sitio web \texttt{MemeGenerator.net}\footnote{\url{https://memegenerator.net/}}.\
+Así, se entrenó un model profundo que incluye una red convolucional y una red recurrente de tipo \emph{LSTM}.\
+Para la implementación, se utilizaron primordialmente las bibliotecas\
+\texttt{Tensorflow}\cite{tensorflow2015-whitepaper} y \texttt{Keras}\cite{chollet2015keras} que funcionan\
+para el lenguaje de programación Python.\par
+\noindent
+El desempeño de la misma fue evaluado por su capacidad de generar una leyenda para una imagen no perteneciente al conjunto de\
+datos de entrenamiento. Además se midió de la perplejidad del modelo de lenguaje generado contra un corpus extraído aparte.
+
 
 \input{chapters/introduccion.tex}
 \input{chapters/marco_teorico.tex}

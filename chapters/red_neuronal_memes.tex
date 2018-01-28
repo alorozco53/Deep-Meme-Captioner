@@ -60,7 +60,8 @@ encontradas por una CNN ajustadas a un espacio vectorial. Este esquema neuronal 
 un aprendizaje \emph{de punto a punto}, es decir, la red tendrá la capacidad de considerar cada pixel\
 de una imagen para determinar qué tanto contribuye en la generación de enunciados.
 
-\section{Inception \emph{v.3}}
+\section{Inception \emph{V3}}
+\label{inception-section}
 
 \begin{center}
   \emph{¿Cuántas capas son necesarias y suficientes?}
@@ -284,7 +285,12 @@ a través de distintas métricas\footnote{
 },\
 la red convolucional por sí sola pasa a ser un excelente mecanismo de extracción de características de un conjunto\
 de datos. Para entrenar una red de la profundidad de \emph{Inception V3} se requiere una cantidad de\
-imágenes que muchas veces excede los \verb+10 GB+ en tamaño total. Además, el hecho de reunir semejante tamaño de imágenes\
+imágenes que muchas veces excede los \verb+30 GB+%
+\footnote{
+  Desde la concepción del concurso ILSVRC (ver Sección \ref{inception-section}), se motivó a la comunidad a trabajar
+  con un conjunto de imágenes de entrenamiento de aproximadamente \texttt{47 GB}. Para más información, consultar
+  \url{http://image-net.org/challenges/LSVRC/2014/download-images-5jj5.php}.
+} en tamaño total. Además, el hecho de reunir semejante tamaño de imágenes\
 es, en sí, un tema de gran importancia para las ciencias de datos y un trabajo difícil de lograr.\par
 Por ello, la comunidad de \textbf{código abierto} (\emph{open source} en inglés) suele compartir los pesos\
 de los parámetros que usaron para entrenar una arquitectura profunda con un conjunto de datos como \emph{Imagenet}.\
@@ -311,7 +317,7 @@ extraer las características más fundamentales de un conjunto de memes.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{first-layer}
+  \includegraphics[width=0.75\textwidth]{first-layer}
   \caption{
     Así se ven los filtros entrenados de la primera capa de una CNN profunda.
     En este caso se trata de una AlexNet. La literatura suele conocer a los resultados de estos
