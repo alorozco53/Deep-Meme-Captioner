@@ -4,7 +4,7 @@
 En computación, la palabra \emph{aprendizaje} es sinónimo de ``minimización de\
 errores'', lo que lleva a cuestionarnos la existencia de una conexión entre\
 este fenómeno estadístico con las maneras que, naturalmente, posee el cuerpo humano\
-para comprender de su medio ambiente. Concretamente, la tarea que tiene el computólogo\
+para comprender su medio ambiente. Concretamente, la tarea que tiene el computólogo\
 ante sí consiste en transformar los problemas de aprendizaje automático en\
 equivalentes compatibles con el funcionamiento del sistema nervioso humano. Dadas,\
 las evidencias empíricas sobre el buen desempeño del cerebro humano en su cotidianidad,\
@@ -14,7 +14,7 @@ Con el fin de ilustrar al buen \emph{performance} del cerebro humano, considerem
 habilidades de reconocimiento perceptivo. Mientras una persona tarda de $100$ a $200$ $ms$\
 en detectar un rostro familiar, una computadora con suficiente poder dura mucho más.\cite{haykin2009}\
 En contraste, se sabe que individualmente, una neurona es mucho más lenta que una\
-compuerta lógica: mientras que ésta últimas tardan pocos nanosegundos en \emph{conmutar},\
+compuerta lógica: mientras que ésta última tarda pocos nanosegundos en \emph{conmutar},\
 a la primera mencionada le puede tomar varios milisegundos en reaccionar a un estímulo.
 
 \subsection{Inspiración a partir de la biología}
@@ -37,7 +37,7 @@ fundamentales de las arquitecturas de aprendizaje a presentar en las siguientes 
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth, height=0.6\textheight]{neurona}
+  \includegraphics[width=0.6\textwidth]{neurona}
   \caption{Ilustración de las partes más importantes de una neurona humana.
     (Tomado de (\url{https://psi121f.wordpress.com/2016/07/03/la-estructura-de-la-neurona-2/}))}
 \end{figure}
@@ -45,7 +45,8 @@ fundamentales de las arquitecturas de aprendizaje a presentar en las siguientes 
 
 \subsection{El modelo de cómputo neuronal}
 
-Dadas varias entradas eléctricas, una neurona deberá de ajustar su reaccion de manera proporcional\
+\noindent
+Dadas varias entradas eléctricas, una neurona deberá de ajustar su reacción de manera proporcional\
 a la intensidad de las dichas señales. Para formalizar el comportamiento de una neurona en términos\
 matemáticos (y, por ende, computacionales), es imprescindible caracterizar las reglas que sigue una neurona\
 para componer sus señales de entrada y manejarlas ``globalmente'' mediante una función. Cabe destacar\
@@ -57,7 +58,7 @@ Con respecto a la representación interna del conocimiento de una NN, estamos an
 que buscarán modelar la información de manera \emph{asociativa}; análogamente al cerebro humano. Por ende,\
 se requieren modelos que \emph{relacionen} clasificaciones de objetos similares con representaciones internas\
 similares. Con el fin de asegurarnos de ello, presentaremos más adelante una completa sección\
-acerca de métodos de mediciones de similitud. Una consecuencia importante de esto es que,\
+acerca de métodos para medir similitud. Una consecuencia importante de esto es que,\
 de manera contraria, si se desea que dos objetos sean distintamente clasificados,\
 entonces se les deben de dar dos representaciones totalmente diferentes.\par
 Independientemente de la tarea que se desea aprender, siempre existirá alguna característica cuya importancia\
@@ -106,7 +107,7 @@ de entrada $x_1, x_2,\ldots, x_m$ y los pesos $w_1, w_2,\ldots, w_m$,
     \end{equation}
 \end{itemize}
 
-La función de activación juega el papel directo de clasificador: su salida debe de decidir si la entrada\
+La función de activación juega el papel directo de clasificador: su salida debe decidir si la entrada\
 pertenece, o no, a cierta clase. De ahí que en la mayoría de los casos, se trata de una función cuya imagen\
 es $\{0,1\}$ o $\{-1,1\}$. Por otra parte, dado que estamos definiendo al perceptrón con operaciones\
 aritméticas como sumas y productos, cabe recalcar que las entradas deben ser una \emph{abstracción numérica}\
@@ -241,7 +242,7 @@ Cualquier algoritmo de optimización basado en gradientes necesita de un método
 las derivadas de los parámetros del modelo. En la literatura de aprendizaje profundo el cálculo de $\hat{y}$\
 muchas veces se le conoce como \emph{propagación hacia adelante}. Esto da lugar al algoritmo de\
 \textbf{propagación hacia atrás} (o \emph{retropropagación}) que permite que el error resultante $J$ se\
-propague de atrás hacia adelante, a través de todos los parámetros del MLP. El objetivo principal de este\
+propague de adelante hacia atrás, a través de todos los parámetros del MLP. El objetivo principal de este\
 algoritmo será el cómputo del gradiente del modelo $J$ con respecto a los parámetros $\bm{\theta}$, es decir,\
 $\nabla_{\bm{\theta}} J(\bm{\theta})$.\par
 Para empezar, el algoritmo de propagación hacia atrás se fundamenta en la regla de la cadena del\
@@ -288,7 +289,7 @@ las salidas de las neuronas $v_1, v_2, \ldots, v_m$ de la capa $k$. De acuerdo a
 el gradiente de la función de error $J$ con respecto a $u$ se obtiene mediante
 \begin{equation}
   \nabla_{u} J =
-  \left(\frac{\partial \bm{v}}{\partial u}\right)^\top \nabla_{\bm{v}} J, \label{neurongradient} 
+  \left(\frac{\partial \bm{v}}{\partial u}\right)^\top \nabla_{\bm{v}} J, \label{neurongradient}
 \end{equation}
 donde $\bm{v} = (v_1, v_2, \ldots, v_m)$. Este es un proceso recursivo que inicia con el cómputo del gradiente\
 para la última capa, en donde $\frac{\partial J}{\partial J_i} = 1$ para toda neurona de salida $J_i$.\
@@ -351,11 +352,11 @@ que hará más fácil escribir el siguiente procedimiento.\par
 
 \noindent
 Una vez obtenido el diferencial por el cual se va a optimizar un MLP con respecto a la función\
-de error, lo que procede es actualizar los parámetros de la red neuronal con una cantidad adecudad.\
+de error, lo que procede es actualizar los parámetros de la red neuronal con una cantidad adecuada.\
 \emph{Descenso por el gradiente} es un algoritmo que minimiza la función de error $J(\bm{\theta})$\
 de una red neuronal (en general) mediante la actualización de los parámetros $\bm{\theta} \in \mathbb{R}^d$\
 en dirección opuesta al gradiente $\nabla_{\bm{\theta}}J(\bm{\theta})$.\par
-En su versión más sencilla, este algoritmo intenta encontrar un mínimo local mediante un proceso\
+En su versión más sencilla, este algoritmo intenta encontrar un mínimo (local) mediante un proceso\
 iterativo en el que el gradiente $\nabla_{\bm{\theta}}J(\bm{\theta})$ se calcula y se actualizan \emph{todos}\
 los parámetros en proporción con el \emph{meta}-parámetro $\eta$, conocido como \textbf{tasa de aprendizaje}.\
 El número $\eta$ determina el \textit{tamaño de los pasos} que se deben tomar para llegar al\
@@ -369,7 +370,7 @@ realmente lento e incluso intratable para conjuntos de datos que no quepan en me
 se justifica por el cómputo redundante de varios gradientes para entradas similares antes\
 de actualizar cada parámetro. Para sobreponerse a este problema, se da lugar al algoritmo de\
 \emph{descenso por el gradiente estocástico} (\emph{SGD}, por sus siglas en inglés)\
-en el cual se realiza una actuación por cada ejemplar $(x^{(i)}, y^{(i)})$ del conjunto de datos:
+en el cual se realiza una actualización por cada ejemplar $(x^{(i)}, y^{(i)})$ del conjunto de datos:
 \begin{equation}
   \bm{\theta} = \bm{\theta} - \eta \nabla_{\bm{\theta}}J(\bm{\theta}; x^{(i)}; y^{(i)}). \label{sgd}
 \end{equation}

@@ -43,7 +43,7 @@ existentes, de acuerdo al dígito más parecido.\par
 Como se observa en la Figura \ref{mnist_fig}, existen distintas maneras de escribir a mano un solo dígito. Quisiéramos\
 que nuestra solución sea lo suficientemente robusta para distinguir $4$'s de $9$'s por más ilegible que\
 sea la letra. No tenemos idea de dónde buscar ciertas características o si el observar un cambio drástico\
-en el color de varios pixeles contiguos nos sea significativo; todo esto es parte de lo que se deberá de\
+en el color de varios pixeles contiguos nos sea significativo; todo esto es parte de lo que se deberá\
 \emph{aprender}. Esta incertidumbre en la detección de atributos conduce a, de alguna manera, ir en\
 búsqueda de pequeñas porciones de la imagen que nos den una pista por dónde empezar.\par
 En este punto cabe recordar que usualmente para una computadora, una imagen es un arreglo de tres dimensiones,\
@@ -129,7 +129,7 @@ multiplicación de matrices (en una capa densa) y esto ocurre, principalmente, p
 \item En una capa densa, se consideran interacciones entre cada neurona de entrada con cada neurona de salida.\
   Es decir, los productos matriciales involucran a cada pixel, sin importar qué lugares en específico son\
   los que vale la pena resaltar.
-\item Se dice que en una capa convolucional se manejan \textbf{pesos esparcidos}, los cuales corresponden\
+\item Se dice que en una capa convolucional se manejan \textbf{pesos dispersos}, los cuales corresponden\
   a las entradas del filtro. Esto significa que después de un entrenamiento, el filtro aprenderá a interactuar\
   con ciertos grupos de pixeles, sin conocer su distribución. Con esto es posible tomar en cuenta pequeños\
   detalles que ocurren en una vecindad reducida de pixeles.
@@ -140,19 +140,19 @@ multiplicación de matrices (en una capa densa) y esto ocurre, principalmente, p
 \end{itemize}\par
 En resumen, si tenemos $m$ entradas y $n$ salidas en una capa, y ésta es densa, entonces habremos de realizar\
 $O(m \times n)$ operaciones para calcular la salida. En cambio, en una capa convolucional, podemos tener\
-una zancada $k$ de pixeles en el filtro, con un orden de magnitud mucho menor a $n$; lo cual va a provocar\
-que sea más eficiente calcular $O(m \times k)$ operaciones.
+una zancada $Z$ de pixeles en el filtro, con un orden de magnitud mucho menor a $n$; lo cual va a provocar\
+que sea más eficiente calcular $O(m \times Z)$ operaciones.
 
 \subsection{Filtros vistos como arreglos de neuronas}
 
 \noindent
 Dependiendo del número de filtros escogidos para aplicarse en la capa CONV, se definirá la salida de la misma.\
 Intuitivamente, si se usan $12$ filtros en una imagen cuya dimensión de entrada es de $32 \times 32 \times 3$,\
-un puede imaginarse $12$ imágenes procesadas por la capa CONV, como resultado del procesamiento REF-IMAGEN.\
+uno puede imaginarse $12$ imágenes procesadas por la capa CONV, como resultado del procesamiento REF-IMAGEN.\
 Es decir, la dimensión de la salida sería de $32 \times 32 \times 12$.\par
-Esto no corresponde al ``mecanismo canónico'' que caracteriza a una capa neuronal, en donde todas las entradas\
-participan en la decisión de la salida. Más aún, a diferencia del perceptrón multicapa, en donde el aprendizaje se\
-da ajustando los pesos de cada \emph{sinapsis}, aquí cada neurona tendrá asociado un peso que será ajustado.\
+Esto no corresponde al ``mecanismo canónico'' que caracteriza a una capa neuronal (densa), en donde todas las entradas\
+participan en la decisión de la salida. Más aún, a diferencia del perceptrón multicapa, en donde existe un conjunto\
+de pesos para cada neurona, aquí un conjunto de neuronas comparte los mismos pesos.\
 Sin embargo, podemos ahorrarnos la discusión sobre cómo adaptar al algoritmo de propagación hacia atrás para\
 hacer que cada neurona aprenda, transformando un poco la arquitectura:
 \begin{itemize}
@@ -216,14 +216,14 @@ detalles claves en lugares precisos. Es necesario, entonces, ocuparse de que una
 Por ello, las CNN's llevan, además de capas convolucionales, algunas capas de \textbf{agrupación}\
 (\emph{pooling}, en inglés y usaremos esta palabra en adelante) con las cuales se puede extraer\
 los detalles más fundamentales de cada mapa de activación. En la práctica, existen dos operaciones\
-de pooling que sobresalen sobre las demás: \emph{max}-pooling y \emph{avg}-pooling. Para calcular cualquier\
-capa de pooling, se define una vecindad en cada mapa de activación (que no exceda su zancada);\
-acto seguido, dependiendo del pooling a usar, se almacena el máximo o el promedio de los pixeles\
+de \emph{pooling} que sobresalen sobre las demás: \emph{max}-\emph{pooling} y \emph{avg}-\emph{pooling}. Para calcular cualquier\
+capa de \emph{pooling}, se define una vecindad en cada mapa de activación (que no exceda su zancada);\
+acto seguido, dependiendo del \emph{pooling} a usar, se almacena el máximo o el promedio de los pixeles\
 abarcados en la vecindad.\par
 Con esta capa, la arquitectura convolucional se vuelve \textit{aproximadamente \emph{invariante}} a modificaciones\
-en la entrada. Esto nos permite enfocarnos más en la existencia de ciertas características en la imagen\
+en la entrada. Esto permite enfocarnos más en la existencia de ciertas características en la imagen\
 que en la posición exacta de las mismas.\par
-El pooling, además, nos brinda un mecanismo de disminución de parámetros del modelo (neuronas)\
+El \emph{pooling}, además, nos brinda un mecanismo de disminución de parámetros del modelo (neuronas)\
 brindando la posibilidad de optimizar mucho más la memoria utilizada y las dimensiones de las capas.
 
 \begin{figure}
@@ -245,7 +245,8 @@ Aquí cada instancia de un conjunto de datos se puede ver como una sucesión de 
 y el objetivo es entrenar una arquitectura que nos permita predecir $\mathbf{x}^{(i+1)}$,\
 dados $\mathbf{x}^{(1)},\ldots,\mathbf{x}^{(i)}$.\par
 Un modelo (\emph{estadístico}) de lenguaje es una función de probabilidad sobre cualesquiera sucesiones de símbolos\
-de un alfabeto dado. En procesamiento de lenguaje natural (\textbf{PLN}), la construcción de estimadores que tengan la capacidad\
+de un alfabeto dado. En procesamiento de lenguaje natural (\textbf{PLN}), modelar un lenguaje consiste en\
+la construcción de estimadores que tengan la capacidad\
 de estructurar oraciones dado un conocimiento \emph{a priori} ($\mathbf{x}^{(1)},\ldots,\mathbf{x}^{(i)}$),\
 es decir, maximizar
 \begin{equation}
@@ -267,7 +268,7 @@ un modelo computacional que necesariamente utilice al menos una \emph{memoria te
 semántica nos obliga a no poder acotar el tamaño de dicha memoria, por lo que necesitamos una arquitectura \emph{turing-completa}\
 al menos para fines de construcción de enunciados sintáctica y semánticamente correctos.\par
 Un \textbf{red neuronal recurrente} (\emph{RNN}, por sus siglas en inglés) es una arquitectura que posee una memoria interna.\
-La estructura básica de la misma se muestra en la imagen REF-IMAGEN. Podemos observar que la estrategia gráfica para incorporar\
+La estructura básica de la misma se muestra en la Figura \ref{recurrent_fig}. Podemos observar que la estrategia gráfica para incorporar\
 a dicha memoria consiste en establecer un \emph{ciclo} entre la salida y la entrada, es decir, existirá una matriz de pesos que se entrenará y guardará\
 un resumen de los aspectos importantes de cada símbolo de la sucesión $\mathbf{X}$ que va procesando.
 
@@ -276,7 +277,7 @@ un resumen de los aspectos importantes de cada símbolo de la sucesión $\mathbf
   \includegraphics[width=\textwidth]{rnn}
   \caption{Arquitectura gráfica de una red neuronal recurrente.
     (Tomado de \cite{goodfellow-et-al-2016})}
-  \label{convnet_fig}
+  \label{recurrent_fig}
 \end{figure}
 
 Antes de proceder con el funcionamiento de una RNN, es importante hablar sobre por qué una CNN no es un modelo adecuado\
@@ -302,13 +303,13 @@ Se puede pensar que la función $f$ determina qué aspectos del pasado son lo su
 Cabe observar que $f$ prevalece en cualquier fase temporal, por lo que (\ref{recurrence-eq}) se puede reescribir\
 como una función que, dado un tamaño fijo $\tau$ de las sucesiones de entrada, aplica $f$ $\tau$ veces para producir un enunciado.\
 La \emph{recursión} presente en (\ref{recurrence-eq}) permite \emph{``desdoblar''} la arquitectura de una RNN, como se\
-muestra en REF-IMAGEN. Simbólicamente, si hacemos $\tau = 3$, podemos escribir
+muestra en \ref{recurrent_fig}. Simbólicamente, si hacemos $\tau = 3$, podemos escribir
 \begin{align}
   \mathbf{h}^{(3)} &= f(\mathbf{h}^{(2)}, \mathbf{x}^{(3)}; \mathbf{\theta})\\
   &= f(f(\mathbf{h}^{(1)}, \mathbf{x}^{(2)}; \mathbf{\theta}), \mathbf{x}^{(3)}; \mathbf{\theta}).
 \end{align}
 Existen algunas variantes de redes recurrentes que se pueden utilizar bajo lo establecido anteriormente. La más común,\
-y con la cual procederemos a desarrollar, se muestra en la imagen REF-IMAGEN. Ahora, utilizaremos una tangente hiperbólica\
+y con la cual procederemos a desarrollar, se muestra en la Figura \ref{recurrent_fig}. Ahora, utilizaremos una tangente hiperbólica\
 como función de activación $\mathbf{\sigma}$ y observamos a cada salida $\mathbf{o}$ como la \emph{probabilidad-log}\
 de predicción de una clase (un símbolo en el tiempo $t$). Para normalizar dichas predicciones, aplicamos la función $softmax$\
 para obtener $\mathbf{\hat{Y}}$. Dado un estado (capa oculta) inicial $\mathbf{h}^{(0)}$, para cualquier\
@@ -359,7 +360,8 @@ al error final:
 \begin{equation}
   \frac{\partial L}{\partial L^{(t)}} = 1.
 \end{equation}
-De acuerdo a la figura REF-IMAGEN y a la ecuación \ref{rnn-y}, la $i$-ésima entrada del gradiente\
+\newpage
+De acuerdo a la Ecuación \ref{rnn-y}, la $i$-ésima entrada del gradiente\
 $\nabla_{\mathbf{o}^{(t)}}L$ es
 \begin{equation}
   (\nabla_{\mathbf{o}^{(t)}}L)_i = \frac{\partial L}{\partial o_i^{(t)}} =
@@ -424,7 +426,7 @@ voz, traducción automática, análisis sintáctico y etiquetamiento de imágene
   \includegraphics[width=\textwidth]{lstm}
   \caption{Estructura de la compuerta cerrada de una LSTM.
     (Tomado de \cite{goodfellow-et-al-2016})}
-  \label{convnet_fig}
+  \label{lstm_fig}
 \end{figure}
 
 La arquitectura RNN-LSTM se caracteriza por ser superficial en cuanto al número de neuronas que separan una\
@@ -451,7 +453,7 @@ Aquí hablamos de la $i$-ésima célula en el tiempo $t$. En símbolos,
   g_i^{(t+1)} &= \sigma\left(b_i^O + \sum_j U_{i,j}^O x_j^{(t+1)} + \sum_j W_{i,j}^O h_j^{(t)}\right)
 \end{align}\par
 donde $\mathbf{x}^{(t+1)}$ es el vector de entrada actual y $\mathbf{h}^{(t+1)}$ es el vector\
-de la capa oculta actual. $\mathbf{b}$, $\mathbf{U}$ y $\mathbf{W}$ son los sesgos\
+de la capa oculta actual. $\mathbf{b}$, $\mathbf{U}$ y $\mathbf{W}$ son los sesgos,\
 pesos de entrada y recurrentes para la célula LSTM, respectivamente; los análogos\
 que contienen algún superíndice entre $^f$, $^g$ y $^O$ corresponden a los pesos de\
 las compuertas de olvido, entrada y salida, respectivamente.\par

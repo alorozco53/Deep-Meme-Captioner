@@ -5,7 +5,7 @@
 este capítulo se detallarán los experimentos hechos con la arquitectura expuesta\
 anteriormente. La metodología llevada a cabo consistió en reunir la mayor cantidad\
 posible de datos para seguir con los procedimientos descritos en la Sección \ref{sec:arq-accion}.\
-Los alcances de los exprimentos serán descritas más adelante, dejando en claro\
+Los alcances de los experimentos serán descritos más adelante, dejando en claro\
 las restricciones de tiempo (para la realización de la tesis) y capacidad de equipo\
 de cómputo disponible.\par
 Con respecto a lo último mencionado, para los cómputos de mayor desempeño se utilizó una\
@@ -23,13 +23,13 @@ Como ya fue mencionado anteriormente, los datos se obtuvieron del sitio \verb+Me
 \footnote{\url{https://memegenerator.net}}.\
 La información recabada en este sitio es reunida a través de usuarios alrededor del mundo,\
 quienes de manera libre tienen la posibilidad de generar un nuevo meme. El sitio, además,\
-agrupa a los memes en personajes (Figura \ref{meme-characters}), y los jerarquiza en base a\
+agrupa a los memes en personajes (Figura \ref{meme-characters}) y los jerarquiza en base a\
 su popularidad%
 \footnote{
   Más aún, cualquier usuario puede crear libremente un personaje nuevo, lo que habilita la idea de\
   buscar y agrupar los memes de acuerdo a su personaje.
 }.\par
-En total, se reunieron \textbf{4379} personajes del sitio web antes mencionado. Por cada uno de ellos\
+En total se reunieron \textbf{4379} personajes del sitio web antes mencionado. Por cada uno de ellos\
 el número de leyendas usadas para entrenar varía según los resultados obtenidos en cada experimento.\
 Considerando que es necesario dividir un conjunto de datos en subconjuntos de entrenamiento y\
 validación%
@@ -192,7 +192,7 @@ profundas.
 \subsection{Experimentos exploratorios}
 
 \noindent
-Vinyals, \emph{et al}, presentan tanto en \cite{DBLP:journals/corr/VinyalsTBE14} como en \cite{DBLP:journals/corr/VinyalsTBE16}\
+Vinyals, \emph{et al} presentan tanto en \cite{DBLP:journals/corr/VinyalsTBE14} como en \cite{DBLP:journals/corr/VinyalsTBE16}\
 el \emph{estado del arte} de los modelos neuronales capaces de generar descripciones a partir de imágenes.\
 Por ende, el primer paso experimental consistió en replicar el entrenamiento completo, usando el conjunto de datos\
 \emph{ImageNet}.\par
@@ -229,6 +229,8 @@ validación.
     En el gráfico de la parte superior se muestra el error
     a través de cada época del entrenamiento, mientras que el de la parte inferior se
     calculó por medio de un conjunto de datos de \emph{validación} (de menor tamaño que el de entrenamiento).
+    Ambos gráficos indican el valor de la entropía cruzada (eje de las ordenadas) a través del
+    tiempo (eje de las abscisa).
     (Fuente: elaboración propia.)
   }
   \label{exp1}
@@ -332,7 +334,7 @@ evaluación se corroboró dicho rendimiento mediante los gráficos de las métri
     Dos funciones de evaluación para la afinación de \emph{Inception V3}.
     El gráfico de la parte superior muestra la \emph{precisión} con la que el modelo realiza
     sus clasificaciones, mientras que el gráfico de la parte inferior muestra el
-    \emph{error medio absoluto} entre las clasificaciones hechas modelo contra las verdaderas.
+    \emph{error medio absoluto} entre las clasificaciones hechas por el modelo contra las verdaderas.
     Ambos gráficos se generaron a partir de un muestreo del $10\%$ de los datos disponibles.
     (Fuente: elaboración propia.)
   }
@@ -449,7 +451,7 @@ la evaluación del modelo se encuentra en la Figura \ref{eval:exp3}.
 
 \footnotetext{
   Las técnicas de \textbf{regularización}, en aprendizaje automático, añaden una
-  restricción adicional al problema en cuestión para provocar que los valores
+  restricción adicional al problema en cuestión para evitar que los valores
   del modelo propuesto se ajusten completamente al conjunto de datos de entrenamiento.
   Es decir, evitar el \emph{sobreajuste} y favorecer la generalización hacia datos
   no observados durante el entrenamiento.
@@ -475,7 +477,7 @@ la evaluación del modelo se encuentra en la Figura \ref{eval:exp3}.
 \end{figure}
 
 Procedemos, entonces, a replicar el último experimento realizado en la sección anterior.\
-Sin embargo, esta vez se utilizamos la CNN superficial entrenada sobre memes y no memes.\
+Sin embargo, esta vez utilizamos la CNN superficial entrenada sobre memes y no memes.\
 El entrenamiento arrojado (Figura \ref{exp7}) fue muy similar a lo observado en la\
 Figura \ref{exp6}; no obstante, se logró una mejora en la calidad de las leyendas\
 sin ser un detalle anecdótico muy considerable (Tabla \ref{exp7:anec}).
@@ -576,7 +578,7 @@ generadas por el modelo con enunciados ``reales''. Por ello, hemos construido un
 formado por leyendas en el conjunto de \emph{evaluación} para fines de realizar una comparación\
 con los resultados emitidos por la LSTM.\par
 En particular, analizamos qué tan bien aprende el modelo a predecir la $t$-ésima palabra, a nivel\
-probabilístico. Dada distribución de probabilidad $p$ sobre los enunciados realizados a partir\
+probabilístico. Dada la distribución de probabilidad $p$ sobre los enunciados realizados a partir\
 de un alfabeto $\Sigma$%
 \footnote{
   Es decir, un modelo de lenguaje.

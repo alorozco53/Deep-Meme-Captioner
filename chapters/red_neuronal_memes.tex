@@ -25,7 +25,7 @@ tratará de procesar los siguientes tipos de datos:
 Los recientes avances en generación de descripciones de imágenes destacan el éxito\
 de una CNN que obtiene una representación vectorial de las características más\
 importantes de las imágenes de entrenamiento\cite{DBLP:journals/corr/VinyalsTBE14}.\
-Vinyals, \emph{et al}, además proponen canalizar estos vectores hacia una arquitectura recurrente\
+Vinyals, \emph{et al} además proponen canalizar estos vectores hacia una arquitectura recurrente\
 que, junto con las descripciones de las mismas creen un modelo de lenguaje\
 \footnote{
   Llamamos \textbf{modelo de lenguaje \textit{probabilístico}} a una distribución de\
@@ -55,7 +55,7 @@ probabilística para calcular la $\log$-probabilidad de $S = S_0,\ldots,S_N$:
 Obsérvese que la dependencia de los parámetros $\theta$ continúa aunque no se haga explícito.\par
 En otras palabras, proponemos usar una LSTM para estimar $p(S_{t+1}|I,S_0,\ldots,S_t)$, de acuerdo\
 al \emph{estado del arte} actual de tareas de predicción de secuencias de símbolos. La tupla\
-$(I,S)$, será uno de los tantos ejemplares de entrenamiento, donde la imagen $I$ son las características\
+$(I,S)$ será uno de los tantos ejemplares de entrenamiento, donde la imagen $I$ son las características\
 encontradas por una CNN ajustadas a un espacio vectorial. Este esquema neuronal garantiza\
 un aprendizaje \emph{de punto a punto}, es decir, la red tendrá la capacidad de considerar cada pixel\
 de una imagen para determinar qué tanto contribuye en la generación de enunciados.
@@ -71,22 +71,22 @@ Nos referimos a una CNN como \textbf{incrustadora} o \textbf{encajadora} (\emph{
 pues su trabajo consiste en extraer las características de una imagen y comprimirlas en un espacio\
 vectorial fijo. Sabemos, a partir del capítulo anterior, de la capacidad de filtrar detalles de una\
 capa convolucional; sin embargo no existe pista alguna que nos muestre con exactitud qué hay que\
-tomar en cuenta de un conjunto de imágnes de entrenamiento (¡y sobre todo de memes!).\par
+tomar en cuenta de un conjunto de imágenes de entrenamiento (¡y sobre todo de memes!).\par
 Este problema se reduce al de la construcción de una arquitectura suficientemente \emph{general} que\
 sea capaz de filtrar hasta el más mínimo detalle de una imagen. Con el fin de atacarlo,\
 surgió la competencia anual \emph{``Large Scale Visual Recognition Challenge''} (ILSVRC), cuyo\
 objetivo ha sido el de mejorar en la tarea general de etiquetamiento de imágenes. Aunado a ello, el laboratorio\
-de visión computacional de Stanford University comparte el conjunto de datos \emph{ImageNet} que reúne\
+de visión computacional de \emph{Stanford University} comparte el conjunto de datos \emph{ImageNet} que reúne\
 14,197,122 imágenes etiquetadas para el entrenamiento y la evaluación de los algoritmos participantes.\par
-En 2014, los modelos neuronales de gran profundidad comenzaron a ganar popularidad en esta tarea, sobre\
-todo por el desempeño de la arquitectura \textbf{Inception} \cite{DBLP:journals/corr/SzegedyVISW15}.\
-A diferencia de algunas de sus predecesoras (GoogLeNet, AlexNet, VGGNet), Inception reduce hasta 12 veces\
+En 2014, los modelos neuronales de gran profundidad comenzaron a ganar popularidad en esta tarea, hecho\
+que se consolidó con la arquitectura \textbf{Inception} \cite{DBLP:journals/corr/SzegedyVISW15}.\
+A diferencia de algunas de sus predecesoras (AlexNet, VGGNet), \emph{Inception} reduce hasta 12 veces\
 el número de parámetros (pesos) requeridos, garantizando un desempeño computacional más óptimo. Es decir,\
 su escalabilidad le permite incorporarse a la industria de grandes bases de datos. Por ello, se ha decidido\
 usar a Inception como ``incrustadora'' de imágenes.\par
-Aquí, vale la pena destacar que la profundidad que posee Inception es del orden de 256 capas y que\
+Aquí, vale la pena destacar que la profundidad que posee \emph{Inception V3} es del orden de 256 capas y que\
 algunas de sus predecesoras se caracterizaban por una profundidad de al menos un orden de magnitud\
-(exponencial) a ella. Sin embargo, la reducción en la amplitud promedio (número de dimensiones por capa)\
+menor a ella. Sin embargo, la reducción en la amplitud promedio (número de dimensiones por capa)\
 le permite remover algunos cuellos de botella de desempeño. A continuación, se presentan algunos\
 de los principios de diseño de Inception.
 \begin{enumerate}[label=\textbf{P.\arabic*}]
@@ -101,18 +101,18 @@ de los principios de diseño de Inception.
   con dimensiones bajas. Más aún, se pueden realizar reducciones dimensionales tras alguna adición espacial\
   y previamente a una convolución, sin pérdida de información.
 \item El balance entre la amplitud y la profundidad de la red neuronal contribuye directamente a la calidad\
-  del desempeño de la misma. Sin embargo, ambas medidas deben de ser incrementadas en paralelo, para\
+  del desempeño de la misma. Sin embargo, ambas medidas deben ser incrementadas en paralelo, para\
   garantizar un aumento \emph{constante} en el costo computacional de la red.
 \end{enumerate}
 
 \subsection{Factorización de convoluciones}
 
-Reducción de dimensiones, en una red convolucional, implica reducción \emph{significativa} de parámetros (de pesos)\
+Reducción de dimensiones, en una red convolucional, implica reducción \emph{significativa} de pesos\
 por capa convolucional. Una de las técnicas usadas, primero por GoogLeNet
 \footnote{
   Para más información sobre la arquitectura de \emph{GoogLeNet}, revisar \url{https://arxiv.org/abs/1409.4842}.
 },
-y luego adoptada por Inception consiste en \textbf{factorizar} (\emph{descomponer}) una capa CONV con un filtro\
+y luego adoptada por \emph{Inception V3} consiste en \textbf{factorizar} (\emph{descomponer}) una capa CONV con un filtro\
 ``grande'' en varias capas CONV adyacentes que cuya suma de las dimensiones de sus respectivos filtros sea\
 equivalente a la capa factorizada.\par
 
@@ -154,8 +154,8 @@ eventualmente \emph{concatenados} en un solo tensor resultante.\par
 A la estructura presentada en la Figura \ref{factorization}, se le denomina comúnmente como módulo\
 \emph{Inception}. Por otro lado, decimos que una convolución con un filtro de $1 \times 1$ procesa\
 \emph{localmente} una imagen de entrada pues realiza una activación (filtrado) exhaustiva a nivel\
-de pixeles individuales. En contraste, siguiendo el principio de diseño (\ref{sp-agg}), la reducción\
-una adición espacial incorpora dos o más entradas en una. La reducción de dimensiones toma un papel\
+de pixeles individuales. En contraste, siguiendo el principio de diseño (\ref{sp-agg}),\
+la adición espacial incorpora dos o más entradas en una, mientras que la reducción de dimensiones toma un papel\
 clave para garantizar que no haya pérdida de información. No obstante, un incremento en tasa de procesamientos\
 locales contra adiciones espaciales favorece la existencia de representaciones dispersas de dimensiones\
 altas.
@@ -216,7 +216,7 @@ en la Tabla \ref{capas-inception}.
   }
   \caption{
     Las capas que conforman a la arquitectura convolucional \emph{Inception V3}.
-    Normalmente, a la dimensión de la última capa se modifica dependiendo de la tarea de clasificación
+    Normalmente, la dimensión de la última capa se modifica dependiendo de la tarea de clasificación
     deseada. (Tomado de \url{https://arxiv.org/pdf/1512.00567.pdf}.)
   }
   \label{capas-inception}
@@ -293,10 +293,9 @@ imágenes que muchas veces excede los \verb+30 GB+%
 } en tamaño total. Además, el hecho de reunir semejante tamaño de imágenes\
 es, en sí, un tema de gran importancia para las ciencias de datos y un trabajo difícil de lograr.\par
 Por ello, la comunidad de \textbf{código abierto} (\emph{open source} en inglés) suele compartir los pesos\
-de los parámetros que usaron para entrenar una arquitectura profunda con un conjunto de datos como \emph{Imagenet}.\
-Así es como
+de los parámetros que usaron para entrenar una arquitectura profunda con un conjunto de datos como \emph{Imagenet}.\par
 Dada la riqueza de dicho conjunto de datos, resulta completamente viable suponer que los atributos más importantes\
-que comprende un meme de Internet serán identificados por la última capa de \emph{Inception V3}.\par
+que comprende un meme de Internet serán identificados por las capas convolucionales.\par
 Consecuentemente, nos ahorramos el entrenamiento de una arquitectura convolucional profunda ``desde cero'' y\
 utilizamos los vectores resultantes de un lote de entrenamiento como memoria inicial de la LSTM. Por otro lado,\
 el nivel de abstracción que adquiere una CNN entrenada con \emph{Imagenet} es demasiado amplio, en comparación,\
@@ -312,7 +311,7 @@ A partir del aprendizaje de una distribución $P_1$, ¿qué tanto ésta puede se
 aprender otra distribución $P_2$? Para un conjunto de datos como \emph{Imagenet}, es común que las\
 primeras capas de un arquitectura profunda se especialicen en detectar pequeños atributos: desde bordes,
 cambios de brillo, texturas y partes sombreadas hasta estructuras geométricas básicas (Figura \ref{first-layer}).\
-Hace sentido, entonces, utilizar la especialización de estas capas para\
+Tiene sentido, entonces, utilizar la especialización de estas capas para\
 extraer las características más fundamentales de un conjunto de memes.
 
 \begin{figure}[H]
@@ -329,7 +328,7 @@ extraer las características más fundamentales de un conjunto de memes.
 El procedimiento consecuente a la idea del aprendizaje por transferencia consiste en \textbf{afinar}\
 la red neuronal, continuando con el algoritmo de propagación hacia atrás. Esto se hace con un nuevo\
 conjunto de datos (el de memes). Usualmente, se propaga el error únicamente sobre algunas de las últimas\
-capas (más \emph{específicas}), del modelo; si se vuelven a entrenar todas las capas, cabe la posibilidad\
+capas (más \emph{abstractas}), del modelo; si se vuelven a entrenar todas las capas, cabe la posibilidad\
 de llegar a un sobreajuste \cite{DBLP:journals/corr/YosinskiCBL14}.\par
 El enfoque tomado para este trabajo consiste en experimentar con una red \emph{Inception V3} como\
 extractora de características. Más aún, se probará afinando dicha arquitectura con el conjunto de datos\
@@ -340,7 +339,7 @@ reunido. El tamaño del mismo permite hacer dicha afinación.
 \noindent
 Antes de pasar a describir los experimentos realizados para esta tesis, vale la pena echar\
 un vistazo formal a cómo funciona el modelo propuesto. De acuerdo a las elecciones de implementación\
-(descritas en el siguiente capítulo), la arquitectura tiene tres \verb+modos de operación+:\
+(descritas en el siguiente capítulo), la arquitectura tiene tres modos de operación:\
 \verb+entrenamiento+, \verb+inferencia+ y \verb+evaluación+. Éstos dos últimos consisten en hacer predicciones, utilizando\
 el algoritmo de búsqueda por haces para generar un enunciado o añadiendo métricas de evaluación, respectivamente.\par
 En cualquiera de estos modos de operación, una entrada del modelo se puede entender como un par ordenado\

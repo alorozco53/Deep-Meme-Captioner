@@ -30,15 +30,15 @@ de un meme en una red social se extingue más rápido que hace 4 o 5 años.
 \noindent
 El problema de la generación de leyendas para memes se trató estrictamente desde un punto\
 de vista de aprendizaje automático. Si bien existen algoritmos de optimización que incorporan\
-procesos evolutivos de la información, la intención fue explorar en la construcción de una\
+procesos evolutivos de la información, la intención fue explorar la construcción de una\
 arquitectura capaz de \emph{extraer características} y procesarlas de manera numérica.\
 De ahí que se decidió utilizar modelos convolucionales \emph{``convencionales''} sin conocimiento\
 previo al personaje.\par
 Vista como tarea de clasificación de imágenes, la extracción de códigos convolucionales resultó\
-tener éxito tanto con con modelos profundos como superficiales. Entonces, ¿qué tan necesaria es\
+tener éxito tanto con modelos profundos como superficiales. Entonces, ¿qué tan necesaria es\
 una arquitectura de gran profundidad para procesar un conjunto de datos de memes de Internet?\
-Para contestar, de manera general, a esta pregunta se requiere continuar en la recolección\
-y procesamiento de datos hasta los que gozan de popularidad hoy en día. Tras los experimentos\
+Para contestar, de manera general a esta pregunta se requiere continuar con la recolección\
+y procesamiento de datos, incluyendo los memes que gozan de popularidad hoy en día. Tras los experimentos\
 realizados, proponemos que una estructura adecuada involucraría jerarquizar nuevos memes\
 en categorías dependiendo de los personajes involucrados.\par
 La generación de descripciones para imágenes es una tarea que, en aprendizaje profundo,\
@@ -46,7 +46,7 @@ se ha reducido a la optimización de un modelo de lenguaje a partir de represent
 de un vocabulario. En este contexto, tratamos con un conjunto de textos cortos y con un nivel\
 de lenguaje bastante informal: cualquier persona es capaz de etiquetar un personaje de\
 \verb+MemeGenerator+ sin importar si el texto hace sentido para los demás \emph{internautas}.\
-Por ello es que es complicado analizar la correctud de un meme de Internet en comparación\
+Por ello es que es complicado analizar si un meme de Internet es correcto, en comparación\
 con otros \emph{córpora} en inglés. Teniendo esto en mente, se justifica la existencia de un\
 alto porcentaje de leyendas generadas sin sentido pero se destaca la reducción que tuvo la\
 perplejidad al evaluar los modelos (Tabla \ref{avgperplexities}) como evidencia de que hubo un\
@@ -65,10 +65,10 @@ se lleva a cabo la comunicación a través de Internet.
 Todo el seguimiento que se le dio al conjunto de datos de memes fue inspirado en un método de\
 aprendizaje supervisado. En este rubro, se proponen algoritmos completamente dependientes de\
 grandes cantidades de datos para su desempeño; no obstante, es natural preguntarse a partir\
-de qué punto es necesario extraer datos para realizar aprendizaje automático. Inclusive, a pesar\
-de que el hecho de que un entrenamiento especializará una red neuronal hace sentido \emph{humano},
-la realidad es que con el tiempo uno adquiere la habilidad de aprender a distinguir situaciones\
-sin un gasto excesivo de recursos.\par
+de qué punto es necesario extraer datos para realizar aprendizaje automático. El entrenamiento\
+que se le da a una red neuronal de cierta profundidad permite que ésta sea utilizada posteriormente como\
+\emph{sistema experto}, ahorrándose así, el gasto de recursos que implica entrenar una red\
+de mayor profundidad.\par
 En el problema de agrupación de datos (\emph{clustering}, en inglés) recae gran parte\
 de la investigación realizada en aprendizaje no supervisado. En el caso de las imágenes, la confianza\
 adquirida en los modelos (profundos) previamente entrenados con conjuntos de datos como \emph{ImageNet}\
@@ -132,7 +132,7 @@ permite el desarrollo de estrategias que potencialmente influyan en el comportam
 de población. Por otro lado, el contenido de la información compactada en un meme significa que detrás\
 hay un mecanismo efectivo de compresión de datos que merece ser estudiado tanto en aprendizaje automático\
 como en teoría de la información.\par
-Si bien es cierto que los muchos de los resultados anecdóticos de esta tesis no fueron del todo satisfactorios,\
+Si bien es cierto que muchos de los resultados anecdóticos de esta tesis no fueron del todo satisfactorios,\
 hay otras maneras de interpretar el conocimiento incrustado en los tensores multidimensionales que produce un\
 modelo neuronal. Mediante algoritmos de reducción de dimensiones, combinados con la idea de \emph{clustering}\
 presentada anteriormente, la LSTM se vuelve en un método interesante para analizar la semántica con la que\

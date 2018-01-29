@@ -11,7 +11,7 @@ cambia de estado, se produce una \emph{acción}. La naturaleza de esta estructur
 muchos de los problemas de la IA en búsquedas, en las cuales el agente puede o no saber \emph{a priori}\
 el conjunto de posibles resultados que puede encontrar.\par
 Computacionalmente hablando, el espacio de búsqueda de varios problemas interesantes en IA se vuelve\
-bastante intratable, por lo que no es posible simplemente codificar todos los posibles escenarios\
+intratable, por lo que no es posible simplemente codificar todos los posibles escenarios\
 dentro de la \emph{base de conocimientos} de un agente. El camino hacia la solución a este problema\
 comienza con dos observaciones:
 \begin{itemize}
@@ -66,7 +66,7 @@ que se trabaja. En \textbf{aprendizaje supervisado}, se modelan fenómenos a tra
 \end{equation}
 En este caso, se dice que $\mathcal{D}$ contiene $n$ ejemplos etiquetados: a $\vec{x}$ y a $\vec{y}$ se\
 les puede ver como instancias de posibles entradas y salidas del problema $z$, respectivamente. Normalmente,\
-$\vec{x}$ se compone de valores numéricos que que fungen como \emph{características} distintivas de la entrada.
+$\vec{x}$ se compone de valores numéricos que fungen como \emph{características} distintivas de la entrada.
 El vector $\vec{y}$ puede contener valores de un conjunto discreto (categorías) o continuo.\par
 Formalmente, suponiendo que $x_i \in \mathbf{X}$ e $y_i \in \mathbf{Y}$ un algoritmo $h$\
 de aprendizaje automático tiene la forma
@@ -76,7 +76,7 @@ de aprendizaje automático tiene la forma
 Si $\mathbf{Y}$ es un conjunto finito, entonces decimos que el problema es de \textbf{clasificación}, mientras\
 que si es infinito (y denso) es de \textbf{regresión}.\par
 En la presente tesis, se trabajará únicamente con aprendizaje supervisado, pues cada uno de los memes de\
-muestra ($\mathbf{X}$), está etiquetado con una o varias leyendas ($Y$). El reto consiste en construir un\
+muestra ($\mathbf{X}$), está etiquetado con una o varias leyendas ($\mathbf{Y}$). El reto consiste en construir un\
 modelo que sea capaz de capturar las características más importantes de la imagen y que las asocie a un\
 \emph{modelo de lenguaje}. Todo esto será profundizado más adelante.\par
 Para terminar con la teoría general de aprendizaje automático, vale la pena destacar que es posible\
@@ -84,5 +84,5 @@ realizar \textbf{aprendizaje no supervisado}. Esto se logra mediante un conjunto
 de salidas $\mathbf{Y}$; el objetivo de un agente será desvelar los patrones que comparten las características\
 dadas, es decir, aprender a agrupar los datos mediante el uso de similitudes estadísticas.\
 \textbf{Aprendizaje por refuerzo} es otra manera de hacer aprendizaje automático y se basa en\
-un entrenamiento en el que el ajente debe de maximizar un puntaje debido a una retroalimentación\
+un entrenamiento en el que el agente debe maximizar un puntaje debido a una retroalimentación\
 dada por sus acciones. Esto último va más allá de los objetivos de esta tesis.
