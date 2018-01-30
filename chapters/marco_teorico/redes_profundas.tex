@@ -18,7 +18,10 @@ Un aspecto importante en esta arquitectura consiste en la delegación de ciertas
 a sub-problemas específicos de la tarea a resolver. Por consiguiente, cada capa de una CNN definirá\
 uno (o varios) niveles de representación, los cuales capturan ciertas características inherentes\
 al flujo de datos de entrada. Mediante un basto conjunto etiquetado de datos, se pueden aprender dichas\
-abstracciones de manera supervisada.
+abstracciones de manera supervisada. A continuación, explicaremos con detalle las capas más comunes que\
+constituyen a una red de este tipo: empezando por las convoluciones \textit{per se}, la capa de\
+agrupación y la ``capa de activación''.\par
+El siguiente material se basa, principalmente, de \cite{website:CS231n} y \cite{goodfellow-et-al-2016}.
 
 \subsection{La capa convolucional}
 
@@ -148,8 +151,8 @@ que sea más eficiente calcular $O(m \times Z)$ operaciones.
 \noindent
 Dependiendo del número de filtros escogidos para aplicarse en la capa CONV, se definirá la salida de la misma.\
 Intuitivamente, si se usan $12$ filtros en una imagen cuya dimensión de entrada es de $32 \times 32 \times 3$,\
-uno puede imaginarse $12$ imágenes procesadas por la capa CONV, como resultado del procesamiento REF-IMAGEN.\
-Es decir, la dimensión de la salida sería de $32 \times 32 \times 12$.\par
+uno puede imaginarse $12$ imágenes procesadas por la capa CONV, como resultado del procesamiento expuesto\
+en la Figura \ref{fCNN_fig}. Es decir, la dimensión de la salida sería de $32 \times 32 \times 12$.\par
 Esto no corresponde al ``mecanismo canónico'' que caracteriza a una capa neuronal (densa), en donde todas las entradas\
 participan en la decisión de la salida. Más aún, a diferencia del perceptrón multicapa, en donde existe un conjunto\
 de pesos para cada neurona, aquí un conjunto de neuronas comparte los mismos pesos.\
@@ -210,7 +213,7 @@ el caso particular es el de la \textbf{unidad lineal rectificada} (\emph{ReLU}, 
 \noindent
 Un exceso de aprendizaje en la capa de convolución puede provocar un \emph{sobreajuste} sobre\
 el modelo. Esto se puede observar, en nuestro ejemplo, con una arquitectura donde cada filtro\
-se entrene a funcionar para un grupo pequeño y exclusivo de pixeles, los cuales esperen encontrar\
+se entrene a funcionar para un grupo pequeño y exclusivo de pixeles, los cuales esperan encontrar\
 detalles claves en lugares precisos. Es necesario, entonces, ocuparse de que una CNN\
 \emph{generalice} suficientemente su aprendizaje para aumentar su robustez.\par
 Por ello, las CNN's llevan, además de capas convolucionales, algunas capas de \textbf{agrupación}\
@@ -238,6 +241,7 @@ brindando la posibilidad de optimizar mucho más la memoria utilizada y las dime
 \section{Redes neuronales recurrentes}
 
 \noindent
+El contenido de este apartado se basa principalmente de \cite{goodfellow-et-al-2016}.\par
 Es frecuente encontrar situaciones en las que exista un orden secuencial entre los datos de entrenamiento.\
 Esto es algo que tienen en común tareas como reconocimiento del habla o traducción automática (de idiomas).\
 Aquí cada instancia de un conjunto de datos se puede ver como una sucesión de valores
@@ -360,7 +364,6 @@ al error final:
 \begin{equation}
   \frac{\partial L}{\partial L^{(t)}} = 1.
 \end{equation}
-\newpage
 De acuerdo a la Ecuación \ref{rnn-y}, la $i$-ésima entrada del gradiente\
 $\nabla_{\mathbf{o}^{(t)}}L$ es
 \begin{equation}
@@ -414,14 +417,14 @@ Por ello, equiparemos al modelo con \emph{compuertas recurrentes cerradas}, las 
 ocultas $\mathbf{h}$ por un esquema que posee ciclos internos y que es capaz de acumular y olvidar información.\
 La estructura de cada unidad es análoga a la de una compuerta lógica (en hardware) donde el flujo de datos\
 es modificado por operaciones acumulativas, cuyo funcionamiento depende del ajuste de algunos parámetros.\par
-Uno de los modelos con mayor popularidad es el de la \textbf{memoria larga a corto plazo} (\emph{LSTM} por sus\
+Uno de los modelos con mayor popularidad es el de la \textbf{gran memoria de corto plazo} (\emph{LSTM} por sus\
 siglas en inglés). Mientras que la inclusión de ciclos en la arquitectura de una RNN es suficiente para\
 codificar una memoria \emph{a corto plazo}, una compuerta LSTM extiende el tiempo en el que la\
 información va desapareciendo, permitiendo que el modelo guarde una memoria \emph{a largo plazo}.\
 El éxito de la compuerta LSTM ha permeado tareas como reconocimiento y generación de caligrafía, reconocimiento de\
 voz, traducción automática, análisis sintáctico y etiquetamiento de imágenes (que motiva a esta tesis).
 
-\begin{figure}
+\begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{lstm}
   \caption{Estructura de la compuerta cerrada de una LSTM.

@@ -35,7 +35,7 @@ es transmitida a través del \emph{axón} de la célula. Los organelos mencionad
 constituyen las principales partes de la neurona que habrán de servir como estructuras\
 fundamentales de las arquitecturas de aprendizaje a presentar en las siguientes secciones.\cite{rojas1996}
 
-\begin{figure}[H]
+\begin{figure}[h]
   \centering
   \includegraphics[width=0.6\textwidth]{neurona}
   \caption{Ilustración de las partes más importantes de una neurona humana.
@@ -75,6 +75,7 @@ presentes en el cerebro.
 \subsection{El perceptrón de Rosenblatt}
 
 \noindent
+El contenido de este apartado se basa principalmente de \cite{haykin2009} y \cite{rojas1996}.\par
 La idea de cómputo a través de redes neuronales fue tan trascendente desde su concepción, que, en 1943,\
 McCulloch y Pitts la incluyeron en el mismo artículo que introdujo a los sistemas de transición con un número\
 finito de estados \cite{mcculloch:pitts}. Sin embargo, fue Rosenblatt, en 1958, quien propuso el primer modelo de aprendizaje supervisado para una NN.\
@@ -82,7 +83,7 @@ El perceptrón es la red neuronal más simple y, muchas veces, será uno de los 
 más complejas. La intuición matemática detrás de su estructura consiste en \emph{separar linealmente} las entradas dadas en\
 dos clases, lo cual se logra mediante un aprendizaje que va ajustando pesos de acuerdo a las salidas esperadas.\par
 
-\begin{figure}[H]
+\begin{figure}[h]
   \centering
   \includegraphics[width=\textwidth]{perceptron}
   \caption{El perceptrón de Rosenblatt es un modelo gráfico cuya salida depende de las contribuciones
@@ -143,7 +144,7 @@ de entrenamiento de modelos más complejos.\par
 \end{figure}
 
 Para finalizar esta sección, cabe destacar que la función de activación ($signo$) que acaba de ser presentada\
-no es la única. En realidad, se buscan opciones más suavizadas y, sobre todo, diferenciables con el fin de\
+no es la única (Figura \ref{activations}). En realidad, se buscan opciones más suavizadas y, sobre todo, diferenciables con el fin de\
 optimizar los parámetros de modelos más complejos.
 
 \begin{figure}[H]
@@ -151,11 +152,13 @@ optimizar los parámetros de modelos más complejos.
   \includegraphics[width=\textwidth]{activations}
   \caption{Las funciones de activación más comunes.
     (Tomado de (\url{https://www.slideshare.net/SungJuKim2/multi-layer-perceptron-back-propagation}))}
+  \label{activations}
 \end{figure}
 
 \subsection{El perceptrón multicapa}
 
 \noindent
+El contenido de este apartado se basa principalmente de \cite{haykin2009} y \cite{rojas1996}.\par
 No todos los patrones de datos son linealmente separables. Por ejemplo, la función lógica \verb+XOR+, contiene\
 salidas cuyos valores no pueden ser divididos en dos partes del plano sin ser mezclados. Por consiguiente,\
 es necesario aumentar la capacidad de cómputo del perceptrón. Combinaremos, ahora, varios perceptrones\
@@ -199,11 +202,21 @@ En ocasiones, al subgrafo dirigido formado por las capas ocultas $h_i$ y $h_{i+1
 y especialización. El MLP está dentro del ``estado del arte'' de los algoritmos de clasificación automática y\
 será parte fundamental de los dos modelos neuronales que compone a la arquitectura de procesamiento de imágenes\
 y generación de lenguaje de la presente tesis. La parte más importante de ello recae en su algoritmo de\
-entrenamiento.
+entrenamiento.\par
+A veces conviene generalizar la función de activación de una capa oculta a una función multivariada,\
+la cual esté en concordancia con las dimensiones de salida. Por ejemplo, la función $softmax$ generaliza\
+la función \emph{sigmoide} expuesta en la Figura \ref{activations}:\
+sea $\mathbf{a}_{i+1}^j = (\mathbf{W_{i+1}}^\top h_i)^j + \mathbf{b}_{i+1}^j$ la $j$-ésima neurona\
+de la combinación lineal de la $i+1$-ésima capa, entonces
+\begin{equation}
+  softmax(\mathbf{a})_j = \frac{e^{\mathbf{a}_j}}{\sum_{k=1}^K e^{\mathbf{a}_k}},
+\end{equation}
+donde asumimos que la salida es un vector de dimensión $K$.
 
 \subsection{Retroalimentación para aprender}
 
 \noindent
+El contenido de este apartado se basa principalmente de \cite{goodfellow-et-al-2016}.\par
 Como cualquier arquitectura de aprendizaje supervisado, a un MLP debe de asociarse una función objetivo\
 (o de \emph{error}) $J$, que le permita estructurar un entrenamiento. La no-linealidad de las funciones de\
 activación causan que no se garantice la convexidad por parte de las funciones de error más comunes. Al\
@@ -275,6 +288,7 @@ es la matriz \emph{jacobiana} (de $n \times m$) de $g$, es decir, el gradiente d
 $\mathbf{x}$ se obtiene multiplicando dicho jacobiano por el gradiente $\nabla_{\mathbf{y}} z$.\
 Para cada operación en el \emph{grafo dirigido}, definido en un MLP, el algoritmo de propagación hacia atrás realizará\
 un producto entre jacobianos y gradientes.\par
+Las derivaciones que restan al presente apartado, fueron basadas de \cite{website:umontreal:deeplearning}.\par
 En la práctica, el cómputo de estos gradientes es invariante si en vez de vectores tenemos tensores.\
 Intuitivamente, uno puede pensar que, previamente a correr propagación hacia atrás, cualquier tensor\
 de dimensiones $n \times m \times p$ se \emph{aplane} a un vector de dimensión $1 \times nmp$. Tras el\
@@ -300,8 +314,8 @@ Remembrando la terminología establecida a partir de las Ecuaciones \ref{mlpfirs
 \begin{equation}
   a_k = \bm{b}_k + \bm{W}_kh_{k-1} \label{mlplinearcomb}
 \end{equation}
-la ecuación que define la combinación lineal que determina las salidas de la $k$-ésima capa de un MLP. En lo\
-secuente, utilizaremos a la función de error por entropía cruzada (Ecuación \ref{crossentropydef}) y asumimos,\
+la ecuación que define la combinación lineal que determina las salidas de la $k$-ésima capa de un MLP.\
+En lo secuente, utilizaremos a la función de error por entropía cruzada (Ecuación \ref{crossentropydef}) y asumimos,\
 sin pérdida de generalidad, como funciones de activación $\sigma = softmax$ para la última capa\
 y $\sigma = \tanh$ para las capas ocultas. Asumiendo que hay $L$ capas en un MLP,\
 es importante enfatizar en las siguientes observaciones:
@@ -388,7 +402,7 @@ Cada actualización propuesta por la Ecuación \ref{minibatchgd} se da en un ran
 conocido como \textbf{mini-lote} o, simplemente, \emph{lote}. Esto permite que la covergencia se de\
 de manera más estable. Además, el tamaño del lote $n$ usualmente varía entre 50 y 256. El número\
 de veces que el algoritmo ve el conjunto de datos entero se le llama número de \textbf{épocas}\
-Por otro lado, definimoas al número de \emph{iteraciones} del algoritmo,\
+Por otro lado, definimos al número de \emph{iteraciones} del algoritmo,\
 contando el número de veces que cada lote pasa por el mismo. El Procedimiento \ref{minibatchgdcode}\
 describe una implementación del algoritmo de descenso por el gradiente utilizado en muchas bibliotecas\
 actuales de aprendizaje automático.
