@@ -424,7 +424,7 @@ información va desapareciendo, permitiendo que el modelo guarde una memoria \em
 El éxito de la compuerta LSTM ha permeado tareas como reconocimiento y generación de caligrafía, reconocimiento de\
 voz, traducción automática, análisis sintáctico y etiquetamiento de imágenes (que motiva a esta tesis).
 
-\begin{figure}[H]
+\begin{figure}[h]
   \centering
   \includegraphics[width=\textwidth]{lstm}
   \caption{Estructura de la compuerta cerrada de una LSTM.
@@ -445,7 +445,7 @@ entrada de una salida; sin embargo, ello no implica un pobre desempeño. Una \te
   mediante una sigmoide;
 \item una \emph{compuerta de salida} $q_i^{(t)}$ que mantiene sus valores entre 0 y 1\
   mediante una sigmoide.
-\end{itemize}\par
+\end{itemize}
 Aquí hablamos de la $i$-ésima célula en el tiempo $t$. En símbolos,
 \begin{align}
   f_i^{(t+1)} &= \sigma\left(b_i^f + \sum_j U_{i,j}^f x_j^{(t+1)} + \sum_j W_{i,j}^f h_j^{(t)}\right)\\
