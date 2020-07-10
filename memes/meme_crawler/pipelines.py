@@ -17,9 +17,11 @@ import os
 class CSVCaptionsPipeline(object):
 
     METADATA_HEADER = ['meme_name', 'meme_img_url']
-    CAPTIONS_HEADER = ['caption', 'img_url', 'language']
+    CAPTIONS_HEADER = ['up_caption', 'down_caption', 'language']
 
     def process_item(self, item, spider):
+        if not os.path.exists('meme_characters'):
+            os.mkdir('meme_characters')
         if spider.name == 'memecaptionspider':
             self.item = item
             self.meme_path = os.path.join('meme_characters',
@@ -62,21 +64,26 @@ class CSVCaptionsPipeline(object):
                 writer.writerow(self.CAPTIONS_HEADER)
                 data = []
                 for caption in self.item['meme_captions']:
-                    data.append(caption['caption'])
-                    data.append(caption['img_url'])
+                    data.append(caption['up_caption'])
+                    data.append(caption['down_caption'])
+                    # data.append(caption['img_url'])
                     data.append(caption['language'])
+                    print('data', data)
                     writer.writerow(data)
                     data = []
         else:
             captions = None
             with codecs.open(caption_path, 'r') as f:
-                captions = [row[0] for row in csv.reader(f)][1:]
+                captions = [f'{uc} {dc}' for uc, dc, _ in csv.reader(f)][1:]
             with codecs.open(caption_path, 'a+') as f:
                 writer = csv.writer(f)
                 for caption in self.item['meme_captions']:
-                    cap = caption['caption']
+                    ucap = caption['up_caption']
+                    dcap = caption['down_caption']
+                    cap = f'{ucap} {dcap}'
                     if cap not in captions:
-                        data = [cap]
-                        data.append(caption['img_url'])
+                        data = [ucap, dcap]
+                        # data.append(caption['img_url'])
                         data.append(caption['language'])
                         writer.writerow(data)
+                        print('data', data)

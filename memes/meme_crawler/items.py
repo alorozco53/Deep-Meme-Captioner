@@ -16,7 +16,8 @@ class MemeCrawlerItem(scrapy.Item):
     pass
 
 class CaptionItem(scrapy.Item):
-    caption = scrapy.Field()
+    up_caption = scrapy.Field()
+    down_caption = scrapy.Field()
     img_url = scrapy.Field()
     language = scrapy.Field()
     pass

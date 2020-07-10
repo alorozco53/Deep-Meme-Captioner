@@ -14,11 +14,12 @@ from scrapy.http import Request
 class MemeCaptionSpider(Spider):
     name = 'memecaptionspider'
     allowed_domains = ['memegenerator.net']
-    start_urls = ['https://memegenerator.net/memes/popular/alltime/page/1',
-                  'https://memegenerator.net/memes/popular/alltime/page/10',
-                  'https://memegenerator.net/memes/popular/alltime/page/50',
-                  'https://memegenerator.net/memes/popular/alltime/page/100']
+    start_urls = ['https://memegenerator.net/memes/popular/alltime/page/1']# ,
+                  # 'https://memegenerator.net/memes/popular/alltime/page/10',
+                  # 'https://memegenerator.net/memes/popular/alltime/page/50',
+                  # 'https://memegenerator.net/memes/popular/alltime/page/100']
     MAX_NUMBER_OF_MEMES = 20
+    MAX_NUMBER_OF_PAGES = 10
 
     def parse(self, response):
         # get current meme-list page number
@@ -46,15 +47,23 @@ class MemeCaptionSpider(Spider):
             yield request
 
         # go to next page
-        next_pages = [w for w in response.xpath('//li/a/@href').extract() if 'page/' in w][1:]
-        for next_page in next_pages:
-            next_page_suffix = next_page[next_page.rfind('/') + 1 : ]
-            if int(next_page_suffix) == meme_list_page + 1:
-                request = Request('https://memegenerator.net{}'.format(next_page),
-                                  callback=self.parse)
-                request.meta['list_page'] = meme_list_page + 1
-                yield request
-                break
+        try:
+            overlimit = response.meta['page_counter'] > self.MAX_NUMBER_OF_PAGES
+        except KeyError:
+            overlimit = False
+        if not overlimit:
+            counter = response.meta['page_counter'] if 'page_counter' in response.meta.keys() else 0
+            next_pages = [w for w in response.xpath('//li/a/@href').extract() if 'page/' in w][1:]
+            for next_page in next_pages:
+                next_page_suffix = next_page[next_page.rfind('/') + 1 : ]
+                if int(next_page_suffix) == meme_list_page + 1:
+                    request = Request('https://memegenerator.net{}'.format(next_page),
+                                      callback=self.parse)
+                    request.meta['list_page'] = meme_list_page + 1
+                    counter += 1
+                    request.meta['page_counter'] = counter
+                    yield request
+                    break
 
     def parse_memes(self, response):
         meme_img_url = response.meta['meme_img_url']
@@ -71,23 +80,26 @@ class MemeCaptionSpider(Spider):
 
         img_urls = [im for im in response.xpath('//img/@src').extract()
                     if '.jpg' in im and '250x250' in im]
-        captions = [r for r in response.xpath('//img/@alt').extract() if '-' in r]
-        cap_img_map = zip(img_urls, captions) #[(img_urls[i], captions[i]) for i in range(len(captions))]
-
-        # check if the limit for downloaded memes has been reached
-        if counter > self.MAX_NUMBER_OF_MEMES:
-            yield item
+        up_captions = response.xpath('//div[@class="only-above-768"]//div[@class="optimized-instance-text0"]/text()').extract()
+        down_captions = response.xpath('//div[@class="only-above-768"]//div[@class="optimized-instance-text1"]/text()').extract()
+        cap_img_map = zip(up_captions, down_captions)
 
         # process each meme
-        for img_url, raw_caption in cap_img_map:
-            splitted_caption = raw_caption.split('-')
-            caption = splitted_caption[1].strip()
+        # print('cap_img_map', list(cap_img_map))
+        # print(len(up_captions), len(down_captions), len(img_urls))
+        for up_caption, down_caption in cap_img_map:
             cap_item = CaptionItem()
-            cap_item['caption'] = caption
-            cap_item['img_url'] = img_url
+            cap_item['up_caption'] = up_caption.strip()
+            cap_item['down_caption'] = down_caption.strip()
+            # cap_item['img_url'] = img_url
             cap_item['language'] = response.xpath('//meta[@name="language"]/@content').extract()[0]
             item['meme_captions'].append(cap_item)
             counter += 1
+
+        # check if the limit for downloaded memes has been reached
+        # if counter > self.MAX_NUMBER_OF_MEMES:
+        print(item['meme_captions'])
+        yield item
 
         # go to the next page
         next_pages = [w for w in response.xpath('//li/a/@href').extract() if 'page/' in w][1:]
